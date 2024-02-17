@@ -1,0 +1,17 @@
+{
+  "name": "groupgifting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "api": "cd rails-backend && rails s",
+    "app": "npm start --prefix react-frontend",
+    "all": "npm-run-all --parallel api app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
