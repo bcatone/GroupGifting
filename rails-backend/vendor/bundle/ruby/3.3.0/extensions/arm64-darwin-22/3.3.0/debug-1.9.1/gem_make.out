@@ -1,0 +1,19 @@
+current directory: /Users/hannabeytebiere/Development/code/GroupGifting/rails-backend/vendor/bundle/ruby/3.3.0/gems/debug-1.9.1/ext/debug
+/Users/hannabeytebiere/.rvm/rubies/ruby-3.3.0/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/hannabeytebiere/Development/code/GroupGifting/rails-backend/vendor/bundle/ruby/3.3.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240219-49416-7nrwv4 sitelibdir\=./.gem.20240219-49416-7nrwv4 clean
+
+current directory: /Users/hannabeytebiere/Development/code/GroupGifting/rails-backend/vendor/bundle/ruby/3.3.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240219-49416-7nrwv4 sitelibdir\=./.gem.20240219-49416-7nrwv4
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/hannabeytebiere/Development/code/GroupGifting/rails-backend/vendor/bundle/ruby/3.3.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240219-49416-7nrwv4 sitelibdir\=./.gem.20240219-49416-7nrwv4 install
+/opt/homebrew/opt/coreutils/bin/ginstall -c -m 0755 debug.bundle ./.gem.20240219-49416-7nrwv4/debug
+
+current directory: /Users/hannabeytebiere/Development/code/GroupGifting/rails-backend/vendor/bundle/ruby/3.3.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240219-49416-7nrwv4 sitelibdir\=./.gem.20240219-49416-7nrwv4 clean
