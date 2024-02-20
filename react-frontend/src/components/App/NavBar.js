@@ -104,6 +104,7 @@ const NavBar = () => {
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Container maxWidth="xl">
+        <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
         <Box
               sx={{
                 display: "flex",
@@ -185,7 +186,7 @@ const NavBar = () => {
               </Typography>
               {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
-          <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
+          
             
             {/* USER MENU AND ITEMS */}
             <Box sx={{ display: "flex", alignItems:"center" }}>

@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../utils/userContext.js";
 import { CheckBox } from "@mui/icons-material";
 import { Switch } from "@mui/material";
-import { removeNull } from "../utils/removeNull.js";
-import { check } from "prettier";
+//import { removeNull } from "../utils/removeNull.js";
+//import { check } from "prettier";
 
 function Copyright(props) {
   return (
@@ -75,7 +75,7 @@ function Auth() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((data) => {
-          setUser(removeNull(data));
+          setUser((data));
           console.log("User has been logged in!", user);
           navigate("/main");
         });
@@ -112,7 +112,7 @@ function Auth() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((data) => {
-          setUser(removeNull(data));
+          setUser((data));
           setUserType(data.type);
           navigate("/main");
         });
