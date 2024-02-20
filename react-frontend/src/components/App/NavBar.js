@@ -185,10 +185,10 @@ const NavBar = () => {
               </Typography>
               {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
-          <Toolbar disableGutters sx={{ justifyContent: "center" }}>
+          <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
             
             {/* USER MENU AND ITEMS */}
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ display: "flex", alignItems:"center" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt={"user here"} src={"user image"} />
