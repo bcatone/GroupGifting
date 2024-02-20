@@ -37,3 +37,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.welcome_pic{
+  width: 90%;
+  margin-top:1em;
+  border: 5px solid grey;
+
+}
