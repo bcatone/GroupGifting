@@ -104,69 +104,23 @@ const NavBar = () => {
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ justifyContent: "center" }}>
-            <Box sx={{ flexGrow: 1, display: "flex" }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={() => setAnchorElNav(null)}
-                sx={{
-                  display: "block",
-                }}
-              >
-                {" "}
-                {/* ITEM LIST FOR LEFT NAV MENU */}
-                {pages.map((page, index) => (
-                  <div key={page}>
-                    <MenuItem onClick={() => handleNavMenuClick(page)}>
-                      <Typography p={0} textAlign="center">
-                        {page}
-                      </Typography>
-                    </MenuItem>
-                    {index < pages.length - 1 && <Divider />}
-                  </div>
-                ))}
-              </Menu>
-            </Box>
-            <Box
+        <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                flexGrow: 400,
-                
-                justifyContent: "center",
+                flexGrow: 1,
+                justifyContent: "flex-start",
               }}
             >
               <Typography
-                variant="h4"
+                variant="h5"
                 noWrap
                 component="a"
                 onClick={() => navigate("/main/about")}
                 sx={{
-                  fontFamily: "lobster",
-                  fontWeight: 700,
-                  color: "inherit",
+                  fontFamily: "arial",
+                  fontWeight: 600,
+                  color: "black",
                   textDecoration: "none",
                   "&:hover": {
                     cursor: "pointer",
@@ -175,7 +129,64 @@ const NavBar = () => {
               >
                 Group Gifting
               </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/main/about")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px"
+                }}
+              >
+                LINK 1
+              </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/main/about")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px"
+                }}
+              >
+                LINK 2
+              </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/main/about")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px"
+                }}
+              >
+                LINK 3
+              </Typography>
+              {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
+          <Toolbar disableGutters sx={{ justifyContent: "center" }}>
+            
             {/* USER MENU AND ITEMS */}
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
