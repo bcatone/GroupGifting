@@ -33,3 +33,5 @@
 /config/master.key
 
 .env
+
+./vendor/bundle/ruby/3.3.0

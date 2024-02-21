@@ -4,9 +4,10 @@ import axios from 'axios';
 import NavBar from './NavBar';
 import Main from './Main'
 import { Route, Routes } from "react-router-dom";
+import ItemLookup from './ItemLookup';
 
 function App() {
-  const [testMessage, setTestMessage] = useState("");
+  // const [testMessage, setTestMessage] = useState("");
 
 
 
@@ -23,17 +24,17 @@ function App() {
 
       <Routes>
         <Route path="/main" element={<Main />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/users/new" element={<CreateAccount />} /> 
-        <Route path="/donation-info" element={<Donation />} />
-        <Route path="/items/new" element={<GiveawayItems />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route path="/users/new" element={<CreateAccount />} />  */}
+        {/* <Route path="/donation-info" element={<Donation />} /> */}
+        {/* <Route path="/items/new" element={<GiveawayItems />} /> */}
         <Route path="/items/all" element={<ItemLookup />} />
-        <Route path="/items/:id" element={<Item />} />
-        <Route path="/users/connections" element={<Connections />} />
-        <Route path="/users/:username" element={<UserAccount />} />
-        <Route path="/users/:username/edit" element={<EditAccount />} />
-        <Route path="/not-found" element={<NotFound />} />
-        <Route path="/restricted" element={<Restricted />} /> */}
+        {/* <Route path="/items/:id" element={<Item />} /> */}
+        {/* <Route path="/users/connections" element={<Connections />} /> */}
+        {/* <Route path="/users/:username" element={<UserAccount />} /> */}
+        {/* <Route path="/users/:username/edit" element={<EditAccount />} /> */}
+        {/* <Route path="/not-found" element={<NotFound />} /> */}
+        {/* <Route path="/restricted" element={<Restricted />} />  */}
       </Routes>
     </>
   );
