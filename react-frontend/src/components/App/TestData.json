@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "user_id": 123,
+    "title": "Dog Ewok costume",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 456,
+    "suggested_donation_amount": 50,
+    "is_public": true,
+    "deadline": "2023-12-31T23:59:59",
+    "img": "dogpic1"
+  },
+  {
+    "id": 2,
+    "user_id": 456,
+    "title": "Plaid Dog Sweater",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 789,
+    "suggested_donation_amount": 20,
+    "is_public": true,
+    "deadline": "2023-12-15T18:00:00",
+    "img": "./dogpic2"
+  },
+  {
+    "id": 3,
+    "user_id": 789,
+    "title": "Dog Snowman Costume",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 123,
+    "suggested_donation_amount": 30,
+    "is_public": false,
+    "deadline": "2023-12-20T12:00:00",
+    "img": "./dogpic3"
+  },
+  {
+    "id": 4,
+    "user_id": 456,
+    "title":"Dog Guitarist Costume",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 789,
+    "suggested_donation_amount": 10,
+    "is_public": true,
+    "deadline": "2023-12-25T23:59:59",
+    "img": "./dogpic4"
+  },
+  {
+    "id": 5,
+    "user_id": 789,
+    "title": "Dog Bunny Costume",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 123,
+    "suggested_donation_amount": 50,
+    "is_public": false,
+    "deadline": "2023-12-18T20:00:00",
+    "img": "./dogpic5"
+  },
+  {
+    "id": 6,
+    "user_id": 123,
+     "title": "Dog Bunny Costume 2",
+    "description": "A cute costume for your little dog (Dog not included)",
+    "recipient_id": 456,
+    "suggested_donation_amount": 25,
+    "is_public": true,
+    "deadline": "2023-12-22T15:30:00",
+    "img": "./dogpic5"
+  }
+]
