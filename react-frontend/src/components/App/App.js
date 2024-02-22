@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from './NavBar';
+import Auth from './Auth';
 import Main from './Main'
 import { Route, Routes } from "react-router-dom";
 
@@ -18,7 +19,7 @@ function App() {
         <link rel="canonical" href="http://www.vinevoice.org" />
       </Helmet> */}
       <NavBar />
-
+      <Auth/>
       {/* Added some routing for future pages: */}
 
       <Routes>
