@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from './NavBar';
 import Auth from './Auth';
+import Main from './Main'
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [testMessage, setTestMessage] = useState("");
@@ -10,10 +12,31 @@ function App() {
 
 
   return (
-    <div className="App">
-      <NavBar/>
+    <>
+      {/* <Helmet>
+        <meta charSet="utf-8" />
+        <title>Vine Voice</title>
+        <link rel="canonical" href="http://www.vinevoice.org" />
+      </Helmet> */}
+      <NavBar />
       <Auth/>
-    </div>
+      {/* Added some routing for future pages: */}
+
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/users/new" element={<CreateAccount />} /> 
+        <Route path="/donation-info" element={<Donation />} />
+        <Route path="/items/new" element={<GiveawayItems />} />
+        <Route path="/items/all" element={<ItemLookup />} />
+        <Route path="/items/:id" element={<Item />} />
+        <Route path="/users/connections" element={<Connections />} />
+        <Route path="/users/:username" element={<UserAccount />} />
+        <Route path="/users/:username/edit" element={<EditAccount />} />
+        <Route path="/not-found" element={<NotFound />} />
+        <Route path="/restricted" element={<Restricted />} /> */}
+      </Routes>
+    </>
   );
 }
 
