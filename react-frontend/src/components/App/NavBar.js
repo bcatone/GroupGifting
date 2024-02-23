@@ -93,7 +93,7 @@ const NavBar = () => {
       console.log("response", r);
       if (r.ok) {
         dispatch(clearUser());
-        navigate("/signin");
+        navigate("/login");
         console.log("THE USER WAS SIGNED OUT");
       } else {
         console.error("SOMETHING WENT WRONG", r);

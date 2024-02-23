@@ -58,9 +58,9 @@ function Auth() {
     }
   }
 
-  useEffect(() =>{
-    checkLoggedIn()
-  },[])
+  // useEffect(() =>{
+  //   checkLoggedIn()
+  // },[])
 
   const loginSubmit = (event) => {
     event.preventDefault();
@@ -280,7 +280,7 @@ function Auth() {
               gutterBottom
               fontFamily={"Lobster"}
             >
-              Sign up for Gifting
+              Sign up for Healio
             </Typography>
             <Box
               component="form"
