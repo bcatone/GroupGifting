@@ -44,6 +44,7 @@ const theme = createTheme(themeOptions);
 
 function Auth() {
   const [showPassword, setShowPassword] = useState(false);
+
   // const { user, setUser } = useContext(UserContext);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ function Auth() {
       navigate("/main")
     }
   }
+
 
   // useEffect(() =>{
   //   checkLoggedIn()
@@ -113,6 +115,7 @@ function Auth() {
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({user: signUpDeets}),
     }).then((r) => {
       if (r.ok) {

@@ -16,6 +16,7 @@ function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
 
+
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
@@ -36,6 +37,7 @@ function App() {
         <link rel="canonical" href="http://www.vinevoice.org" />
       </Helmet> */}
       <NavBar />
+    
       {/* Added some routing for future pages: */}
 
       <Routes>
