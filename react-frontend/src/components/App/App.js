@@ -9,10 +9,10 @@ import Donation from "./Donation";
 import SideBar from "./SideBar";
 import Restricted from "./Restricted";
 import SideBarLayout from "./SideBarLayout";
+import Item from "./Item"
 
 function App() {
   // const [testMessage, setTestMessage] = useState("");
-
 
   return (
     <>
@@ -28,26 +28,23 @@ function App() {
       {/* SideBar Routes */}
       <Routes>
         <Route path="/" element={<SideBarLayout />}>
-          <Route index element={<Main />} />
+      
           {/* <Route path="/users/:username" element={<UserAccount />} /> */}
           {/* <Route path="/users/connections" element={<Connections />} /> */}
           <Route path="/donation-info" element={<Donation />} />
-          <Route path="/items/all" element={<ItemLookup/>} />
-          {/* <Route path="/items/:id" element={<Item />} /> */}
-
-          {/* Not sure whether this page will have a sidebar ⬇️ */}
+          <Route path="/items/all" element={<ItemLookup />} />
+          <Route path="/items/:id" element={<Item />} />
+          {/*  ----- Not sure whether this page will have a sidebar ⬇️  --------*/}
           {/* <Route path="/items/new" element={<GiveawayItems />} /> */}
         </Route>
-
         {/* <Route path="/login" element={<Login />} /> */}
         {/* <Route path="/users/new" element={<SignUp />} />  */}
         {/* <Route path="/users/:username/edit" element={<EditAccount />} /> */}
         {/* <Route path="/not-found" element={<NotFound />} /> */}
-        <Route path="/restricted" element={<Restricted />} /> 
+        <Route path="/restricted" element={<Restricted />} />
       </Routes>
     </>
   );
 }
 
 export default App;
-

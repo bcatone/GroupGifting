@@ -21,7 +21,7 @@ const SideBarLayout = () => {
   } else if (location.pathname === "/items/all") {
     sidebarLinks = [
       {
-        label: "Settings",
+        label: "Eventual Filter Options",
         links: [
           { to: "/settings/profile", label: "Profile Settings" },
           { to: "/settings/account", label: "Account Settings" },
@@ -30,22 +30,22 @@ const SideBarLayout = () => {
       // Add more link groups as needed for the /settings route
     ];
   } else {
-    // Default sidebar links if not on any specific route
+
     sidebarLinks = [
       {
         label: "Default",
         links: [{ to: "/default", label: "Default Link" }],
       },
-      // Add more link groups as needed for default route
     ];
   }
 
   console.log("location.pathname", location.pathname)
 
   return (
-    <div  style={{ display: "flex" }}>
+    <div  style={{display:"flex"}}>
       <SideBar links={sidebarLinks} activeRoute={location.pathname} />
-      <div style={{ flexGrow: 1 }}>
+      <div >
+        {/* took out flex grow 1 here ⬆️ */}
         <Outlet />
       </div>
     </div>

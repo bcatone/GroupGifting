@@ -13,7 +13,7 @@ const Donation = () => {
   return (
     <>
       <div>Donation</div>
-      <SideBar data={DonationBarData} />
+
     </>
   );
 };

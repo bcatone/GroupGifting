@@ -19,11 +19,10 @@ console.log("data", Data);
 const ItemLookup = () => {
   return (
     <>
-      <Container maxWidth="lg">
+      <Container className="content" maxWidth="lg">
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Item Lookup
         </Typography>
-        <SideBar data={Data} />
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
           {Data.map((result, index) => (
             <Grid item xs={12} sm={4} ms={4} key={index}>

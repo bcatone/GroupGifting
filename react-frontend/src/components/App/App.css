@@ -35,11 +35,49 @@ body {
 }
 
 .SideBar {
-  height: 100%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%; /* Set margin on all sides except right */
+  margin-right: 5%;
   width: 250px;
-  background-color:#A09F57;
-
+  background-color: #A09F57;
+  display: flex;
+  height: 80vh; 
+  justify-content: center;
+  flex-wrap:nowrap;
+  padding: 20px; /* Adjust padding as needed */
 }
 
 
+
+
+
+
+
+.center{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* .SideBar > ul > li {
+
+background-color: aqua;
+} */
+
+.nodots{
+  list-style-type: none;
+  text-decoration: none;
+}
+
+
+.img_deg{
+justify-content: center;
+  width: auto;
+  max-height: 400px;
+  max-width: 300px;
+}
 
