@@ -22,29 +22,38 @@ function App() {
         <link rel="canonical" href="" />
       </Helmet> */}
       <NavBar />
-
-      {/* Added some routing for future pages: */}
-
-      {/* SideBar Routes */}
       <Routes>
-        <Route path="/" element={<SideBarLayout />}>
-      
-          {/* <Route path="/users/:username" element={<UserAccount />} /> */}
-          {/* <Route path="/users/connections" element={<Connections />} /> */}
-          <Route path="/donation-info" element={<Donation />} />
-          <Route path="/items/all" element={<ItemLookup />} />
-          <Route path="/items/:id" element={<Item />} />
-          {/*  ----- Not sure whether this page will have a sidebar ⬇️  --------*/}
-          {/* <Route path="/items/new" element={<GiveawayItems />} /> */}
+        <Route path={"/"} element={<Outlet />}>
+          <Route
+            index
+            element={isLoggedIn ? <Navigate to={"main/"} /> : <Hero />}
+          />
+          {/* <Route path="login/" element={<Login />} /> */}
+          {/* <Route path="signup/" element={<Signup />} /> */}
+          {/* <Route path="/not-found" element={<NotFound />} /> */}
+          <Route path="/restricted" element={<Restricted />} />
+          <Route path="items/" element={<SideBarLayout />}>
+            <Route path={"all/"} element={<ItemLookup />} />
+            <Route path={":id/"} element={<Item />}>
+              {/* <Route path={"edit/"} element={<EditItem />} /> */}
+            </Route>
+            <Route path="users/" element={<SideBarLayout />}>
+              {/* <Route path=":username/" element={<UserAccount />} />  */}
+              {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
+              {/* <Route path="connections/" element={<Connections />} /> */}
+              {/* <Route path="all/" element={<AllUsers />} /> */}
+            </Route>
+          </Route>
         </Route>
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/users/new" element={<SignUp />} />  */}
-        {/* <Route path="/users/:username/edit" element={<EditAccount />} /> */}
-        {/* <Route path="/not-found" element={<NotFound />} /> */}
-        <Route path="/restricted" element={<Restricted />} />
+        <Route path="connections/" element={<SideBarLayout />}>
+          {/* <Route index element={<Connections />} /> */}
+        </Route>
       </Routes>
+      ;
     </>
   );
 }
 
 export default App;
+
+
