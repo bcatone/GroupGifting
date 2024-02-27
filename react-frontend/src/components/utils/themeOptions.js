@@ -1,30 +1,30 @@
-import { ThemeOptions } from '@mui/material/styles';
+import { ThemeOptions } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#757de8',
-      contrastText: '#ffffff',
+      main: "#C56824",
+      contrastText: "#ffffff",
     },
     secondary: {
-      main: '#c93860',
+      main: "#c93860",
     },
     background: {
-      default: '#e4ecff',
-      paper: '#ffffff',
+      default: "#e4ecff",
+      paper: "#ffffff",
     },
     error: {
-      main: '#fb0743',
+      main: "#fb0743",
     },
     text: {
-      primary: 'rgba(20,33,70,0.87)',
-      secondary: 'rgba(20,33,70,0.62)',
-      disabled: 'rgba(20,33,70,0.33)',
+      primary: "#C56824",
+      secondary: "rgba(20,33,70,0.62)",
+      disabled: "rgba(20,33,70,0.33)",
     },
   },
   typography: {
-    fontFamily: 'PT serif',
+    fontFamily: "PT serif",
   },
   breakpoints: {
     values: {
@@ -33,8 +33,8 @@ const themeOptions = {
       md: 900,
       lg: 1200,
       xl: 1536,
-    }
-  }
+    },
+  },
 };
 
-export default themeOptions
+export default themeOptions;
