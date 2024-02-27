@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../utils/userContext.js";
 import { CheckBox } from "@mui/icons-material";
 import { Switch } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/actions/authActions.js";
 //import { removeNull } from "../utils/removeNull.js";
 //import { check } from "prettier";
 
@@ -42,7 +44,10 @@ const theme = createTheme(themeOptions);
 
 function Auth() {
   const [showPassword, setShowPassword] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+
+  // const { user, setUser } = useContext(UserContext);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
   const [toggle, setToggle] = useState(true);
@@ -54,9 +59,10 @@ function Auth() {
     }
   }
 
-  useEffect(() =>{
-    checkLoggedIn()
-  },[])
+
+  // useEffect(() =>{
+  //   checkLoggedIn()
+  // },[])
 
   const loginSubmit = (event) => {
     event.preventDefault();
@@ -75,7 +81,7 @@ function Auth() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((data) => {
-          setUser((data));
+          dispatch(setUser(data));
           console.log("User has been logged in!", user);
           navigate("/main");
         });
@@ -95,12 +101,13 @@ function Auth() {
     setErrors([]);
     const data = new FormData(event.currentTarget);
     const signUpDeets = {
-      full_name: data.get("fullName"),
+      // full_name: data.get("fullName"),
       email: data.get("email"),
       password: data.get("password"),
-      user_type: data.get("type") ? "healer" : "visitor",
-      allow_email: data.get("allowemail") ? true : false,
-      phone_number: data.get("phone_number"),
+      password_confirmation: data.get("password"), // Temporarily added this to make password encryption work
+      // user_type: data.get("type") ? "healer" : "visitor",
+      // allow_email: data.get("allowemail") ? true : false,
+      // phone_number: data.get("phone_number"),
     };
 
     fetch("/signup", {
@@ -108,11 +115,12 @@ function Auth() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(signUpDeets),
+
+      body: JSON.stringify({user: signUpDeets}),
     }).then((r) => {
       if (r.ok) {
         r.json().then((data) => {
-          setUser((data));
+          dispatch(setUser(data));
           setUserType(data.type);
           navigate("/main");
         });
@@ -275,7 +283,7 @@ function Auth() {
               gutterBottom
               fontFamily={"Lobster"}
             >
-              Sign up for Gifting
+              Sign up for Healio
             </Typography>
             <Box
               component="form"

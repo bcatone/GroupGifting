@@ -17,8 +17,11 @@ import React, { useContext } from "react";
 import themeOptions from "../utils/themeOptions";
 import UserContext from "../utils/userContext";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../redux/actions/authActions";
 
 const NavBar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings = [
     "My Account",
@@ -89,11 +92,11 @@ const NavBar = () => {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       console.log("response", r);
       if (r.ok) {
-        // setUser(null);
-        navigate("/signin");
+        dispatch(clearUser());
+        navigate("/login");
         console.log("THE USER WAS SIGNED OUT");
       } else {
-        console.log("SOMETHING WENT WRONG", r);
+        console.error("SOMETHING WENT WRONG", r);
       }
     });
   }
