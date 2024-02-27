@@ -4,8 +4,15 @@ class ApplicationController < ActionController::API
     rescue_from ActiveRecord::ConnectionNotEstablished, with: :render_connection_not_established_response
     include ActionController::Cookies
 
-    def test
-        render json: { message: "Hello from Rails!" }, status: :ok
+    before_action :authorized_user
+
+    def current_user
+      user = User.find_by(id: session[:user_id])
+      user
+    end
+
+    def authorized_user
+      render json: { errors: "Not Authorized" }, status: :unauthorized unless current_user
     end
 
     private
@@ -15,7 +22,7 @@ class ApplicationController < ActionController::API
     end
 
     def render_unprocessable_entity_response(error)
-        render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: error.record.errors.full_messages }, status: :unprocessable_entity
     end
 
     def render_connection_not_established_response(error)

@@ -1,18 +1,43 @@
+
 import "./App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import NavBar from "./NavBar";
 import Main from "./Main";
-import { Route, Routes, Outlet } from "react-router-dom";
 import ItemLookup from "./ItemLookup";
 import Donation from "./Donation";
 import SideBar from "./SideBar";
 import Restricted from "./Restricted";
 import SideBarLayout from "./SideBarLayout";
 import Item from "./Item"
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../redux/actions/authActions';
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import Hero from '../Hero/Hero';
+import Login from '../Auth/Login';
+import Signup from '../Auth/Signup';
+import Auth from './Auth';
+import Main from './Main'
+
+
 
 function App() {
-  // const [testMessage, setTestMessage] = useState("");
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await axios.get("/me");
+        dispatch(setUser(response.data));
+      } catch (error) {
+        console.error("User is not logged in");
+      }
+    }
+    fetchLoggedInUser();
+  }, []);
+
 
   return (
     <>
