@@ -23,8 +23,8 @@ const SideBarLayout = () => {
       {
         label: "Eventual Filter Options",
         links: [
-          { to: "/settings/profile", label: "Profile Settings" },
-          { to: "/settings/account", label: "Account Settings" },
+          { to: "/", label: "Example Link 1" },
+          { to: "/", label: "Example Link 2" },
         ],
       },
       // Add more link groups as needed for the /settings route

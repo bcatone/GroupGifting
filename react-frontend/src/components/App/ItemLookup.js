@@ -9,10 +9,10 @@ import {
   CardActionArea,
   CardMedia,
   CardActions,
-  Button,
 } from "@mui/material";
 import { Link } from "react-router-dom"; // Import Link component
 import Data from "./TestData.json";
+import CommonButton from "./CommonButton";
 
 console.log("data", Data);
 
@@ -35,11 +35,12 @@ const ItemLookup = () => {
             alignItems: "center",
           }}
         >
-          <div >
+          {/* Search not funcitonal yet */}
+          <div>
             <Typography variant="h5">Search:</Typography>
           </div>
           <input type="text" style={{ width: "200px", height: "30px" }} />
-          <Button>Submit</Button>
+          <CommonButton>Submit</CommonButton>
         </div>
 
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
