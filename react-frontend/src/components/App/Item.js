@@ -58,19 +58,9 @@ const commentBox = useRef(null);
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "90vh",
-          width: "50vw",
-          marginTop: "1em",
-        }}
-      >
-        <h1 style={{ textAlign: "center" }}>{selectedItem.title}</h1>
-        <div style={{ textAlign: "center" }}>
+      <div className="item-body">
+        <h1 className="center">{selectedItem.title}</h1>
+        <div className="center">
           <img
             id="yarnpic"
             src={mainImage}
@@ -88,7 +78,7 @@ const commentBox = useRef(null);
             />
           ))}
         </div>
-        <div style={{ textAlign: "center" }}>
+        <div className="center">
           <Typography
             variant="h5"
             component="h4"
@@ -96,29 +86,33 @@ const commentBox = useRef(null);
           >
             {selectedItem.description}
           </Typography>
-          <Typography variant="body1" component="p" sx={{ marginY: 0}}>
+          <Typography variant="body1" component="p" sx={{ marginY: 0 }}>
             Deadline:
           </Typography>
           <Typography
             variant="body1"
             component="p"
-            sx={{ marginY: 0, color: "green", marginBottom:"1em"}}
+            sx={{ marginY: 0, color: "green", marginBottom: "1em" }}
           >
             {selectedItem.deadline}
           </Typography>
           <CommonButton>Request Item</CommonButton>
         </div>
-        
       </div>
       <div
         style={{ marginTop: "2em", marginBottom: "1em", textAlign: "center" }}
       >
-        <Typography variant="h5" sx={{marginBottom:"1em"}}>Comments:</Typography>
+        <Typography variant="h5" sx={{ marginBottom: "1em" }}>
+          Comments:
+        </Typography>
         {/* Add user's comments for the item here: */}
         <div className="btn-margin-bottom">
           {" "}
-          {commentForm === false ?         <CommonButton onClick={handleCommentClick}>Add a Comment</CommonButton> : null}
-  
+          {commentForm === false ? (
+            <CommonButton onClick={handleCommentClick}>
+              Add a Comment
+            </CommonButton>
+          ) : null}
           {commentForm === true ? (
             <div ref={commentBox} className="commentBox">
               <p>Your comment must be at least 10 characters.</p>
