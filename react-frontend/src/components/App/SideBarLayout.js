@@ -42,9 +42,10 @@ const SideBarLayout = () => {
   console.log("location.pathname", location.pathname)
 
   return (
-    <div  style={{display:"flex"}}>
+    <div style={{ display: "flex" }}>
       <SideBar links={sidebarLinks} activeRoute={location.pathname} />
-      <div >
+      <div>
+
         {/* took out flex grow 1 here ⬆️ */}
         <Outlet />
       </div>

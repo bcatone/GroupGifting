@@ -24,10 +24,10 @@ function App() {
       <NavBar />
       <Routes>
         <Route path={"/"} element={<Outlet />}>
-          <Route
+          {/* <Route
             index
             element={isLoggedIn ? <Navigate to={"main/"} /> : <Hero />}
-          />
+          /> */}
           {/* <Route path="login/" element={<Login />} /> */}
           {/* <Route path="signup/" element={<Signup />} /> */}
           {/* <Route path="/not-found" element={<NotFound />} /> */}

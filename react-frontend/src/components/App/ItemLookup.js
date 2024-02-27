@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
 import {
   Grid,
@@ -17,12 +17,31 @@ import Data from "./TestData.json";
 console.log("data", Data);
 
 const ItemLookup = () => {
+
+
+
+
+
   return (
     <>
       <Container className="content" maxWidth="lg">
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Item Lookup
         </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <div >
+            <Typography variant="h5">Search:</Typography>
+          </div>
+          <input type="text" style={{ width: "200px", height: "30px" }} />
+          <Button>Submit</Button>
+        </div>
+
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
           {Data.map((result, index) => (
             <Grid item xs={12} sm={4} ms={4} key={index}>
@@ -34,7 +53,11 @@ const ItemLookup = () => {
                   style={{ padding: "10px", marginBottom: "30px" }}
                 >
                   <CardActionArea
-                    style={{ display: "flex", justifyContent: "center", flexDirection:"column" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
                   >
                     <CardMedia
                       component="img"
@@ -45,7 +68,7 @@ const ItemLookup = () => {
                         objectFit: "cover",
                         justifyContent: "center",
                       }}
-                      image={result.img}
+                      image={result.images[0]}
                       alt="green iguana"
                     />
                     <CardContent>

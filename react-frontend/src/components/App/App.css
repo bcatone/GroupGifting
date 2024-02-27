@@ -61,6 +61,16 @@ body {
   justify-content: center;
 }
 
+.smallpic{
+  width: 100px;
+  height:100px;
+  margin-right:.75em;
+  margin-bottom:.75em;
+}
+
+.small-image-box{
+  margin-top: 1em;
+}
 
 
 /* .SideBar > ul > li {
@@ -81,3 +91,68 @@ justify-content: center;
   max-width: 300px;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#yarnpic {
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  height: 500px;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+#craftdetailbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sidebtn {
+  padding: 0rem;
+  background-color: #dfa67b;
+  border: none;
+  transition: 0.2s;
+  margin-bottom: 0.5rem;
+  border-radius: 3px;
+  font-size: large;
+}
+
+
+/* .btn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn button {
+  padding: 0rem;
+  background-color: #dfa67b;
+  border: none;
+  transition: 0.2s;
+  margin-bottom: 0.5rem;
+  border-radius: 3px;
+  font-size: large;
+}
+
+.btn:hover button:hover {
+  background: #DFA67B(27, 156, 252, 0.1);
+  transform: scale (1.1);
+} */
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
+}
