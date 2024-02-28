@@ -1,5 +1,39 @@
 require 'faker'
 
+User.create!(
+  email: "user1@example.com",
+  password_digest: BCrypt::Password.create("password123"),
+  username: "user1",
+  first_name: "John",
+  last_name: "Doe",
+  city: "New York",
+  state: "NY",
+  zip: "10001"
+)
+
+User.create!(
+  email: "user2@example.com",
+  password_digest: BCrypt::Password.create("password456"),
+  username: "user2",
+  first_name: "Jane",
+  last_name: "Smith",
+  city: "Los Angeles",
+  state: "CA",
+  zip: "90001"
+)
+
+User.create!(
+  email: "user3@example.com",
+  password_digest: BCrypt::Password.create("password789"),
+  username: "user3",
+  first_name: "Alice",
+  last_name: "Johnson",
+  city: "Chicago",
+  state: "IL",
+  zip: "60601"
+)
+
+
 # Define categories for items
 categories = [
   "Clothing",
