@@ -1,5 +1,6 @@
 import React from "react";
 // import CommonButton from "./common/CommonButton";
+import { useSelector } from "react-redux";
 import {
   Typography,
   Grid,
@@ -8,9 +9,6 @@ import {
   useTheme,
   Button
 } from "@mui/material";
-// import PlantPhone from "./pictures/plantphone.jpg";
-import { Link } from "react-router-dom";
-import  flowerhands  from "./images/flowerhands.jpg"
 
 const Main = () => {
   const theme = useTheme();
@@ -22,31 +20,21 @@ const Main = () => {
     margin: "0 auto",
   };
 
+    const items = useSelector((state) => state.item.allItems);
+    const state = useSelector((state) => console.log("state", state))
+
+    console.log("items", items)
+
   return (
     <div
       style={{ textAlign: "center", marginTop: "3.25em", marginBottom: "1em" }}
     >
       <Grid container justifyContent="center">
         <Paper elevation={10} style={paperStyle}>
-          <Typography variant="h2">Welcome to Group Gifting!</Typography>
-          <img src={flowerhands} className="welcome_pic" alt="Hands holding out a lotus flower"></img>
-          <Typography variant="h6" style={{ marginTop: ".5em" }}>
-            Where you can learn more about the fascinating realm of plants, log
-            and track the health of your botanical friends and share insights
-            and connect with other plant enthusiasts by viewing and commenting
-            on their green companions.{" "}
-          </Typography>
+          <Typography variant="h2">Welcome User!</Typography>
 
-          <div className="welcome_box">
-            <Link to={`/users/new`}>
-              <Button>Sign Up</Button>
-            </Link>{" "}
-            <Link to={`/login`}>
-              <Button>Log In</Button>
-            </Link>
 
-        
-          </div>
+<Typography> Logged in user landing page</Typography>
         </Paper>
       </Grid>
     </div>

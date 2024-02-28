@@ -11,7 +11,7 @@ const themeOptions = {
       main: "#c93860",
     },
     background: {
-      default: "#e4ecff",
+      default: "#EADEB8",
       paper: "#ffffff",
     },
     error: {

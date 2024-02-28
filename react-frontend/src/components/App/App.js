@@ -48,12 +48,14 @@ function App() {
       <NavBar />
       <Routes>
         <Route path={"/"} element={<Outlet />}>
-          {/* <Route
-            index
-            element={isLoggedIn ? <Navigate to={"main/"} /> : <Hero />}
-          /> */}
-          {/* <Route path="login/" element={<Login />} /> */}
-          {/* <Route path="signup/" element={<Signup />} /> */}
+<Route
+  index
+  element={isLoggedIn ? <Navigate to="main/" /> : <Hero />}
+/>
+
+          <Route path="main/" element={<Main/>} />
+          <Route path="login/" element={<Login />} />
+          <Route path="signup/" element={<Signup />} />
           {/* <Route path="/not-found" element={<NotFound />} /> */}
           <Route path="/restricted" element={<Restricted />} />
           <Route path="items/" element={<SideBarLayout />}>
