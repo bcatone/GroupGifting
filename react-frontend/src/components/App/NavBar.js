@@ -24,8 +24,8 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-  const user = true
-  //const user = useSelector((state) => state.auth.user)
+  //const user = true
+  const user = useSelector((state) => state.auth.user)
   const settings = [
     "My Account",
     "My Saved Items",
