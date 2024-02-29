@@ -11,6 +11,11 @@ import Signup from '../Auth/Signup';
 import Auth from './Auth';
 import Main from './Main'
 import ItemLookup from './ItemLookup';
+import About from './About';
+import Items from './Items';
+import Give from './Give';
+import Connections from './Connections';
+import Donation from './Donation';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +54,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/main" element={<Main />} />
+          <Route path="/about" element={<About />} /> create component
+          <Route path="/items" element={<Items />} />
+          <Route path="/give" element={<Give />} />
+          <Route path="/connections" element={<Connections />} />
+          <Route path="/donate" element={<Donation />} />
           {/* <Route path="/users/new" element={<Auth />} /> */}
           {/* <Route path="/donation-info" element={<Donation />} /> */}
           {/* <Route path="/items/new" element={<GiveawayItems />} /> */}
