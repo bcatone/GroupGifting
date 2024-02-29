@@ -1,19 +1,4 @@
-.App {
-  text-align: center;
-  background: #DDD;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
+/* 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -23,25 +8,151 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+} */
+
+.html {
+  width: 100vh;
+  height: 100vh;
+} 
+
+
+.App {
+  width: 100vw;
+  height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-.welcome_pic{
+.welcome_pic {
   width: 90%;
-  margin-top:1em;
+  margin-top: 1em;
   border: 5px solid grey;
+}
+/* 
+#E9D197 */
+body {
+  background-color: #EADEB8;
+  margin: 0;
+  padding: 0;
+}
 
+.SideBar {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%; /* Set margin on all sides except right */
+  margin-right: 5%;
+  width: 250px;
+  background-color: #A09F57;
+  display: flex;
+  height: 80vh; 
+  justify-content: center;
+  flex-wrap:nowrap;
+  padding: 20px; /* Adjust padding as needed */
+}
+
+
+
+
+
+
+
+.center{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}
+
+.smallpic{
+  width: 100px;
+  height:100px;
+  margin-right:.75em;
+  margin-bottom:.75em;
+}
+
+.small-image-box{
+  margin-top: 1em;
+}
+
+
+/* .SideBar > ul > li {
+
+background-color: aqua;
+} */
+
+.nodots{
+  list-style-type: none;
+  text-decoration: none;
+}
+
+
+.img_deg{
+justify-content: center;
+  width: auto;
+  max-height: 400px;
+  max-width: 300px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#yarnpic {
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  height: 500px;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+#craftdetailbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sidebtn {
+  padding: 0rem;
+  background-color: #dfa67b;
+  border: none;
+  transition: 0.2s;
+  margin-bottom: 0.5rem;
+  border-radius: 3px;
+  font-size: large;
+}
+
+
+/* .btn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn button {
+  padding: 0rem;
+  background-color: #dfa67b;
+  border: none;
+  transition: 0.2s;
+  margin-bottom: 0.5rem;
+  border-radius: 3px;
+  font-size: large;
+}
+
+.btn:hover button:hover {
+  background: #DFA67B(27, 156, 252, 0.1);
+  transform: scale (1.1);
+} */
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
 }

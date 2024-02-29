@@ -1,11 +1,21 @@
-import React from 'react'
+import React from "react";
+import SideBar from "./SideBar";
 
-function Donation() {
+const DonationBarData = [
+  {
+    title: "Home",
+    icon: "🏠",
+    link: "https://duckduckgo.com/",
+  },
+];
+
+const Donation = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <>
+      <div>Donation</div>
 
-export default Donation
+    </>
+  );
+};
+
+export default Donation;
