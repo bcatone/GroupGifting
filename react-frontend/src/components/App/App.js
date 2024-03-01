@@ -17,12 +17,10 @@ import Hero from '../Hero/Hero';
 import Login from '../Auth/Login';
 import Signup from '../Auth/Signup';
 import Auth from './Auth';
-import Main from './Main'
 import About from './About';
 import Items from './Items';
 import Give from './Give';
 import Connections from './Connections';
-import Donation from './Donation';
 
 
 function App() {
@@ -72,7 +70,6 @@ function App() {
           {/* <Route path="/items/:id" element={<Item />} /> */}
           {/* <Route path="/users/:username" element={<UserAccount />} /> */}
           {/* <Route path="/users/:username/edit" element={<EditAccount />} /> */}
-          // />
           {/* <Route path="/not-found" element={<NotFound />} /> */}
           <Route path="/restricted" element={<Restricted />} />
           <Route path="items/" element={<SideBarLayout />}>

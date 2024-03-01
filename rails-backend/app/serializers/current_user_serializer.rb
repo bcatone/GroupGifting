@@ -1,3 +1,3 @@
 class CurrentUserSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :email, :username, :first_name, :last_name, :city, :state, :zip
 end

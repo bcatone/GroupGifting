@@ -25,7 +25,8 @@ const NavBar = () => {
   const navigate = useNavigate();
   //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   //const user = true
-  const user = useSelector((state) => state.auth.user)
+  const user = useSelector((state) => state.auth.user);
+  console.log(user)
   const settings = [
     "My Account",
     "My Saved Items",
@@ -108,8 +109,8 @@ const NavBar = () => {
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
-        <Box
+          <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
+            <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -147,51 +148,51 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "15px"
+                  marginLeft: "15px",
                 }}
               >
                 Look for Items
               </Typography>
-              {user ? 
-              <>
-              <Typography
-              variant="p"
-              noWrap
-              component="a"
-              onClick={() => navigate("/give")}
-              sx={{
-                fontFamily: "",
-                fontWeight: 500,
-                color: "inherit",
-                textDecoration: "none",
-                "&:hover": {
-                  cursor: "pointer",
-                },
-                marginLeft: "15px"
-              }}
-            >
-              Give Items
-            </Typography>
-            <Typography
-            variant="p"
-            noWrap
-            component="a"
-            onClick={() => navigate("/connections")}
-            sx={{
-              fontFamily: "",
-              fontWeight: 500,
-              color: "inherit",
-              textDecoration: "none",
-              "&:hover": {
-                cursor: "pointer",
-              },
-              marginLeft: "15px"
-            }}
-          >
-            Connections
-          </Typography>
-          </>
-           : null }
+              {user ? (
+                <>
+                  <Typography
+                    variant="p"
+                    noWrap
+                    component="a"
+                    onClick={() => navigate("/give")}
+                    sx={{
+                      fontFamily: "",
+                      fontWeight: 500,
+                      color: "inherit",
+                      textDecoration: "none",
+                      "&:hover": {
+                        cursor: "pointer",
+                      },
+                      marginLeft: "15px",
+                    }}
+                  >
+                    Give Items
+                  </Typography>
+                  <Typography
+                    variant="p"
+                    noWrap
+                    component="a"
+                    onClick={() => navigate("/connections")}
+                    sx={{
+                      fontFamily: "",
+                      fontWeight: 500,
+                      color: "inherit",
+                      textDecoration: "none",
+                      "&:hover": {
+                        cursor: "pointer",
+                      },
+                      marginLeft: "15px",
+                    }}
+                  >
+                    Connections
+                  </Typography>
+                </>
+              ) : null}
               <Typography
                 variant="p"
                 noWrap
@@ -205,20 +206,46 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "15px"
+                  marginLeft: "15px",
                 }}
               >
                 Donation Info
               </Typography>
+              {user ? null : (
+                <Typography
+                  variant="p"
+                  noWrap
+                  component="a"
+                  onClick={() => navigate("/donate")}
+                  sx={{
+                    fontFamily: "",
+                    fontWeight: 500,
+                    color: "inherit",
+                    textDecoration: "none",
+                    "&:hover": {
+                      cursor: "pointer",
+                    },
+                    marginLeft: "15px",
+                  }}
+                >
+                  Donation Info
+                </Typography>
+              )}
             </Box>
-          
-            
+
             {/* USER MENU AND ITEMS */}
-            <Box sx={{ display: "flex", alignItems:"center" }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={"user here"} src={"user image"} />
-                </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Tooltip title="User settings">
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt={"user here"} src={"user image"} />
+                  </IconButton>
+                  <Typography sx={{
+                    marginLeft: "10px"
+                  }}>
+                    {user ? user.email : ''}
+                  </Typography>
+                </div>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
