@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SideBar from "./SideBar";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Grid,
   Card,
@@ -13,13 +13,19 @@ import {
 import { Link } from "react-router-dom"; // Import Link component
 import Data from "./TestData.json";
 import CommonButton from "./CommonButton";
+import { fetchAllItems } from "../../redux/slices/itemSlice";
 
-console.log("data", Data);
 
 const ItemLookup = () => {
+      const dispatch = useDispatch();
 
+    useEffect(() => {
+      dispatch(fetchAllItems());
+    }, []);
 
+    const items = useSelector((state) => state.item.allItems);
 
+    console.log("items", items)
 
 
   return (
@@ -44,7 +50,7 @@ const ItemLookup = () => {
         </div>
 
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
-          {Data.map((result, index) => (
+          {items.map((result, index) => (
             <Grid item xs={12} sm={4} ms={4} key={index}>
               <Link to={`/items/${result.id}`}>
                 {" "}

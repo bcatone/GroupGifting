@@ -6,9 +6,15 @@ class ItemsController < ApplicationController
 #     render json: items, include: { user: { only: [:id, :username] } }
 #   end
 
+
+def index
+    items = Item.all
+    render json: items
+end
+
   def show
     item = Item.find_by(id: params[:id])
-    render json: ItemSerializer.new(item).to_json(include: [:user, :comments])
+    render json: item
   end
 
   def create
@@ -53,5 +59,8 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:title, :description, :status, :location, :recipient_id, :suggested_donation_amount, :is_public, :deadline, images: [])
   end
+
+#   took out images: []
+
 end
 

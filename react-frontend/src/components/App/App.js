@@ -1,6 +1,7 @@
 
 import "./App.css";
 import { useEffect, useState } from "react";
+import { PersistGate } from "redux-persist/integration/react";
 import axios from "axios";
 import NavBar from "./NavBar";
 import ItemLookup from "./ItemLookup";
