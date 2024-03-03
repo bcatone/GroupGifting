@@ -1,17 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import {Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import Data from "./TestData.json";
+import { fetchItemById } from "../../redux/slices/itemSlice";
 import CommonButton from "./CommonButton";
+import { useDispatch, useSelector} from "react-redux";
 
 const Item = () => {
   const params = useParams();
   const id = Number(params.id);
-const commentBox = useRef(null);
-  const data = Data;
-  const selectedItem = data.find((item) => item.id === id);
-
-  console.log(selectedItem);
+  const dispatch = useDispatch();
+  const commentBox = useRef(null);
+  const [item, setItem] = useState({
+    title: "",
+    category: "",
+    location: "",
+    status: "",
+    recipent_id: "",
+    suggested_donation_amount: "",
+    is_public: false,
+    deadline: "",
+    created_at: "",
+    updated_at: "",
+    images: [],
+  });
 
   ////// To Do
   // get comment data
@@ -19,16 +30,33 @@ const commentBox = useRef(null);
   /// add functionality to make user be able to request item and reflect on backend and on here
   /// say who requested the item?
 
-  
+  useEffect(() => {
+    const fetchEntry = async () => {
+      const result = await dispatch(fetchItemById(id));
+      setItem(result.payload);
+    };
 
-  const [mainImage, setMainImage] = useState("");
+    fetchEntry();
+  }, [id, dispatch]);
+
+  const [mainImage, setMainImage] = useState(
+    "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
+  );
   const [commentForm, setCommentForm] = useState(false); // Added missing state
 
   useEffect(() => {
-    setMainImage(selectedItem.images[0]);
-  }, [selectedItem.images]); // Added dependency array
+    if (item.images) {
+    setMainImage(item.images[0]);}
+  }, [item.images]); // Added dependency array
 
+  const auth = useSelector((state) => state.auth);
 
+  /// Testing ///
+  useEffect(() => {
+    console.log("item", item);
+    console.log("mainImage", mainImage)
+  }, [item]);
+  /////
 
   const handleImageChange = (image) => {
     setMainImage(image);
@@ -43,7 +71,7 @@ const commentBox = useRef(null);
 
   const handleCommentClick = async () => {
     await setCommentForm((prevCommentForm) => !prevCommentForm);
-   
+
     // want this to only happen the first time the button is clicked
     scrollToSection(commentBox);
   };
@@ -56,20 +84,45 @@ const commentBox = useRef(null);
     // Handle comment submit
   };
 
+const TimeDisplay = ({ timeObject }) => {
+  return item.time_until_deadline ? (
+    <>
+      {Object.entries(timeObject).map(
+        ([unit, value]) =>
+          value > 0 &&
+          unit !== "seconds" && (
+            <div key={unit} style={{ marginRight: ".5em"}}>
+              {value === 1
+                ? `${value} ${unit.slice(0, -1)}`
+                : `${value} ${unit}`}
+            </div>
+          )
+      )}
+    </>
+  ) : null;
+};
+
+
+
+
   return (
     <>
       <div className="item-body">
-        <h1 className="center">{selectedItem.title}</h1>
+        <h1 className="center">{item.title}</h1>
         <div className="center">
           <img
             id="yarnpic"
-            src={mainImage}
+            className="img_deg"
+            src={
+              mainImage ||
+              "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
+            }
             alt="main picture"
-            style={{ maxWidth: "100%" }} // Remove margin on image
+            style={{ maxWidth: "100%" }}
           />
         </div>
         <div className="small-image-box">
-          {selectedItem.images.map((image) => (
+          {item.images?.map((image) => (
             <img
               key={image}
               src={image}
@@ -84,21 +137,29 @@ const commentBox = useRef(null);
             component="h4"
             sx={{ marginY: 0, marginBottom: "1em", marginTop: "1em" }}
           >
-            {selectedItem.description}
+            {item.description}
           </Typography>
           <Typography variant="body1" component="p" sx={{ marginY: 0 }}>
-            Deadline:
+            Listing ends in:
           </Typography>
           <Typography
             variant="body1"
-            component="p"
-            sx={{ marginY: 0, color: "green", marginBottom: "1em" }}
+            component="div"
+            sx={{
+              marginY: 0,
+              color: "green",
+              marginBottom: "1em",
+              display: "flex",
+            }}
           >
-            {selectedItem.deadline}
+            <TimeDisplay timeObject={item.time_until_deadline} />
           </Typography>
-          <CommonButton>Request Item</CommonButton>
         </div>
-      </div>
+        </div>
+        <div className="right">
+          <CommonButton >Request Item</CommonButton>
+        </div>
+ 
       <div
         style={{ marginTop: "2em", marginBottom: "1em", textAlign: "center" }}
       >
@@ -108,7 +169,7 @@ const commentBox = useRef(null);
         {/* Add user's comments for the item here: */}
         <div className="btn-margin-bottom">
           {" "}
-          {commentForm === false ? (
+          {commentForm === false && auth.is_authenticated ? (
             <CommonButton onClick={handleCommentClick}>
               Add a Comment
             </CommonButton>

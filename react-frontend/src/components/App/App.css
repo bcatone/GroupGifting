@@ -169,3 +169,8 @@ justify-content: center;
   justify-content: center;
   gap: 2%;
 }
+
+.right {
+display: flex;
+ justify-content: flex-start;
+}

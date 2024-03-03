@@ -12,10 +12,8 @@ import {
   REGISTER,
 } from "redux-persist";
 
-
-
 const persistConfig = {
-timeout:2000,
+  timeout: 100,
   key: "root",
   version: 1,
   storage,
@@ -36,4 +34,4 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export default store
+export default store;
