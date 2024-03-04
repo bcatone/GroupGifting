@@ -1,10 +1,16 @@
 class ItemsController < ApplicationController
+      before_action :force_json, only: :search
 #   before_action :authorize
 
 #   def index
 #     items = Item.all.with_attached_picture.includes(:user)
 #     render json: items, include: { user: { only: [:id, :username] } }
 #   end
+
+# def index
+#   @q = Person.ransack(params[:q])
+#   @people = @q.result(distinct: true)
+# end
 
 
 def index
@@ -49,7 +55,28 @@ end
     render json: { message: "Item successfully destroyed" }
   end
 
+
+def search
+    @query = params[:q]&.downcase
+    if @query.present?
+      @items = Item.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{@query}%", "%#{@query}%")
+      render json: @items
+    else
+      render json: [], status: :ok
+    end
+  end
+
+
+
+
   private
+
+  def force_json
+    request.format = :json
+  end
+
+
+
 
   def find_item
     @current_user = User.find_by(id: session[:user_id])

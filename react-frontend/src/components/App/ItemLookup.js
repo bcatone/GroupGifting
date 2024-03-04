@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import {
   Grid,
   Card,
@@ -17,18 +18,44 @@ import { fetchAllItems } from "../../redux/slices/itemSlice";
 
 const ItemLookup = () => {
   const dispatch = useDispatch();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [items, setItems] = useState([])
+
+      const allItems = useSelector((state) => state.item.allItems);
+
 
   useEffect(() => {
-    dispatch(fetchAllItems());
+   dispatch(fetchAllItems())
+setItems(allItems)
   }, []);
 
-  const items = useSelector((state) => state.item.allItems);
+  //// Testing ////
+useEffect(()=> {
+console.log("searchQuery", searchQuery)
+}, [searchQuery])
 
+  /////
+
+
+  console.log("allItems", allItems)
   console.log("items", items);
+
+   const handleSearch = async () => {
+     try {
+       const response = await axios.get("/items/search", {
+         params: { q: searchQuery },
+       });
+       // Handle response from the server
+       console.log("response.data", response.data);
+     } catch (error) {
+       // Handle error
+       console.error(error);
+     }
+   };
 
   return (
     <>
-      <Container className="content" maxWidth="lg">
+      <Container className="content clearfix" maxWidth="lg">
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Item Lookup
         </Typography>
@@ -43,71 +70,76 @@ const ItemLookup = () => {
           <div>
             <Typography variant="h5">Search:</Typography>
           </div>
-          <input type="text" style={{ width: "200px", height: "30px" }} />
-          <CommonButton>Submit</CommonButton>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ width: "200px", height: "30px" }}
+          />
+          <CommonButton onClick={handleSearch}>Submit</CommonButton>
         </div>
 
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
-          {/* {items?.map((result, index) => (
-          <Grid item xs={12} sm={4} ms={4} key={index}>
-            <Link to={`/items/${result.id}`}>
-              <Card
-                sx={{ maxWidth: 345 }}
-                style={{ padding: "10px", marginBottom: "30px" }}
-              >
-                <CardActionArea
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
+          {items?.map((result, index) => (
+            <Grid item xs={12} sm={4} ms={4} key={index}>
+              <Link to={`/items/${result.id}`}>
+                <Card
+                  sx={{ maxWidth: 345 }}
+                  style={{ padding: "10px", marginBottom: "30px" }}
                 >
-                  <CardMedia
-                    component="img"
+                  <CardActionArea
                     style={{
-                      height: `${345}px`,
-                      width: `345px`,
-                      // borderRadius: "5px",
-                      objectFit: "cover",
+                      display: "flex",
                       justifyContent: "center",
+                      flexDirection: "column",
                     }}
-                    image={
-                      result.images[0] ||
-                      "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
-                    }
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      align="center"
-                    >
-                      {result.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      align="center"
-                    >
-                      {result.description}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      style={{ marginTop: "15px" }}
-                      align="center"
-                    >
-                      {result.deadline}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions></CardActions>
-              </Card>
-            </Link>
-          </Grid>
-        ))} */}
+                  >
+                    <CardMedia
+                      component="img"
+                      style={{
+                        height: `${345}px`,
+                        width: `345px`,
+                        // borderRadius: "5px",
+                        objectFit: "cover",
+                        justifyContent: "center",
+                      }}
+                      image={
+                        result.images[0] ||
+                        "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
+                      }
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        {result.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                      >
+                        {result.description}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        style={{ marginTop: "15px" }}
+                        align="center"
+                      >
+                        {result.deadline}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions></CardActions>
+                </Card>
+              </Link>
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </>

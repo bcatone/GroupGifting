@@ -189,6 +189,10 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rake (13.1.0)
+    ransack (4.1.1)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rdoc (6.6.2)
       psych (>= 4.0.0)
     redis (5.1.0)
@@ -211,6 +215,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (4.0.0)
     zeitwerk (2.6.13)
 
 PLATFORMS
@@ -229,9 +234,11 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.2)
+  ransack
   redis (>= 4.0.1)
   time_difference
   tzinfo-data
+  will_paginate
 
 RUBY VERSION
    ruby 3.3.0p0

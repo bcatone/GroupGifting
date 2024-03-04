@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import {Typography } from "@mui/material";
+import { Typography, Dialog, DialogContent } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { fetchItemById } from "../../redux/slices/itemSlice";
 import CommonButton from "./CommonButton";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Item = () => {
   const params = useParams();
   const id = Number(params.id);
   const dispatch = useDispatch();
   const commentBox = useRef(null);
+  const [open, setOpen] = useState(false);
   const [item, setItem] = useState({
     title: "",
     category: "",
@@ -46,15 +47,18 @@ const Item = () => {
 
   useEffect(() => {
     if (item.images) {
-    setMainImage(item.images[0]);}
+      setMainImage(item.images[0]);
+    }
   }, [item.images]); // Added dependency array
 
   const auth = useSelector((state) => state.auth);
 
+  console.log("auth", auth);
+
   /// Testing ///
   useEffect(() => {
     console.log("item", item);
-    console.log("mainImage", mainImage)
+    console.log("mainImage", mainImage);
   }, [item]);
   /////
 
@@ -84,26 +88,31 @@ const Item = () => {
     // Handle comment submit
   };
 
-const TimeDisplay = ({ timeObject }) => {
-  return item.time_until_deadline ? (
-    <>
-      {Object.entries(timeObject).map(
-        ([unit, value]) =>
-          value > 0 &&
-          unit !== "seconds" && (
-            <div key={unit} style={{ marginRight: ".5em"}}>
-              {value === 1
-                ? `${value} ${unit.slice(0, -1)}`
-                : `${value} ${unit}`}
-            </div>
-          )
-      )}
-    </>
-  ) : null;
-};
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-
+  const TimeDisplay = ({ timeObject }) => {
+    return item.time_until_deadline ? (
+      <>
+        {Object.entries(timeObject).map(
+          ([unit, value]) =>
+            value > 0 &&
+            unit !== "seconds" && (
+              <div key={unit} style={{ marginRight: ".5em" }}>
+                {value === 1
+                  ? `${value} ${unit.slice(0, -1)}`
+                  : `${value} ${unit}`}
+              </div>
+            )
+        )}
+      </>
+    ) : null;
+  };
 
   return (
     <>
@@ -112,14 +121,27 @@ const TimeDisplay = ({ timeObject }) => {
         <div className="center">
           <img
             id="yarnpic"
-            className="img_deg"
+            className="big_img"
             src={
               mainImage ||
               "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
             }
             alt="main picture"
             style={{ maxWidth: "100%" }}
+            onClick={handleOpen}
           />
+        </div>
+        <div>
+          <Dialog open={open} onClose={handleClose} maxWidth="md">
+            <DialogContent>
+              <img
+                src={
+                  mainImage ||
+                  "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
+                }
+              ></img>
+            </DialogContent>
+          </Dialog>
         </div>
         <div className="small-image-box">
           {item.images?.map((image) => (
@@ -155,11 +177,11 @@ const TimeDisplay = ({ timeObject }) => {
             <TimeDisplay timeObject={item.time_until_deadline} />
           </Typography>
         </div>
-        </div>
-        <div className="right">
-          <CommonButton >Request Item</CommonButton>
-        </div>
- 
+      </div>
+      <div className="right">
+        <CommonButton>Request Item</CommonButton>
+      </div>
+
       <div
         style={{ marginTop: "2em", marginBottom: "1em", textAlign: "center" }}
       >
@@ -169,7 +191,7 @@ const TimeDisplay = ({ timeObject }) => {
         {/* Add user's comments for the item here: */}
         <div className="btn-margin-bottom">
           {" "}
-          {commentForm === false && auth.is_authenticated ? (
+          {commentForm === false && auth.isAuthenticated ? (
             <CommonButton onClick={handleCommentClick}>
               Add a Comment
             </CommonButton>

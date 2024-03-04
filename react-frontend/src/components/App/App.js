@@ -64,13 +64,13 @@ function App() {
             <Route path={":id/"} element={<Item />}>
               {/* <Route path={"edit/"} element={<EditItem />} /> */}
             </Route>
+            </Route>
             <Route path="users/" element={<SideBarLayout />}>
               {/* <Route path=":username/" element={<UserAccount />} />  */}
               {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
               {/* <Route path="connections/" element={<Connections />} /> */}
               {/* <Route path="all/" element={<AllUsers />} /> */}
             </Route>
-          </Route>
         </Route>
         <Route path="connections/" element={<SideBarLayout />}>
           {/* <Route index element={<Connections />} /> */}
