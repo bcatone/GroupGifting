@@ -121,7 +121,7 @@ const NavBar = () => {
                 variant="h5"
                 noWrap
                 component="a"
-                onClick={() => navigate("/about")}
+                onClick={() => navigate("main/")}
                 sx={{
                   fontFamily: "arial",
                   fontWeight: 600,
@@ -138,7 +138,7 @@ const NavBar = () => {
                 variant="p"
                 noWrap
                 component="a"
-                onClick={() => navigate("/items")}
+                onClick={() => navigate("items/")}
                 sx={{
                   fontFamily: "",
                   fontWeight: 500,
@@ -158,7 +158,7 @@ const NavBar = () => {
               variant="p"
               noWrap
               component="a"
-              onClick={() => navigate("/give")}
+              onClick={() => navigate("items/give")}
               sx={{
                 fontFamily: "",
                 fontWeight: 500,
@@ -176,7 +176,7 @@ const NavBar = () => {
             variant="p"
             noWrap
             component="a"
-            onClick={() => navigate("/connections")}
+            onClick={() => navigate("connections/")}
             sx={{
               fontFamily: "",
               fontWeight: 500,
@@ -196,7 +196,7 @@ const NavBar = () => {
                 variant="p"
                 noWrap
                 component="a"
-                onClick={() => navigate("/donate")}
+                onClick={() => navigate("donate/")}
                 sx={{
                   fontFamily: "",
                   fontWeight: 500,
