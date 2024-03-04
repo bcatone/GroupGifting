@@ -1,88 +1,90 @@
 class ChatChannel < ApplicationCable::Channel
-  def subscribed
-    stream_from "messages_#{current_user.id}"
-    @@active_subscribers[current_user.id] = connection
-  end
+    @@active_subscribers = {}
 
-  def unsubscribed
-    @@active_subscribers.delete(current_user.id)
-  end
-
-  def receive(data)
-
-    # Handle incoming message based on the message type
-    case data["message_type"]
-    when "direct_message"
-      handle_direct_message(data)
-    when "group_message"
-      handle_group_message(data)
-    else
-      puts "Unknown message type"
+    def subscribed
+        user_id = params[:user_id]
+        puts "User subscribed with user_id: #{user_id}"
+        stream_from "messages_#{user_id}"
+        @@active_subscribers[user_id] = connection
     end
-  end
-  
-  private
 
-  def handle_direct_message(data)
-    sender_id = data["sender_id"]
-    receiver_id = data["receiver_id"]
-    content = data["content"]
-
-    message = DirectMessage.create(sender_id: sender_id, receiver_id: receiver_id, content: content)
-
-    if message.valid?
-      ActionCable.server.broadcast("messages_#{sender_id}", message: message)
-      ActionCable.server.broadcast("messages_#{receiver_id}", message: message)
-    else
-      ActionCable.server.broadcast("messages_#{sender_id}", error: "Failed to send message")
+    def unsubscribed
+        user_id = params[:user_id]
+        @@active_subscribers.delete(user_id)
     end
-  end
 
-  def handle_group_message(data)
+    def receive(data)
+        puts "Received #{data}"
+    end
+
+    def add_direct_message(data)
+      puts "Creating a new message for #{data}..."
+      sender_id = data["sender_id"]
+      receiver_id = data["receiver_id"]
+      content = data["content"]
     
-  end
-
-  def edit_message(data)
-    message_id = data["message_id"]
-    content = data["content"]
-
-    message = Message.find_by(id: message_id)
-
-    ActionCable.server.broadcast("messages_#{sender_id}", error: "An error occured while updating this message") unless message
-
-    message.update(content: content)
-
-    ActionCable.server.broadcast("messages_#{message.sender_id}", message: message)
-
-    case data["message_type"]
-    when "direct_message"
-      ActionCable.server.broadcast("messages_#{receiver_id}", message: message)
-    when "group_message"
-      
-    else
-      puts "Unknown message type"
-    end
-  end
-
-  def delete_message
-    message_id = data["message_id"]
-
-    message = Message.find_by(id: message_id)
-
-    ActionCable.server.broadcast("messages_#{sender_id}", error: "Unable to delete message") unless message
-
-    message.destroy
-    ActionCable.server.broadcast("messages_#{message.sender_id}", deleted_message_id: message_id)
-
-    case data["message_type"]
-    when "direct_message"
-      ActionCable.server.broadcast("messages_#{message.receiver_id}", deleted_message_id: message_id)
-    when "group_message"
-      handle_group_message(data)
-    else
-      puts "unknown message type"
+      message = DirectMessage.create(sender_id: sender_id, receiver_id: receiver_id, content: content, type: "DirectMessage")
+      formatted_message = format_message(message, sender_id, receiver_id)
+    
+      broadcast_data = { type: "message_created", message: formatted_message, sender_id: sender_id, receiver_id: receiver_id }
+    
+      if message.valid?
+        ActionCable.server.broadcast("messages_#{sender_id}", broadcast_data)
+        ActionCable.server.broadcast("messages_#{receiver_id}", broadcast_data)
+      else
+        ActionCable.server.broadcast("messages_#{sender_id}", { error: "Failed to send message" })
+      end
     end
 
-  end
+    def delete_direct_message(data)
+      puts "Deleting #{data}..."
+      puts "id: #{data["id"]}"
+      message_id = data["id"]
 
+      message = DirectMessage.find(message_id)
+      sender = message.sender
+      receiver = message.receiver
+
+      message.destroy
+
+      sender_broadcast_data = { type: 'message_deleted', message_id: message_id, conversation_info: DirectMessage.conversation_info(sender, receiver) }
+      receiver_broadcast_data = { type: 'message_deleted', message_id: message_id, conversation_info: DirectMessage.conversation_info(receiver, sender) }
+
+      ActionCable.server.broadcast("messages_#{message.sender_id}", sender_broadcast_data)
+      ActionCable.server.broadcast("messages_#{message.receiver_id}", receiver_broadcast_data)
+    end
+    
+    private
+
+    def format_message(message, sender_id, receiver_id)
+      sender = User.find(sender_id)
+      receiver = User.find(receiver_id)
+    
+      formatted_message = {
+        id: message.id,
+        sender: {
+          id: sender.id,
+          username: sender.username,
+          avatar: sender.avatar_url
+        },
+        content: message.content,
+        direction: message_direction(message, sender_id, receiver_id),
+        created_at: message_created_at(message)
+      }
+      formatted_message
+    end
+    
+    def message_direction(message, sender_id, receiver_id)
+      if message.sender_id == sender_id
+        'sent'
+      elsif message.receiver_id == receiver_id
+        'received'
+      else
+        'unknown'
+      end
+    end
+    
+      def message_created_at(message)
+        message.format_date(message.created_at)
+      end
 end

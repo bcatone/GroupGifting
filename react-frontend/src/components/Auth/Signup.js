@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import themeOptions from "../utils/themeOptions";
 import useAuth from "./useAuth";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,7 +16,7 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Copyright from "./Copyright";
 
-const theme = createTheme(themeOptions);
+// const theme = createTheme(themeOptions);
 
 function Signup() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ function Signup() {
   } = useAuth();
 
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -164,7 +163,7 @@ function Signup() {
         </Box>
         <Copyright sx={{ mt: 3 }} />
       </Container>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 };
 

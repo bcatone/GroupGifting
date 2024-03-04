@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :message_views
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,5 +18,8 @@ Rails.application.routes.draw do
   get '/me', to: "sessions#show"
   post "/signup", to: "users#create"
   delete "/cancel", to: "users#destroy"
+
+  get '/inbox/direct_messages', to: 'inbox#direct_messages'
+  patch '/update_is_message_viewed', to: 'messages#update_is_viewed'
 
 end

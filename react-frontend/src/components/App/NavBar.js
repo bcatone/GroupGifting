@@ -14,8 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useContext } from "react";
-import themeOptions from "../utils/themeOptions";
-import UserContext from "../utils/userContext";
+import themeOptions from "../../utils/themeOptions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/actions/authActions";

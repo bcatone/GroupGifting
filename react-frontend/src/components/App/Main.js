@@ -36,7 +36,6 @@ const Main = () => {
             and connect with other plant enthusiasts by viewing and commenting
             on their green companions.{" "}
           </Typography>
-
           <div className="welcome_box">
             <Link to={`/users/new`}>
               <Button>Sign Up</Button>
@@ -44,8 +43,6 @@ const Main = () => {
             <Link to={`/login`}>
               <Button>Log In</Button>
             </Link>
-
-          </div> */}
           </div>
         </Paper>
       </Grid>
