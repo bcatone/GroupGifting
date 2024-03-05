@@ -110,11 +110,7 @@ background-color: aqua;
   padding-left: 270px;
 }
 
-.clearfix::after {
-  content: "";
-  display: table;
-  clear: both;
-}
+
 
 #yarnpic {
   display: inline-flex;
@@ -171,4 +167,8 @@ background-color: aqua;
 .right {
   display: flex;
   justify-content: flex-start;
+}
+
+.results-container {
+  width: 100%;
 }

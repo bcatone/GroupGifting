@@ -44,7 +44,7 @@ const SideBarLayout = () => {
   return (
     <div style={{ display: "flex" }}>
       <SideBar links={sidebarLinks} activeRoute={location.pathname} />
-      <div>
+      <div style={{width:"100%"}}>
 
         {/* took out flex grow 1 here ⬆️ */}
         <Outlet />

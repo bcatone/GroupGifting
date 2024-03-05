@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  Grid,
-  Typography,
-  Container,
-} from "@mui/material";
-
+import { Grid, Typography, Container } from "@mui/material";
 
 import CommonButton from "./CommonButton";
 import { fetchAllItems } from "../../redux/slices/itemSlice";
@@ -16,7 +11,8 @@ const ItemLookup = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState([]);
-  const [noResults, setNoResults] = useState(false)
+  const [noResults, setNoResults] = useState(false);
+  const [searched, setSearched] = useState(false);
 
   const allItems = useSelector((state) => state.item.allItems);
 
@@ -25,16 +21,6 @@ const ItemLookup = () => {
     setItems(allItems);
   }, []);
 
-  //// Testing ////
-  useEffect(() => {
-    console.log("searchQuery", searchQuery);
-  }, [searchQuery]);
-
-  /////
-
-  console.log("allItems", allItems);
-  console.log("items", items);
-
   const handleSearch = async () => {
     try {
       const response = await axios.get("/items/search", {
@@ -42,22 +28,21 @@ const ItemLookup = () => {
       });
       if (response.data.length > 0) {
         setItems(response.data);
+        setSearched(true);
       } else {
-        setNoResults(true)
+        setNoResults(true);
       }
-      console.log("response.data", response.data);
     } catch (error) {
-      // Handle error
       console.error(error);
     }
   };
 
   const resetResults = () => {
-    console.log("reset results was pushed")
-    setSearchQuery("")
-    setNoResults(false)
-    setItems(allItems)
-  }
+    setSearchQuery("");
+    setNoResults(false);
+    setSearched(false)
+    setItems(allItems);
+  };
 
   return (
     <>
@@ -65,42 +50,71 @@ const ItemLookup = () => {
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Item Lookup
         </Typography>
-        <div
+
+          {noResults === false && searched === false ? (
+                <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
-          {/* Search not funcitonal yet */}
-          <div>
-            <Typography variant="h5">Search:</Typography>
-          </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: "200px", height: "30px" }}
-          />
-          <CommonButton onClick={handleSearch}>Submit</CommonButton>
-          <CommonButton onClick={resetResults} style={{marginLeft:".5em"}}>Reset</CommonButton>
-        </div>
-
-        <Grid container spacing={5} style={{ marginTop: "20px" }}>
-          {noResults ? <Typography
+              <Typography variant="h5">Search:</Typography>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ width: "200px", height: "30px" }}
+              />
+              <CommonButton onClick={handleSearch}>Submit</CommonButton>
+            </div>
+          ) : (
+            <div className="center">
+              <Typography
                 variant="h4"
                 style={{ marginBottom: ".75em", marginTop: ".75em" }}
               >
-                {" "}
-                No Results for {searchQuery}, please try again
-              </Typography> : null}
-          {items && noResults === false ? items?.map((result, index) => (
-       <BigResultCard result={result} index={index} />
-          )) : null}
+                You searched for {searchQuery}, retry?
+              </Typography>
+              <CommonButton
+                onClick={resetResults}
+                style={{ marginLeft: ".5em" }}
+              >
+                Try Again
+              </CommonButton>{" "}
+            </div>
+          )}
+     
+
+        <Grid
+          container
+          spacing={5}
+          style={{ marginTop: "20px", width: "100%" }}
+        >
+          {noResults ? (
+            <div className="center">
+              <Typography
+                variant="h4"
+                style={{ marginBottom: ".75em", marginTop: ".75em" }}
+              >
+                No Results for {searchQuery}, please
+              </Typography>
+              <CommonButton
+                onClick={resetResults}
+                style={{ marginLeft: ".5em" }}
+              >
+                Try Again
+              </CommonButton>
+            </div>
+          ) : null}
+          {!noResults && items
+            ? items.map((result, index) => (
+                <BigResultCard key={index} result={result} index={index} />
+              ))
+            : null}
         </Grid>
       </Container>
     </>
   );
 };
-
 export default ItemLookup;

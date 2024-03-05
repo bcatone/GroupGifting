@@ -15,8 +15,10 @@ const BigResultCard = ({result, index}) => {
     <Grid item xs={12} sm={4} ms={4} key={index}>
       <Link to={`/items/${result.id}`}>
         <Card
-          sx={{ maxWidth: 345 }}
-          style={{ padding: "10px", marginBottom: "30px" }}
+        sx={{
+    width: 300,
+    height: 500,
+    margin: "10px"}}
         >
           <CardActionArea
             style={{
@@ -31,8 +33,9 @@ const BigResultCard = ({result, index}) => {
                 height: `${345}px`,
                 width: `345px`,
                 // borderRadius: "5px",
-                objectFit: "cover",
+                objectFit: "contain",
                 justifyContent: "center",
+           
               }}
               image={
                 result.images[0] ||
