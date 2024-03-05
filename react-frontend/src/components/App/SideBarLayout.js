@@ -5,7 +5,8 @@ import SideBar from "./SideBar";
 const SideBarLayout = () => {
   const location = useLocation();
 
-  // Define sidebar links based on the current location
+  // put state for filter here
+
   let sidebarLinks;
   if (location.pathname === "/donation-info") {
     sidebarLinks = [
@@ -16,7 +17,6 @@ const SideBarLayout = () => {
           { to: "/profile", label: "Profile" },
         ],
       },
-      // Add more link groups as needed for the /dashboard route
     ];
   } else if (location.pathname === "/items/all") {
     sidebarLinks = [
@@ -27,7 +27,6 @@ const SideBarLayout = () => {
           { to: "/", label: "Example Link 2" },
         ],
       },
-      // Add more link groups as needed for the /settings route
     ];
   } else {
 
@@ -39,14 +38,11 @@ const SideBarLayout = () => {
     ];
   }
 
-  console.log("location.pathname", location.pathname)
 
   return (
     <div style={{ display: "flex" }}>
       <SideBar links={sidebarLinks} activeRoute={location.pathname} />
       <div style={{width:"100%"}}>
-
-        {/* took out flex grow 1 here ⬆️ */}
         <Outlet />
       </div>
     </div>

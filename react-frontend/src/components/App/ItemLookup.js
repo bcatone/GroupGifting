@@ -51,44 +51,41 @@ const ItemLookup = () => {
           Item Lookup
         </Typography>
 
-          {noResults === false && searched === false ? (
-                <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-              <Typography variant="h5">Search:</Typography>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ width: "200px", height: "30px" }}
-              />
-              <CommonButton onClick={handleSearch}>Submit</CommonButton>
-            </div>
-          ) : (
-            <div className="center">
-              <Typography
-                variant="h4"
-                style={{ marginBottom: ".75em", marginTop: ".75em" }}
-              >
-                You searched for {searchQuery}, retry?
-              </Typography>
-              <CommonButton
-                onClick={resetResults}
-                style={{ marginLeft: ".5em" }}
-              >
-                Try Again
-              </CommonButton>{" "}
-            </div>
-          )}
-     
+        {noResults === false && searched === false ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Search:</Typography>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: "200px", height: "30px" }}
+            />
+            <CommonButton onClick={handleSearch}>Submit</CommonButton>
+          </div>
+        ) : (
+          <div className="center">
+            <Typography
+              variant="h4"
+              style={{ marginBottom: ".75em", marginTop: ".75em" }}
+            >
+              You searched for {searchQuery}, retry?
+            </Typography>
+            <CommonButton onClick={resetResults} style={{ marginLeft: ".5em" }}>
+              Try Again
+            </CommonButton>{" "}
+          </div>
+        )}
 
         <Grid
           container
-          spacing={5}
+          // spacing={5}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           style={{ marginTop: "20px", width: "100%" }}
         >
           {noResults ? (

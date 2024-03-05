@@ -12,13 +12,14 @@ import { Link } from "react-router-dom"; // Import Link component
 
 const BigResultCard = ({result, index}) => {
   return (
-    <Grid item xs={12} sm={4} ms={4} key={index}>
+    <Grid item xs={12} sm={6} md={4} key={index}>
       <Link to={`/items/${result.id}`}>
         <Card
         sx={{
-    width: 300,
-    height: 500,
-    margin: "10px"}}
+    maxWidth: "300px",
+    maxHeight: "500px",
+    margin: "10px"
+        }}
         >
           <CardActionArea
             style={{
@@ -30,8 +31,8 @@ const BigResultCard = ({result, index}) => {
             <CardMedia
               component="img"
               style={{
-                height: `${345}px`,
-                width: `345px`,
+                maxHeight: `${345}px`,
+                maxWidth: `345px`,
                 // borderRadius: "5px",
                 objectFit: "contain",
                 justifyContent: "center",

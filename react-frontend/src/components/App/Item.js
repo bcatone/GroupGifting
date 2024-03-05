@@ -116,7 +116,7 @@ const Item = () => {
 
   return (
     <>
-      <div className="item-body">
+      <div>
         <h1 className="center">{item.title}</h1>
         <div className="center">
           <img
@@ -183,9 +183,9 @@ const Item = () => {
       </div>
 
       <div
-        style={{ marginTop: "2em", marginBottom: "1em", textAlign: "center" }}
+        style={{ marginTop: "2em", marginBottom: "1em", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center"}}
       >
-        <Typography variant="h5" sx={{ marginBottom: "1em" }}>
+        <Typography variant="h5" sx={{ marginBottom: "1em"}}>
           Comments:
         </Typography>
         {/* Add user's comments for the item here: */}

@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 
 const SideBar = ({ links, activeRoute }) => {
   console.log("links from SideBar", links);
+  console.log("activeRoute", activeRoute)
   return (
     <div className="SideBar">
       {links?.map((group, index) => (
         <div  key={index}>
           <h2 className="center">{group.label}</h2>
+         
           {group.expandable && ( 
             <ul>
               {group.links.map((link, i) => (

@@ -77,6 +77,8 @@ body {
 
 .small-image-box {
   margin-top: 1em;
+  justify-content: center;
+  display:flex;
 }
 
 /* .SideBar > ul > li {

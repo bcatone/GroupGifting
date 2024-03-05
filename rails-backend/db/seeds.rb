@@ -46,7 +46,7 @@
 #   "Tools & Hardware",
 #   "Decoration",
 #   "Pet Supplies",
-#   "Hygiene Products",
+#   "Toiletries",
 #   "Art & Craft Supplies",
 #   "Garden & Outdoor",
 #   "Medical Supplies",
@@ -83,16 +83,30 @@
 #   end
 # end
 
-(1..10).each do |item_id|
-  item = Item.find_by(id: item_id)
-  next unless item
 
-  if item.images.attached? && item.images.count >= 2
-    # Detach the first two images
-    item.images[0].purge
-    item.images[1].purge
+# item.images.attach(io: File.open("../react-frontend/src/components/App/images/#{filename}"), filename: filename)
+
+# Find the item by its ID
+item1 = Item.find_by(id: 1)
+
+# Ensure the item exists
+if item1.present?
+  # Attach the image
+  image_attachment = item1.images.attach(io: File.open("../react-frontend/src/components/App/images/plate.jpg"), filename: "plate.jpg")
+  
+  # Ensure attachment was successful
+  if image_attachment.present?
+    # Prepend the attached image to the beginning of the images array
+    item1.images.unshift(image_attachment.first)
+  else
+    puts "Failed to attach image"
   end
+else
+  puts "Item not found"
 end
+
+
+
 
 
 
