@@ -3,55 +3,61 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
   Grid,
-  Card,
-  CardContent,
   Typography,
   Container,
-  CardActionArea,
-  CardMedia,
-  CardActions,
 } from "@mui/material";
-import { Link } from "react-router-dom"; // Import Link component
-import Data from "./TestData.json";
+
+
 import CommonButton from "./CommonButton";
 import { fetchAllItems } from "../../redux/slices/itemSlice";
+import BigResultCard from "./BigResultCard";
 
 const ItemLookup = () => {
   const dispatch = useDispatch();
-    const [searchQuery, setSearchQuery] = useState("");
-    const [items, setItems] = useState([])
+  const [searchQuery, setSearchQuery] = useState("");
+  const [items, setItems] = useState([]);
+  const [noResults, setNoResults] = useState(false)
 
-      const allItems = useSelector((state) => state.item.allItems);
-
+  const allItems = useSelector((state) => state.item.allItems);
 
   useEffect(() => {
-   dispatch(fetchAllItems())
-setItems(allItems)
+    dispatch(fetchAllItems());
+    setItems(allItems);
   }, []);
 
   //// Testing ////
-useEffect(()=> {
-console.log("searchQuery", searchQuery)
-}, [searchQuery])
+  useEffect(() => {
+    console.log("searchQuery", searchQuery);
+  }, [searchQuery]);
 
   /////
 
-
-  console.log("allItems", allItems)
+  console.log("allItems", allItems);
   console.log("items", items);
 
-   const handleSearch = async () => {
-     try {
-       const response = await axios.get("/items/search", {
-         params: { q: searchQuery },
-       });
-       // Handle response from the server
-       console.log("response.data", response.data);
-     } catch (error) {
-       // Handle error
-       console.error(error);
-     }
-   };
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get("/items/search", {
+        params: { q: searchQuery },
+      });
+      if (response.data.length > 0) {
+        setItems(response.data);
+      } else {
+        setNoResults(true)
+      }
+      console.log("response.data", response.data);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
+
+  const resetResults = () => {
+    console.log("reset results was pushed")
+    setSearchQuery("")
+    setNoResults(false)
+    setItems(allItems)
+  }
 
   return (
     <>
@@ -77,69 +83,20 @@ console.log("searchQuery", searchQuery)
             style={{ width: "200px", height: "30px" }}
           />
           <CommonButton onClick={handleSearch}>Submit</CommonButton>
+          <CommonButton onClick={resetResults} style={{marginLeft:".5em"}}>Reset</CommonButton>
         </div>
 
         <Grid container spacing={5} style={{ marginTop: "20px" }}>
-          {items?.map((result, index) => (
-            <Grid item xs={12} sm={4} ms={4} key={index}>
-              <Link to={`/items/${result.id}`}>
-                <Card
-                  sx={{ maxWidth: 345 }}
-                  style={{ padding: "10px", marginBottom: "30px" }}
-                >
-                  <CardActionArea
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      style={{
-                        height: `${345}px`,
-                        width: `345px`,
-                        // borderRadius: "5px",
-                        objectFit: "cover",
-                        justifyContent: "center",
-                      }}
-                      image={
-                        result.images[0] ||
-                        "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
-                      }
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        align="center"
-                      >
-                        {result.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                      >
-                        {result.description}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        style={{ marginTop: "15px" }}
-                        align="center"
-                      >
-                        {result.deadline}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions></CardActions>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
+          {noResults ? <Typography
+                variant="h4"
+                style={{ marginBottom: ".75em", marginTop: ".75em" }}
+              >
+                {" "}
+                No Results for {searchQuery}, please try again
+              </Typography> : null}
+          {items && noResults === false ? items?.map((result, index) => (
+       <BigResultCard result={result} index={index} />
+          )) : null}
         </Grid>
       </Container>
     </>
