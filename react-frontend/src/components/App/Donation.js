@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "./SideBar";
+import SideBar from "./Sidebar/SideBar";
 
 const DonationBarData = [
   {
@@ -13,7 +13,6 @@ const Donation = () => {
   return (
     <>
       <div>Donation</div>
-
     </>
   );
 };
