@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Grid,
   Card,
@@ -6,11 +6,15 @@ import {
   Typography,
   CardActionArea,
   CardMedia,
-  CardActions,
 } from "@mui/material";
 import { Link } from "react-router-dom"; // Import Link component
 
 const BigResultCard = ({result, index}) => {
+
+      // useEffect(() => {
+      //   console.log("result from BRC", result);
+      // }, [result]);
+
   return (
     <Grid item xs={12} sm={6} md={4} key={index}>
       <Link to={`/items/${result.id}`}>

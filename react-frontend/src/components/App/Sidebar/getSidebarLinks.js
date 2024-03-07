@@ -14,7 +14,7 @@ export const getSidebarLinks = (pathname) => {
   } else if (pathname === "/items/all") {
     return [
       {
-        label: "Eventual Filter Options",
+        label: "Filter Options",
         links: [
           { to: "/", label: "Example Link 1" },
           { to: "/", label: "Example Link 2" },

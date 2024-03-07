@@ -1,48 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import React, {useEffect} from "react";
 import { Grid, Typography, Container } from "@mui/material";
-
 import CommonButton from "../Common/CommonButton";
-import { fetchAllItems } from "../../../redux/slices/itemSlice";
 import BigResultCard from "../Common/BigResultCard";
+import useItemFilter from "./useItemFilter";
 
 const ItemLookup = () => {
-  const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [items, setItems] = useState([]);
-  const [noResults, setNoResults] = useState(false);
-  const [searched, setSearched] = useState(false);
+  const {
+    items,
+    noResults,
+    searched,
+    searchQuery,
+    resetResults,
+  } = useItemFilter();
+ 
+    useEffect(() => {
+console.log("items from ItemLookup", items)
+    }, [items]);
 
-  const allItems = useSelector((state) => state.item.allItems);
-
-  useEffect(() => {
-    dispatch(fetchAllItems());
-    setItems(allItems);
-  }, []);
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get("/items/search", {
-        params: { q: searchQuery },
-      });
-      if (response.data.length > 0) {
-        setItems(response.data);
-        setSearched(true);
-      } else {
-        setNoResults(true);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const resetResults = () => {
-    setSearchQuery("");
-    setNoResults(false);
-    setSearched(false);
-    setItems(allItems);
-  };
 
   return (
     <>
@@ -51,36 +25,7 @@ const ItemLookup = () => {
           Item Lookup
         </Typography>
 
-        {noResults === false && searched === false ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h5">Search:</Typography>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: "200px", height: "30px" }}
-            />
-            <CommonButton onClick={handleSearch}>Submit</CommonButton>
-          </div>
-        ) : (
-          <div className="center">
-            <Typography
-              variant="h4"
-              style={{ marginBottom: ".75em", marginTop: ".75em" }}
-            >
-              You searched for {searchQuery}, retry?
-            </Typography>
-            <CommonButton onClick={resetResults} style={{ marginLeft: ".5em" }}>
-              Try Again
-            </CommonButton>{" "}
-          </div>
-        )}
+       
 
         <Grid
           container
