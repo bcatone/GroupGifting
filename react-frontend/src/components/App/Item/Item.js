@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { fetchItemById } from "../../../redux/slices/itemSlice";
 import CommonButton from "../Common/CommonButton";
 import { useDispatch, useSelector } from "react-redux";
+import { categories } from "../Common/categories";
+import CategoryButton from "../Common/CategoryButton";
 
 const Item = () => {
   const params = useParams();
@@ -24,6 +26,8 @@ const Item = () => {
     updated_at: "",
     images: [],
   });
+
+  const category = categories.find((cat) => cat.name === item.category);
 
   ////// To Do
   // get comment data
@@ -53,14 +57,14 @@ const Item = () => {
 
   const auth = useSelector((state) => state.auth);
 
-  console.log("auth", auth);
+  // const filteredItems = useSelector((state) => state.items.filterdItems);
 
-  /// Testing ///
-  useEffect(() => {
-    console.log("item", item);
-    console.log("mainImage", mainImage);
-  }, [item]);
-  /////
+//   /// Testing ///
+//   useEffect(() => {
+// console.log("filteredItems from in UE", filteredItems)
+// setItems(filteredItems)
+//   }, [filteredItems]);
+//   /////
 
   const handleImageChange = (image) => {
     setMainImage(image);
@@ -132,7 +136,7 @@ const Item = () => {
           />
         </div>
         <div>
-          <Dialog open={open} onClose={handleClose} maxWidth="md">
+          <Dialog open={open} onClose={handleClose} maxWidth="auto">
             <DialogContent>
               <img
                 src={
@@ -154,6 +158,14 @@ const Item = () => {
           ))}
         </div>
         <div className="center">
+          {category && category.color && (
+            <CategoryButton
+              backgroundColor={category.color}
+              disableHover="true"
+            >
+              {item.category}
+            </CategoryButton>
+          )}
           <Typography
             variant="h5"
             component="h4"

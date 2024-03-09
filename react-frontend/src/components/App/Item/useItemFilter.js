@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { fetchAllItems } from "../../../redux/slices/itemSlice";
+import { fetchFilteredItems } from "../../../redux/slices/itemSlice";
 
 const useItemFilter = () => {
   const dispatch = useDispatch();
@@ -10,43 +9,44 @@ const useItemFilter = () => {
   const [noResults, setNoResults] = useState(false);
   const [searched, setSearched] = useState(false);
 
-  const allItems = useSelector((state) => state.item.allItems);
+    const allItems = useSelector((state) => state.item.allItems);
 
-  useEffect(() => {
-    dispatch(fetchAllItems());
-  }, [dispatch]);
+  //   const handleItemSearch = async () => {
+  //     try {
+  //       const response = await axios.get("/items/search", {
+  //         params: { q: searchQuery },
+  //       });
+  //       if (response.data.length > 0) {
+  //         setItems(response.data);
+  //         setSearched(true);
+  //         setNoResults(false);
+  //       } else {
+  //         setNoResults(true);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-  useEffect(()=> {
-console.log("Change in items in UIF", items)
-  }, [items])
-
-  useEffect(() => {
-    setItems(allItems);
-  }, [allItems]);
-
-const handleSearch = async () => {
-  try {
-    const response = await axios.get("/items/search", {
-      params: { q: searchQuery },
+  const handleItemSearch = (searchQuery) => {
+    setItems(allItems)
+    dispatch(fetchFilteredItems({ searchQuery })).then((action) => {
+      if (fetchFilteredItems.fulfilled.match(action)) {
+        setSearched(true);
+        setNoResults(false);
+      } else if (fetchFilteredItems.rejected.match(action)) {
+        setNoResults(true);
+      }
     });
-    if (response.data.length > 0) {
-      await setItems(response.data); 
-      setSearched(true);
-      setNoResults(false);
-    } else {
-      setNoResults(true);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
 
+    /// used to setItems(allItems) but took that out ⬇️
 
   const resetResults = () => {
     setSearchQuery("");
     setNoResults(false);
     setSearched(false);
-    setItems(allItems);
+    setItems([]); // Set items to an empty array
   };
 
   return {
@@ -55,8 +55,9 @@ const handleSearch = async () => {
     searched,
     searchQuery,
     setSearchQuery,
-    handleSearch,
-    resetResults,
+    handleItemSearch,
+resetResults,
+    setItems,
   };
 };
 

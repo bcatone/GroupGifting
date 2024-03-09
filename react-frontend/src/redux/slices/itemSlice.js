@@ -29,6 +29,41 @@ export const fetchItemById = createAsyncThunk(
   }
 );
 
+export const fetchFilteredItems = createAsyncThunk(
+  "items/fetchFilteredItems",
+  async (searchQuery) => {
+    try {
+      console.log("searchquery from FFI", searchQuery)
+      const response = await fetch(`/items/search?q=${searchQuery.searchQuery}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered items");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// export const fetchFilteredItems = createAsyncThunk(
+//   "items/fetchFilteredItems",
+//   async (searchQuery) => {
+//     try{
+//       const response = await fetch("/items/search", {
+//         params: {q: searchQuery}
+//       })
+//       const data = await response.json()
+//       return data
+//     } catch (error){
+//       throw error
+//     }
+//   }
+// )
+
+
+
+
 export const updateItemInApi = createAsyncThunk(
   "item/updateItemInApi",
   async ({ itemId, updatedItem }, thunkAPI) => {
@@ -116,9 +151,14 @@ const itemSlice = createSlice({
   name: "item",
   initialState: {
     allItems: [],
+    filteredItems: [],
+    displayedItems: [],
     individualItem: null,
+    searched: false,
     loadingAllItems: false,
     loadingIndividualItem: false,
+    loadingFilteredItems: false,
+    errorFilteredItems: false,
     errorAllItems: null,
     errorIndividualItem: null,
   },
@@ -126,8 +166,11 @@ const itemSlice = createSlice({
     clearItems: (state) => {
       state.allItems = [];
       state.individualItem = null;
+      state.filteredItems = null;
       state.loadingAllItems = false;
       state.loadingIndividualItem = false;
+      state.loadingFilteredItems = false;
+      state.errorFilteredItems = null;
       state.errorAllItems = null;
       state.errorIndividualItem = null;
     },
@@ -162,6 +205,12 @@ const itemSlice = createSlice({
       state.individualItem = newItem;
       state.loadingIndividualItem = false;
     },
+    resetDisplayedItems: (state) => {
+      state.displayedItems = state.allItems;
+    },
+    toggleSearched: (state) => {
+      state.searched = !state.searched;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -170,11 +219,26 @@ const itemSlice = createSlice({
       })
       .addCase(fetchAllItems.fulfilled, (state, action) => {
         state.allItems = action.payload;
+        state.displayedItems = action.payload;
+        state.searched = false;
         state.loadingAllItems = false;
       })
       .addCase(fetchAllItems.rejected, (state, action) => {
         state.loadingAllItems = false;
         state.errorAllItems = action.error.message;
+      })
+      .addCase(fetchFilteredItems.pending, (state) => {
+        state.loadingFilteredItems = true;
+      })
+      .addCase(fetchFilteredItems.fulfilled, (state, action) => {
+        state.filteredItems = action.payload;
+        state.displayedItems = action.payload;
+        state.searched = true;
+        state.loadingFilteredItems = false;
+      })
+      .addCase(fetchFilteredItems.rejected, (state, action) => {
+        state.loadingFilteredItems = false;
+        state.errorFilteredItems = action.error.message;
       })
       .addCase(fetchItemById.pending, (state, action) => {
         state.loadingIndividualItem = true;
@@ -247,6 +311,8 @@ export const {
   updateCommentInItem,
   addItemToAllAndIndState,
   clearItems,
+  resetDisplayedItems,
+  toggleSearched
 } = itemSlice.actions;
 
 export const itemReducer = itemSlice.reducer;

@@ -8,8 +8,13 @@ import {
   CardMedia,
 } from "@mui/material";
 import { Link } from "react-router-dom"; // Import Link component
+import CategoryButton from './CategoryButton';
+import { categories } from "./categories"
 
 const BigResultCard = ({result, index}) => {
+
+    const category = categories.find((cat) => cat.name === result.category);
+
 
       // useEffect(() => {
       //   console.log("result from BRC", result);
@@ -19,11 +24,11 @@ const BigResultCard = ({result, index}) => {
     <Grid item xs={12} sm={6} md={4} key={index}>
       <Link to={`/items/${result.id}`}>
         <Card
-        sx={{
-    maxWidth: "300px",
-    maxHeight: "500px",
-    margin: "10px"
-        }}
+          sx={{
+            maxWidth: "300px",
+            maxHeight: "500px",
+            margin: "10px",
+          }}
         >
           <CardActionArea
             style={{
@@ -35,12 +40,11 @@ const BigResultCard = ({result, index}) => {
             <CardMedia
               component="img"
               style={{
-                maxHeight: `${345}px`,
+                maxHeight: `${300}px`,
                 maxWidth: `345px`,
                 // borderRadius: "5px",
                 objectFit: "contain",
                 justifyContent: "center",
-           
               }}
               image={
                 result.images[0] ||
@@ -57,6 +61,11 @@ const BigResultCard = ({result, index}) => {
               >
                 {result.title}
               </Typography>
+              {category && category.color && (
+                <CategoryButton backgroundColor={category.color} disableHover="true">
+                  {result.category}
+                </CategoryButton>
+              )}
               <Typography variant="body2" color="text.secondary" align="center">
                 {result.description}
               </Typography>

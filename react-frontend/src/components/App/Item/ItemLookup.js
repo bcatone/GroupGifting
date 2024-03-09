@@ -1,22 +1,45 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography, Container } from "@mui/material";
 import CommonButton from "../Common/CommonButton";
 import BigResultCard from "../Common/BigResultCard";
-import useItemFilter from "./useItemFilter";
+
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllItems } from "../../../redux/slices/itemSlice";
 
 const ItemLookup = () => {
-  const {
-    items,
-    noResults,
-    searched,
-    searchQuery,
-    resetResults,
-  } = useItemFilter();
- 
-    useEffect(() => {
-console.log("items from ItemLookup", items)
-    }, [items]);
+  const dispatch = useDispatch();
 
+  const [noResults, setNoResults] = useState(false)
+  // const { items, setItems, noResults, searched, searchQuery, resetResults } =
+  //   useItemFilter();
+
+  // Fetch all items when the component mounts
+  useEffect(() => {
+    dispatch(fetchAllItems());
+  }, [dispatch]);
+
+  // Get all items from the Redux store
+  const allItems = useSelector((state) => state.item.allItems);
+
+ const displayedItems = useSelector((state) => state.item.displayedItems);
+
+
+
+
+  // // Update local state when allItems changes
+  // useEffect(() => {
+  //   console.log("Change in allItems:", allItems);
+  //   setItems(allItems);
+  // }, [allItems]);
+
+
+  // useEffect(() => {
+  //   console.log("filteredItems from IL", filteredItems);
+  //   setItems(filteredItems)
+  //   if (filteredItems.length === 0){
+  //     setNoResults(true)
+  //   }
+  // }, [filteredItems]);
 
   return (
     <>
@@ -25,38 +48,23 @@ console.log("items from ItemLookup", items)
           Item Lookup
         </Typography>
 
-       
-
         <Grid
           container
-          // spacing={5}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           style={{ marginTop: "20px", width: "100%" }}
         >
-          {noResults ? (
-            <div className="center">
-              <Typography
-                variant="h4"
-                style={{ marginBottom: ".75em", marginTop: ".75em" }}
-              >
-                No Results for {searchQuery}, please
-              </Typography>
-              <CommonButton
-                onClick={resetResults}
-                style={{ marginLeft: ".5em" }}
-              >
-                Try Again
-              </CommonButton>
-            </div>
-          ) : null}
-          {!noResults && items
-            ? items.map((result, index) => (
-                <BigResultCard key={index} result={result} index={index} />
-              ))
-            : null}
+         
+          { displayedItems ? (
+            displayedItems.map((result, index) => (
+              <BigResultCard key={index} result={result} index={index} />
+            ))
+          ) : (
+            <Typography variant="body1">Loading...</Typography>
+          )}
         </Grid>
       </Container>
     </>
   );
 };
+
 export default ItemLookup;
