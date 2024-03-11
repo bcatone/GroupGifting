@@ -38,13 +38,13 @@ const SideBar = ({ links, activeRoute }) => {
           <ul>
             {activeRoute === `/items/all` && (
               <>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", marginBottom: "1em" }}>
                   <Typography variant="h5">Search:</Typography>
                   <input
                     type="search"
                     value={searchQuery}
                     onChange={(e) => handleSearchInput(e)}
-                    style={{ width: "175px", height: "30px" }}
+                    style={{ width: "175px", height: "35px" }}
                   />
                   <CommonButton onClick={() => handleItemSearch(searchQuery)}>
                     Submit

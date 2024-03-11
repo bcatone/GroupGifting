@@ -66,6 +66,12 @@ def search
     end
   end
 
+def filter
+  @items = Item.by_category(params[:category])
+  render json: @items
+end
+
+
 
 
 

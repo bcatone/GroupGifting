@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # resources :items
 resources :items do
   get :search, on: :collection
+  get :filter, on: :collection
 end
   resources :direct_messages
   resources :friendship_connections
