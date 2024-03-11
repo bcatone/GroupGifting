@@ -13,8 +13,6 @@ class ItemSerializer < ActiveModel::Serializer
   end
 
 
-
-
     def formatted_deadline
     object.deadline.strftime("%A, %I:%M %p, %B %e, %Y") if object.deadline.present?
   end
@@ -25,12 +23,6 @@ start_time = Time.now
 
   TimeDifference.between(start_time, end_time).in_general
   end
-
-#   start_time = Time.new(2013,1)
-# end_time = Time.new(2014,1)
-
-# TimeDifference.between(start_time, end_time).in_general
-# => {:years=>0, :months=>12, :weeks=>0, :days=>5, :hours=>0, :minutes=>0, :seconds=>0}
 
 
 end

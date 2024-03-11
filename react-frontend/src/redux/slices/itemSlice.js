@@ -33,8 +33,10 @@ export const fetchSearchedItems = createAsyncThunk(
   "items/fetchSearchedItems",
   async (searchQuery) => {
     try {
-      console.log("searchquery from FFI", searchQuery)
-      const response = await fetch(`/items/search?q=${searchQuery.searchQuery}`);
+      console.log("searchquery from FFI", searchQuery);
+      const response = await fetch(
+        `/items/search?q=${searchQuery.searchQuery}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch searched items");
       }
@@ -46,9 +48,22 @@ export const fetchSearchedItems = createAsyncThunk(
   }
 );
 
-
-
-
+export const fetchFilteredItems = createAsyncThunk(
+  "items/fetchFilteredItems",
+  async (category) => {
+    try {
+      console.log("searchquery from FFI", category);
+      const response = await fetch(`/items/search?q=${category}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch filtered items");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 export const updateItemInApi = createAsyncThunk(
   "item/updateItemInApi",
@@ -69,7 +84,7 @@ export const updateItemInApi = createAsyncThunk(
         updatedItemData[key] = value;
       });
 
-    //   thunkAPI.dispatch(updateItemInPlant(updatedItemData));
+      //   thunkAPI.dispatch(updateItemInPlant(updatedItemData));
       return updatedItemData;
     } catch (error) {
       throw error;
@@ -137,12 +152,16 @@ const itemSlice = createSlice({
   name: "item",
   initialState: {
     allItems: [],
+    searchedItems: [],
     filteredItems: [],
     displayedItems: [],
     individualItem: null,
     searched: false,
+    filtered: false,
     loadingAllItems: false,
     loadingIndividualItem: false,
+    loadingSearchedItems: false,
+    errorSearchedItems: false,
     loadingFilteredItems: false,
     errorFilteredItems: false,
     errorAllItems: null,
@@ -152,11 +171,14 @@ const itemSlice = createSlice({
     clearItems: (state) => {
       state.allItems = [];
       state.individualItem = null;
+      state.searchedItems = null;
       state.filteredItems = null;
       state.loadingAllItems = false;
       state.loadingIndividualItem = false;
       state.loadingFilteredItems = false;
-      state.errorFilteredItems = null;
+      state.loadingSearchedItems = false;
+      state.errorFilteredItems = false;
+      state.errorSearchedItems = null;
       state.errorAllItems = null;
       state.errorIndividualItem = null;
     },
@@ -197,6 +219,9 @@ const itemSlice = createSlice({
     toggleSearched: (state) => {
       state.searched = !state.searched;
     },
+    toggleFiltered: (state) => {
+      state.filtered = !state.filtered;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -213,19 +238,33 @@ const itemSlice = createSlice({
         state.loadingAllItems = false;
         state.errorAllItems = action.error.message;
       })
-      .addCase(fetchSearchedItems.pending, (state) => {
+      .addCase(fetchFilteredItems.pending, (state) => {
         state.loadingFilteredItems = true;
       })
-      .addCase(fetchSearchedItems.fulfilled, (state, action) => {
+      .addCase(fetchFilteredItems.fulfilled, (state, action) => {
         state.filteredItems = action.payload;
         state.displayedItems = action.payload;
         state.searched = true;
         state.loadingFilteredItems = false;
       })
-      .addCase(fetchSearchedItems.rejected, (state, action) => {
+      .addCase(fetchFilteredItems.rejected, (state, action) => {
         state.loadingFilteredItems = false;
         state.errorFilteredItems = action.error.message;
       })
+      .addCase(fetchSearchedItems.pending, (state) => {
+        state.loadingSearchedItems = true;
+      })
+      .addCase(fetchSearchedItems.fulfilled, (state, action) => {
+        state.searchedItems = action.payload;
+        state.displayedItems = action.payload;
+        state.searched = true;
+        state.loadingSearchedItems = false;
+      })
+      .addCase(fetchSearchedItems.rejected, (state, action) => {
+        state.loadingSearchedItems = false;
+        state.errorSearchedItems = action.error.message;
+      })
+
       .addCase(fetchItemById.pending, (state, action) => {
         state.loadingIndividualItem = true;
       })
@@ -298,7 +337,8 @@ export const {
   addItemToAllAndIndState,
   clearItems,
   resetDisplayedItems,
-  toggleSearched
+  toggleSearched,
+  toggleFiltered,
 } = itemSlice.actions;
 
 export const itemReducer = itemSlice.reducer;

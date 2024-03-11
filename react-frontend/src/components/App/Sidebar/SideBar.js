@@ -14,7 +14,7 @@ import {
 const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
 
-  const { searchQuery, setSearchQuery, handleItemSearch } = useItemFilter();
+  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter } = useItemFilter();
 
   const searched = useSelector((state) => state.item.searched);
 
@@ -56,6 +56,7 @@ const SideBar = ({ links, activeRoute }) => {
                       key={category.name}
                       backgroundColor={category.color}
                       value={category.name}
+                      onClick={() => handleItemFilter(category.name)}
                     >
                       {category.name}
                     </CategoryButton>

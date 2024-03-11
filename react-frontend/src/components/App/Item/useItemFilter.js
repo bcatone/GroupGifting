@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSearchedItems } from "../../../redux/slices/itemSlice";
+import { fetchSearchedItems, fetchFilteredItems } from "../../../redux/slices/itemSlice";
 
 const useItemFilter = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,18 @@ const useItemFilter = () => {
     });
   };
 
-
+  const handleItemFilter = (category) => {
+    console.log("category from HIF", category)
+    setItems(allItems);
+    dispatch(fetchFilteredItems({ category})).then((action) => {
+      if (fetchFilteredItems.fulfilled.match(action)) {
+        // setSearched(true);
+        setNoResults(false);
+      } else if (fetchSearchedItems.rejected.match(action)) {
+        setNoResults(true);
+      }
+    });
+  };
 
 
   return {
@@ -35,6 +46,7 @@ const useItemFilter = () => {
     searchQuery,
     setSearchQuery,
     handleItemSearch,
+    handleItemFilter,
     setItems,
   };
 };
