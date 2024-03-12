@@ -9,6 +9,7 @@ const CategoryButton = ({
   variant,
   onClick,
   style,
+  value,
   backgroundColor,
   type = "button",
   disableHover = false,
@@ -36,14 +37,14 @@ const CategoryButton = ({
     backgroundColor: backgroundColor || "#CFB784", // Default color if not provided
     color: "#4A2723",
     textTransform: "none",
+  "&:focus, &:active": {
+    outline: "none",
+  },
     "&:hover": {
       color: "#FDF4DC",
       backgroundColor: disableHover
         ? backgroundColor
         : darkenColor(backgroundColor, 0.2),
-    //   backgroundColor: backgroundColor
-    //     ? darkenColor(backgroundColor, 20) // Darken provided color by 20%
-    //     : darkenColor("#CFB784", 20), // Darken default color by 20%
     },
     borderRadius: 100,
     border: "2px solid #C56824",
@@ -63,6 +64,7 @@ const CategoryButton = ({
       sx={buttonStyles}
       onClick={onClick}
       type={type}
+      value={value}
     >
       {children}
     </Button>

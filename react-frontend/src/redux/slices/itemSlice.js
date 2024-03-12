@@ -51,14 +51,18 @@ export const fetchSearchedItems = createAsyncThunk(
 export const fetchFilteredItems = createAsyncThunk(
   "items/fetchFilteredItems",
   async (category) => {
+    console.log("fetchFilteredItems was triggered");
     try {
-      console.log("searchquery from FFI", category);
-      const response = await fetch(`/items/search?q=${category}`);
+      console.log("searchquery from FFI", category.category);
+      const response = await fetch(
+        `/items/filter?category=${category.category}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch filtered items");
       }
       const data = await response.json();
-      return data;
+      console.log("data from fetchFilteredItems", data);
+      return { data, category };
     } catch (error) {
       throw error;
     }
@@ -240,12 +244,15 @@ const itemSlice = createSlice({
       })
       .addCase(fetchFilteredItems.pending, (state) => {
         state.loadingFilteredItems = true;
+
       })
       .addCase(fetchFilteredItems.fulfilled, (state, action) => {
-        state.filteredItems = action.payload;
-        state.displayedItems = action.payload;
+        const { data, category } = action.payload;
+        state.filteredItems = data;
+        state.displayedItems = data;
         state.searched = true;
         state.loadingFilteredItems = false;
+
       })
       .addCase(fetchFilteredItems.rejected, (state, action) => {
         state.loadingFilteredItems = false;

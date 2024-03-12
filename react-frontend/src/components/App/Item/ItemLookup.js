@@ -21,25 +21,13 @@ const ItemLookup = () => {
   // Get all items from the Redux store
   const allItems = useSelector((state) => state.item.allItems);
 
+
+
  const displayedItems = useSelector((state) => state.item.displayedItems);
 
 
 
 
-  // // Update local state when allItems changes
-  // useEffect(() => {
-  //   console.log("Change in allItems:", allItems);
-  //   setItems(allItems);
-  // }, [allItems]);
-
-
-  // useEffect(() => {
-  //   console.log("filteredItems from IL", filteredItems);
-  //   setItems(filteredItems)
-  //   if (filteredItems.length === 0){
-  //     setNoResults(true)
-  //   }
-  // }, [filteredItems]);
 
   return (
     <>
@@ -54,7 +42,7 @@ const ItemLookup = () => {
           style={{ marginTop: "20px", width: "100%" }}
         >
          
-          { displayedItems ? (
+          { displayedItems && Array.isArray(displayedItems) ? (
             displayedItems.map((result, index) => (
               <BigResultCard key={index} result={result} index={index} />
             ))

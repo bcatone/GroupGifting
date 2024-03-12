@@ -1,4 +1,5 @@
 export const categories = [
+  // { name: "All", color: "#FF5733" },
   { name: "Clothing", color: "#7A9A01" },
   { name: "Electronics", color: "#5B8A51" },
   { name: "Furniture", color: "#457893" },
@@ -8,9 +9,9 @@ export const categories = [
   { name: "Tools & Hardware", color: "#AD446E" },
   { name: "Decoration", color: "#D05158" },
   { name: "Pet Supplies", color: "#F07D42" },
+  { name: "Garden & Outdoor", color: "#c5b21c" },
   { name: "Toiletries", color: "#FFA94C" },
   { name: "Art & Craft Supplies", color: "#FFD000" },
-  { name: "Garden & Outdoor", color: "#F7E738" },
   { name: "Medical Supplies", color: "#B1D85C" },
   { name: "Baby & Childcare", color: "#74C69D" },
   { name: "Musical Instruments", color: "#5AB8C2" },

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import CommonButton from "../Common/CommonButton";
@@ -14,11 +14,20 @@ import {
 const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
 
-  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter } = useItemFilter();
+  const [selected, setSelected] = useState("");
+
+  /// only button knows it's selected
+
+  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter } =
+    useItemFilter();
 
   const searched = useSelector((state) => state.item.searched);
+  // const selectedCategory = useSelector((state) => state.item.selectedCategory);
+  // console.log("selectedCategory from state", selectedCategory);
 
-  const itemState = useSelector((state) => state.item);
+  useEffect(() => {
+    console.log("selected", selected);
+  }, [selected]);
 
   const handleSearchInput = (e) => {
     if (searched === true) {
@@ -27,6 +36,17 @@ const SideBar = ({ links, activeRoute }) => {
       dispatch(toggleSearched());
     } else {
       setSearchQuery(e.target.value);
+    }
+  };
+
+  const handleButtonClick = (category) => {
+    if (category.name === selected) {
+      console.log("category was same as selected")
+      setSelected("");
+      dispatch(resetDisplayedItems());
+    } else {
+      setSelected(category.name);
+      handleItemFilter(category.name);
     }
   };
 
@@ -51,16 +71,33 @@ const SideBar = ({ links, activeRoute }) => {
                   </CommonButton>
                 </div>
                 <div>
-                  {categories?.map((category) => (
-                    <CategoryButton
-                      key={category.name}
-                      backgroundColor={category.color}
-                      value={category.name}
-                      onClick={() => handleItemFilter(category.name)}
-                    >
-                      {category.name}
-                    </CategoryButton>
-                  ))}
+                  {categories &&
+                    categories.map((category) =>
+                      category.name === selected ? (
+                        <CategoryButton
+                          key={category.name}
+                          backgroundColor={category.color}
+                          value={category.name}
+                          onClick={() => handleButtonClick(category)}
+                          style={{
+                            border: "3px solid black",
+                            fontWeight: "bold",
+                            color: "white",
+                          }}
+                        >
+                          {category.name}
+                        </CategoryButton>
+                      ) : (
+                        <CategoryButton
+                          key={category.name}
+                          backgroundColor={category.color}
+                          value={category.name}
+                          onClick={() => handleButtonClick(category)}
+                        >
+                          {category.name}
+                        </CategoryButton>
+                      )
+                    )}
                 </div>
               </>
             )}
