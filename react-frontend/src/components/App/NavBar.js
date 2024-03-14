@@ -107,8 +107,8 @@ const NavBar = () => {
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
-        <Box
+          <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
+            <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -137,7 +137,7 @@ const NavBar = () => {
                 variant="p"
                 noWrap
                 component="a"
-                onClick={() => navigate("/main/about")}
+                onClick={() => navigate("items/new")}
                 sx={{
                   fontFamily: "",
                   fontWeight: 500,
@@ -146,10 +146,28 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
-                LINK 1
+                Give Away Items
+              </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/items/all")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px",
+                }}
+              >
+                Look for Items
               </Typography>
               <Typography
                 variant="p"
@@ -164,10 +182,10 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
-                LINK 2
+                Donation Info
               </Typography>
               <Typography
                 variant="p"
@@ -182,17 +200,16 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
-                LINK 3
+                Connections
               </Typography>
               {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
-          
-            
+
             {/* USER MENU AND ITEMS */}
-            <Box sx={{ display: "flex", alignItems:"center" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt={"user here"} src={"user image"} />

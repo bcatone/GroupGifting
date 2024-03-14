@@ -17,6 +17,7 @@ import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
 import Auth from "./Auth";
 import Main from "./Main";
+import GiveAwayItem from "./Item/GiveAwayItem";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
           <Route path="/restricted" element={<Restricted />} />
           <Route path="items/" element={<SideBarLayout />}>
             <Route path={"all/"} element={<ItemLookup />} />
+            <Route path={"new/"} element={<GiveAwayItem />} />
             <Route path={":id/"} element={<Item />}>
               {/* <Route path={"edit/"} element={<EditItem />} /> */}
             </Route>

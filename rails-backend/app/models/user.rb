@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    geocoded_by :zip
 
     has_secure_password
 

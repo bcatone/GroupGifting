@@ -9,25 +9,20 @@ import { fetchAllItems } from "../../../redux/slices/itemSlice";
 const ItemLookup = () => {
   const dispatch = useDispatch();
 
-  const [noResults, setNoResults] = useState(false)
-  // const { items, setItems, noResults, searched, searchQuery, resetResults } =
-  //   useItemFilter();
+  const [noResults, setNoResults] = useState(false);
 
-  // Fetch all items when the component mounts
+  /// To Do
+  //◽️ Get loading set up on this page
+  //◽️ Make Display Message for no results
+  //◽️
+
+  ////
+
   useEffect(() => {
     dispatch(fetchAllItems());
   }, [dispatch]);
 
-  // Get all items from the Redux store
-  const allItems = useSelector((state) => state.item.allItems);
-
-
-
- const displayedItems = useSelector((state) => state.item.displayedItems);
-
-
-
-
+  const displayedItems = useSelector((state) => state.item.displayedItems);
 
   return (
     <>
@@ -41,8 +36,7 @@ const ItemLookup = () => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           style={{ marginTop: "20px", width: "100%" }}
         >
-         
-          { displayedItems && Array.isArray(displayedItems) ? (
+          {displayedItems && Array.isArray(displayedItems) ? (
             displayedItems.map((result, index) => (
               <BigResultCard key={index} result={result} index={index} />
             ))

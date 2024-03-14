@@ -33,7 +33,6 @@ const Item = () => {
   // get comment data
   /// add post request etc. for comment from here
   /// add functionality to make user be able to request item and reflect on backend and on here
-  /// say who requested the item?
 
   useEffect(() => {
     const fetchEntry = async () => {
@@ -57,14 +56,10 @@ const Item = () => {
 
   const auth = useSelector((state) => state.auth);
 
-  // const filteredItems = useSelector((state) => state.items.filterdItems);
+ 
+  const userZip = useSelector((state) => state.auth.user.zip);
 
-//   /// Testing ///
-//   useEffect(() => {
-// console.log("filteredItems from in UE", filteredItems)
-// setItems(filteredItems)
-//   }, [filteredItems]);
-//   /////
+  console.log(userZip)
 
   const handleImageChange = (image) => {
     setMainImage(image);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { Typography, Slider, Box } from "@mui/material";
 import CommonButton from "../Common/CommonButton";
 import useItemFilter from "../Item/useItemFilter";
 import CategoryButton from "../Common/CategoryButton";
@@ -32,16 +32,21 @@ const SideBar = ({ links, activeRoute }) => {
   const handleSearchInput = (e) => {
     if (searched === true) {
       dispatch(resetDisplayedItems());
-      setSearchQuery("");
       dispatch(toggleSearched());
     } else {
       setSearchQuery(e.target.value);
     }
   };
 
+  const handleClick = () => {
+    setSearchQuery("")
+   setSelected("");
+    dispatch(resetDisplayedItems());
+  }
+
   const handleButtonClick = (category) => {
     if (category.name === selected) {
-      console.log("category was same as selected")
+      console.log("category was same as selected");
       setSelected("");
       dispatch(resetDisplayedItems());
     } else {
@@ -49,6 +54,29 @@ const SideBar = ({ links, activeRoute }) => {
       handleItemFilter(category.name);
     }
   };
+
+  const marks = [
+    {
+      value: 0,
+      label: "0 mi",
+    },
+    {
+      value: 5,
+      label: "5 mi",
+    },
+    {
+      value: 10,
+      label: "10 mi",
+    },
+    {
+      value: 15,
+      label: "15 mi",
+    },
+  ];
+
+  function valuetext(value) {
+    return `${value}°C`;
+  }
 
   return (
     <div className="SideBar">
@@ -63,6 +91,7 @@ const SideBar = ({ links, activeRoute }) => {
                   <input
                     type="search"
                     value={searchQuery}
+                    onClick={() => handleClick()}
                     onChange={(e) => handleSearchInput(e)}
                     style={{ width: "175px", height: "35px" }}
                   />
@@ -113,6 +142,25 @@ const SideBar = ({ links, activeRoute }) => {
                 </Link>
               </li>
             ))}
+            <Box
+              sx={{
+                width: 200,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <h5>Distance away from your city</h5>
+              <Slider
+                aria-label="Custom marks"
+                defaultValue={5}
+                getAriaValueText={valuetext}
+                step={5}
+                max={20}
+                valueLabelDisplay="auto"
+                marks={marks}
+              />
+            </Box>
           </ul>
         </div>
       ))}

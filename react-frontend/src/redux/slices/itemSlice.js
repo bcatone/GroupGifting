@@ -62,7 +62,7 @@ export const fetchFilteredItems = createAsyncThunk(
       }
       const data = await response.json();
       console.log("data from fetchFilteredItems", data);
-      return { data, category };
+      return data;
     } catch (error) {
       throw error;
     }
@@ -247,9 +247,9 @@ const itemSlice = createSlice({
 
       })
       .addCase(fetchFilteredItems.fulfilled, (state, action) => {
-        const { data, category } = action.payload;
-        state.filteredItems = data;
-        state.displayedItems = data;
+      
+        state.filteredItems = action.payload;
+        state.displayedItems = action.payload;
         state.searched = true;
         state.loadingFilteredItems = false;
 

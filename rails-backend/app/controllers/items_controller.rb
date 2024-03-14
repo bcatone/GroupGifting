@@ -14,6 +14,9 @@ class ItemsController < ApplicationController
 
 
 def index
+    # nearby_items = Item.near(`#{@current_user.zip}`, 5, order: :distance)
+    # puts nearby_items
+    puts @current_user
     items = Item.all
     render json: items
 end
@@ -57,7 +60,19 @@ end
 
 
 def search
-    @query = params[:q]&.downcase
+
+  # need to add items in the certian area here, dynamic between 1, 5, 10, 15
+  # will get the zip from the user - what if no user logged in? Need to get the location of the user for that
+  # nearby_items = Item.near(`#{@current_user.zip}`, 5, order: :distance)
+  #   @query = params[:q]&.downcase
+  #   if @query.present?
+  #     @items = nearby_items.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{@query}%", "%#{@query}%")
+  #     render json: @items
+  #   else
+  #     render json: [], status: :ok
+  #   end
+
+        @query = params[:q]&.downcase
     if @query.present?
       @items = Item.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{@query}%", "%#{@query}%")
       render json: @items
