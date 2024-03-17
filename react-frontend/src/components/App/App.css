@@ -28,7 +28,7 @@
 /* 
 #E9D197 */
 body {
-  background-color: #eadeb8;
+  background-color: #fbf2c4;
   margin: 0;
   padding: 0;
 }
@@ -39,7 +39,7 @@ body {
   margin-left: 5%; /* Set margin on all sides except right */
   /* margin-right: 3%; */
   width: 350px;
-  background-color: #a09f57;
+  background-color:#74a892;
   display: flex;
   height: 80vh;
   justify-content: center;

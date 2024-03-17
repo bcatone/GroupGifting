@@ -17,7 +17,7 @@ const ItemLookup = () => {
   //◽️
 
   ////
-
+/// how could I get the distance param here??? Put it in useItemFilter??
   useEffect(() => {
     dispatch(fetchAllItems());
   }, [dispatch]);

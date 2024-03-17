@@ -26,7 +26,7 @@ const BigResultCard = ({result, index}) => {
         <Card
           sx={{
             maxWidth: "300px",
-            maxHeight: "500px",
+          height: "570px",
             margin: "10px",
           }}
         >
@@ -66,8 +66,9 @@ const BigResultCard = ({result, index}) => {
                   {result.category}
                 </CategoryButton>
               )}
+              <h5>Zip:{result.location}</h5>
               <Typography variant="body2" color="text.secondary" align="center">
-                {result.description}
+                {result.short_description}
               </Typography>
               <Typography
                 variant="body2"

@@ -10,16 +10,28 @@ import {
   resetDisplayedItems,
   toggleSearched,
 } from "../../../redux/slices/itemSlice";
+import CommonSquareButton from "../Common/CommonSquareButton";
 
 const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
 
   const [selected, setSelected] = useState("");
+  const [distance, setDistance] = useState(5)
 
   /// only button knows it's selected
 
-  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter } =
+
+  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter, handleAllItems } =
     useItemFilter();
+
+
+  useEffect(() => {
+    console.log("distance", distance);
+    if (distance){
+          handleAllItems(distance);
+    }
+
+  }, [distance]);
 
   const searched = useSelector((state) => state.item.searched);
   // const selectedCategory = useSelector((state) => state.item.selectedCategory);
@@ -51,32 +63,56 @@ const SideBar = ({ links, activeRoute }) => {
       dispatch(resetDisplayedItems());
     } else {
       setSelected(category.name);
-      handleItemFilter(category.name);
+      handleItemFilter(category.name, distance);
     }
   };
 
+  const handleDistanceChange = (event, newValue) => {
+setDistance(newValue)
+console.log("value after HDC", newValue)
+
+// If selected !== ("")
+if (selected !== ""){
+  // Resend filter request
+  handleItemFilter(category.name, newValue);
+}
+
+// If searchQuery !=("")
+if (searchQuery !== ""){
+// resend search request
+handleItemSearch(searchQuery, newValue)
+  }
+else {
+  // display all items in search radius
+  handleAllItems(newValue)
+}
+  }
+
+
+
   const marks = [
     {
-      value: 0,
-      label: "0 mi",
+      value: 1,
+      label: "1 mi",
     },
     {
-      value: 5,
-      label: "5 mi",
+      value: 6,
+      label: "6 mi",
     },
     {
-      value: 10,
-      label: "10 mi",
+      value: 11,
+      label: "11 mi",
     },
     {
-      value: 15,
-      label: "15 mi",
+      value: 16,
+      label: "16 mi",
     },
   ];
 
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value} Mi`;
   }
+  // try to get rid of this ^
 
   return (
     <div className="SideBar">
@@ -95,9 +131,18 @@ const SideBar = ({ links, activeRoute }) => {
                     onChange={(e) => handleSearchInput(e)}
                     style={{ width: "175px", height: "35px" }}
                   />
-                  <CommonButton onClick={() => handleItemSearch(searchQuery)}>
+                  <CommonButton
+                    onClick={() => handleItemSearch(searchQuery, distance)}
+                  >
                     Submit
                   </CommonButton>
+                </div>
+                <div>
+                  <CommonSquareButton
+                    style={{ marginBottom: "1em", marginTop: "1em" }}
+                  >
+                    Clear All
+                  </CommonSquareButton>
                 </div>
                 <div>
                   {categories &&
@@ -157,10 +202,17 @@ const SideBar = ({ links, activeRoute }) => {
                 getAriaValueText={valuetext}
                 step={5}
                 max={20}
+                min={1}
+                value={distance}
+                onChange={handleDistanceChange}
                 valueLabelDisplay="auto"
                 marks={marks}
               />
             </Box>
+
+            <CommonButton style={{ marginBottom: "1em", marginTop: "1em" }}>
+              Show All Items Regardless
+            </CommonButton>
           </ul>
         </div>
       ))}

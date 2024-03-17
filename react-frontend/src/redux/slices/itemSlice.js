@@ -2,13 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // import { updateItemInPlant } from "../plants/plantSlice";
 
+// might be able to use this with distance too, condense
 export const fetchAllItems = createAsyncThunk(
   "items/fetchAllItems",
-  async () => {
+  async (distance) => {
+    console.log("distance from fetchAllItems", distance)
     try {
-      const response = await fetch(`/items`);
+      const response = await fetch(`/items?distance=${distance}`);
       const data = await response.json();
-
+console.log("data from fetchAllItems", data)
       return data;
     } catch (error) {
       throw error;
@@ -31,16 +33,19 @@ export const fetchItemById = createAsyncThunk(
 
 export const fetchSearchedItems = createAsyncThunk(
   "items/fetchSearchedItems",
-  async (searchQuery) => {
+  async ({ searchQuery, distance }) => {
+    console.log("fetchSearchedItems was triggered");
+    console.log("category and distance from FSI", searchQuery, distance);
     try {
-      console.log("searchquery from FFI", searchQuery);
+      console.log("searchquery from FSI", searchQuery);
       const response = await fetch(
-        `/items/search?q=${searchQuery.searchQuery}`
+        `/items/search?q=${searchQuery}&distance=${distance}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch searched items");
       }
       const data = await response.json();
+      console.log("data from fetchSearchedItems", data);
       return data;
     } catch (error) {
       throw error;
@@ -48,14 +53,18 @@ export const fetchSearchedItems = createAsyncThunk(
   }
 );
 
+// Fetch FilteredItems with distance
 export const fetchFilteredItems = createAsyncThunk(
   "items/fetchFilteredItems",
-  async (category) => {
+  async ({ category, distance }) => {
+    // Modify the parameter to accept an object
     console.log("fetchFilteredItems was triggered");
+    console.log("category and distance from FFI", category, distance);
     try {
-      console.log("searchquery from FFI", category.category);
+const encodedCategory = encodeURIComponent(category);
+console.log("encodedCategory from FFI", encodedCategory)
       const response = await fetch(
-        `/items/filter?category=${category.category}`
+        `/items/filter?category=${encodedCategory}&distance=${distance}` // Include distance in the query string
       );
       if (!response.ok) {
         throw new Error("Failed to fetch filtered items");
@@ -244,15 +253,12 @@ const itemSlice = createSlice({
       })
       .addCase(fetchFilteredItems.pending, (state) => {
         state.loadingFilteredItems = true;
-
       })
       .addCase(fetchFilteredItems.fulfilled, (state, action) => {
-      
         state.filteredItems = action.payload;
         state.displayedItems = action.payload;
         state.searched = true;
         state.loadingFilteredItems = false;
-
       })
       .addCase(fetchFilteredItems.rejected, (state, action) => {
         state.loadingFilteredItems = false;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSearchedItems, fetchFilteredItems } from "../../../redux/slices/itemSlice";
+import { fetchSearchedItems, fetchFilteredItems, fetchAllItems } from "../../../redux/slices/itemSlice";
 
 const useItemFilter = () => {
   const dispatch = useDispatch();
@@ -11,11 +11,28 @@ const useItemFilter = () => {
 
     const allItems = useSelector((state) => state.item.allItems);
 
+// const handleAllItems = (distance) => {
+//     console.log("distance from handleAllItems", distance)
+//     fetchAllItems(distance)
+// }
+
+const handleAllItems = (distance) => {
+  console.log("distance from handleAllItems", distance);
+  dispatch(fetchAllItems(distance)).then((action) => {
+    if (fetchAllItems.fulfilled.match(action)) {
+  console.log("fetchAllItems Was successful! 🙏")
+    } else if (fetchAllItems.rejected.match(action)) {
+console.log("fetchAllItems was unsuccessful 🤨")
+    }
+  });
+};
 
 
-  const handleItemSearch = (searchQuery) => {
+
+
+  const handleItemSearch = (searchQuery, distance) => {
     setItems(allItems)
-    dispatch(fetchSearchedItems({ searchQuery })).then((action) => {
+    dispatch(fetchSearchedItems({ searchQuery, distance })).then((action) => {
       if (fetchSearchedItems.fulfilled.match(action)) {
         setSearched(true);
         setNoResults(false);
@@ -25,10 +42,10 @@ const useItemFilter = () => {
     });
   };
 
-  const handleItemFilter = (category) => {
+  const handleItemFilter = (category, distance) => {
     console.log("category from HIF", category)
     setItems(allItems);
-    dispatch(fetchFilteredItems({ category})).then((action) => {
+    dispatch(fetchFilteredItems({ category, distance})).then((action) => {
       if (fetchFilteredItems.fulfilled.match(action)) {
         // setSearched(true);
         setNoResults(false);
@@ -48,6 +65,7 @@ const useItemFilter = () => {
     handleItemSearch,
     handleItemFilter,
     setItems,
+    handleAllItems
   };
 };
 

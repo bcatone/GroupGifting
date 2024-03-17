@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 resources :items do
   get :search, on: :collection
   get :filter, on: :collection
+   get :index, constraints: { distance: /\d+/ }
 end
   resources :direct_messages
   resources :friendship_connections
