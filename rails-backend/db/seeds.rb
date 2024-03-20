@@ -144,6 +144,35 @@
 #   )
 # end
 
+ZIP_CODE_CITIES = {
+  98345 => "Port Ludlow",
+  98311 => "Bremerton",
+  98310 => "Bremerton",
+  98119 => "Seattle",
+  98199 => "Seattle",
+  98109 => "Seattle",
+  98121 => "Seattle",
+  98101 => "Seattle",
+  98122 => "Seattle",
+  98174 => "Seattle",
+  98104 => "Seattle",
+  98100 => "Seattle",
+  98110 => "Bainbridge Island"
+  # Add more zip codes and corresponding cities as needed
+}
+
+Item.all.each do |item|
+    zip_code = item.zip.to_i
+    if ZIP_CODE_CITIES.key?(zip_code)
+      item.update(city: ZIP_CODE_CITIES[zip_code])
+item.save!
+    else
+      # Handle the case where the zip code is not found in the mapping
+      puts "City not found for zip code: #{zip_code}"
+    end
+
+  end
+
 
 
 

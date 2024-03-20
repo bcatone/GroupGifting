@@ -1,10 +1,10 @@
-import { ThemeOptions } from '@mui/material/styles';
+import { ThemeOptions } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#c7522a",
+      main: "#D2691E",
       contrastText: "#ffffff",
     },
     secondary: {
@@ -37,4 +37,4 @@ const themeOptions = {
   },
 };
 
-export default themeOptions
+export default themeOptions;

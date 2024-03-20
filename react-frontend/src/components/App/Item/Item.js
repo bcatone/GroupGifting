@@ -59,7 +59,7 @@ const Item = () => {
  
   const userZip = useSelector((state) => state.auth.user.zip);
 
-  console.log(userZip)
+console.log("Item from Item.js", item)
 
   const handleImageChange = (image) => {
     setMainImage(image);
@@ -152,15 +152,19 @@ const Item = () => {
             />
           ))}
         </div>
-        <div className="center">
-          {category && category.color && (
-            <CategoryButton
-              backgroundColor={category.color}
-              disableHover="true"
-            >
-              {item.category}
-            </CategoryButton>
-          )}
+        <div className="center" style={{ display: "flex" }}>
+          <div className="below-item-box">
+            {category && category.color && (
+              <CategoryButton
+                backgroundColor={category.color}
+                disableHover="true"
+                style={{ marginRight: "1em" }}
+              >
+                {item.category}
+              </CategoryButton>
+            )}{" "}
+          </div>
+          <CommonButton style={{marginTop:"1em"}}>Request Item</CommonButton>
           <Typography
             variant="h5"
             component="h4"
@@ -184,9 +188,6 @@ const Item = () => {
             <TimeDisplay timeObject={item.time_until_deadline} />
           </Typography>
         </div>
-      </div>
-      <div className="right">
-        <CommonButton>Request Item</CommonButton>
       </div>
 
       <div

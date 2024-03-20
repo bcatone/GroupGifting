@@ -126,7 +126,7 @@ end
   end
 
   def item_params
-    params.require(:item).permit(:title, :description, :status, :location, :recipient_id, :suggested_donation_amount, :is_public, :deadline, images: [])
+    params.require(:item).permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :is_public, :deadline, images: [])
   end
 
 #   took out images: []

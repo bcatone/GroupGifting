@@ -28,7 +28,7 @@
 /* 
 #E9D197 */
 body {
-  background-color: #fbf2c4;
+  background-color: FFFFFF;
   margin: 0;
   padding: 0;
 }
@@ -41,7 +41,7 @@ body {
   width: 350px;
   background-color:#74a892;
   display: flex;
-  height: 80vh;
+  height: 90vh;
   justify-content: center;
   flex-wrap: nowrap;
   padding: 20px;
@@ -57,9 +57,11 @@ body {
   margin-top: 1em;
 }
 
-.center {
-  text-align: center;
+.below-img-box{
+  flex-direction:row;
 }
+
+
 
 .center {
   display: flex;

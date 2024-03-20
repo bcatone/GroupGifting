@@ -16,8 +16,8 @@ export const getSidebarLinks = (pathname) => {
       {
         label: "Filter Options",
         links: [
-          { to: "/", label: "Example Link 1" },
-          { to: "/", label: "Example Link 2" },
+        //   { to: "/", label: "Example Link 1" },
+        //   { to: "/", label: "Example Link 2" },
         ],
       },
     ];

@@ -9,7 +9,7 @@ import { fetchAllItems } from "../../../redux/slices/itemSlice";
 const ItemLookup = () => {
   const dispatch = useDispatch();
 
-  const [noResults, setNoResults] = useState(false);
+
 
   /// To Do
   //◽️ Get loading set up on this page
@@ -17,16 +17,22 @@ const ItemLookup = () => {
   //◽️
 
   ////
-/// how could I get the distance param here??? Put it in useItemFilter??
+
   useEffect(() => {
-    dispatch(fetchAllItems());
+    dispatch(fetchAllItems(5));
   }, [dispatch]);
 
   const displayedItems = useSelector((state) => state.item.displayedItems);
 
+     const noResults = useSelector((state) => state.item.noResults);
+
   return (
     <>
-      <Container className="content clearfix" maxWidth="lg">
+      <Container
+        className="content clearfix"
+       
+        maxWidth="lg"
+      >
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Item Lookup
         </Typography>
@@ -36,12 +42,12 @@ const ItemLookup = () => {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           style={{ marginTop: "20px", width: "100%" }}
         >
-          {displayedItems && Array.isArray(displayedItems) ? (
+          {displayedItems.length > 0 && Array.isArray(displayedItems) ? (
             displayedItems.map((result, index) => (
               <BigResultCard key={index} result={result} index={index} />
             ))
           ) : (
-            <Typography variant="body1">Loading...</Typography>
+            <Typography>There were no results, please try again</Typography> 
           )}
         </Grid>
       </Container>

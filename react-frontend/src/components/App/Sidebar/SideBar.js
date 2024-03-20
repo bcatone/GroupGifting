@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   resetDisplayedItems,
   toggleSearched,
+  fetchAllItems,
 } from "../../../redux/slices/itemSlice";
 import CommonSquareButton from "../Common/CommonSquareButton";
 
@@ -16,22 +17,28 @@ const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
 
   const [selected, setSelected] = useState("");
-  const [distance, setDistance] = useState(5)
+  const [distance, setDistance] = useState(5);
 
   /// only button knows it's selected
 
+  const {
+    searchQuery,
+    setSearchQuery,
+    handleItemSearch,
+    handleItemFilter,
+    handleAllItems,
+  } = useItemFilter();
 
-  const { searchQuery, setSearchQuery, handleItemSearch, handleItemFilter, handleAllItems } =
-    useItemFilter();
+useEffect(() => {
+  if (selected !== "") {
+    handleItemFilter(selected, distance);
+  } else if (searchQuery !== "") {
+    handleItemSearch(searchQuery, distance);
+  } else {
+    handleAllItems(distance);
+  }
+}, [distance]);
 
-
-  useEffect(() => {
-    console.log("distance", distance);
-    if (distance){
-          handleAllItems(distance);
-    }
-
-  }, [distance]);
 
   const searched = useSelector((state) => state.item.searched);
   // const selectedCategory = useSelector((state) => state.item.selectedCategory);
@@ -50,17 +57,27 @@ const SideBar = ({ links, activeRoute }) => {
     }
   };
 
+  const handleClearAll = () => {
+    if (searched === true) {
+      dispatch(toggleSearched());
+    }
+    setSearchQuery("");
+    setSelected("");
+    // dispatch(resetDisplayedItems());
+    handleAllItems(distance);
+  };
+
   const handleClick = () => {
-    setSearchQuery("")
-   setSelected("");
+    setSearchQuery("");
+    setSelected("");
     dispatch(resetDisplayedItems());
-  }
+  };
 
   const handleButtonClick = (category) => {
     if (category.name === selected) {
       console.log("category was same as selected");
       setSelected("");
-      dispatch(resetDisplayedItems());
+      handleAllItems(distance)
     } else {
       setSelected(category.name);
       handleItemFilter(category.name, distance);
@@ -68,44 +85,53 @@ const SideBar = ({ links, activeRoute }) => {
   };
 
   const handleDistanceChange = (event, newValue) => {
-setDistance(newValue)
-console.log("value after HDC", newValue)
+    setDistance(newValue);
+    console.log("value after HDC", newValue);
 
-// If selected !== ("")
-if (selected !== ""){
-  // Resend filter request
-  handleItemFilter(category.name, newValue);
-}
+    // If selected !== ("") If a category is selected, filter with that category
+    // if (selected !== "") {
+    //   // Resend filter request
+    //   handleItemFilter(selected, newValue);
+    //   //  handleItemFilter(category.name, newValue);
 
-// If searchQuery !=("")
-if (searchQuery !== ""){
-// resend search request
-handleItemSearch(searchQuery, newValue)
-  }
-else {
-  // display all items in search radius
-  handleAllItems(newValue)
-}
-  }
+    //   /// NEED to have something if there are no results - it's a redux state
+    // }
 
+    // // If searchQuery !=("") If there is a searchQuery, search with that query
+    // if (selected === "" && searchQuery !== "") {
+    //   // resend search request
+    //   handleItemSearch(searchQuery, newValue);
 
+    //   /// NEED to have something if there are no results
+    // } else {
+    //   // display all items in search radius
+    //   // display no items
+    //   // handleAllItems(newValue);
+    //   dispatch(resetDisplayedItems());
+    // }
+  };
+
+  const handleShowAllItems = () => {
+    console.log("handleShowAllItems was pressed");
+    dispatch(fetchAllItems());
+  };
 
   const marks = [
     {
       value: 1,
-      label: "1 mi",
+      label: "0 mi",
     },
     {
-      value: 6,
-      label: "6 mi",
+      value: 5,
+      label: "5 mi",
     },
     {
-      value: 11,
-      label: "11 mi",
+      value: 10,
+      label: "10 mi",
     },
     {
-      value: 16,
-      label: "16 mi",
+      value: 15,
+      label: "15 mi",
     },
   ];
 
@@ -122,28 +148,30 @@ else {
           <ul>
             {activeRoute === `/items/all` && (
               <>
-                <div style={{ display: "flex", marginBottom: "1em" }}>
-                  <Typography variant="h5">Search:</Typography>
+                <div
+                  style={{
+                    display: "flex",
+                    marginBottom: "1em",
+                    height: "35px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: "130%" }}>Search:</Typography>
+
                   <input
                     type="search"
                     value={searchQuery}
                     onClick={() => handleClick()}
                     onChange={(e) => handleSearchInput(e)}
-                    style={{ width: "175px", height: "35px" }}
+                    style={{ width: "175px", height: "40px" }}
                   />
                   <CommonButton
+                    style={{ height: "40px" }}
                     onClick={() => handleItemSearch(searchQuery, distance)}
                   >
                     Submit
                   </CommonButton>
                 </div>
-                <div>
-                  <CommonSquareButton
-                    style={{ marginBottom: "1em", marginTop: "1em" }}
-                  >
-                    Clear All
-                  </CommonSquareButton>
-                </div>
+                <div></div>
                 <div>
                   {categories &&
                     categories.map((category) =>
@@ -173,46 +201,48 @@ else {
                       )
                     )}
                 </div>
+                <Box
+                  sx={{
+                    width: 350,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <CommonSquareButton
+                    style={{
+                      height: "40px",
+                      display: "flex",
+                      marginTop: "1em",
+                      marginBottom: "1em",
+                    }}
+                    onClick={() => handleClearAll()}
+                  >
+                    Clear All
+                  </CommonSquareButton>
+                  <h4>Distance away from your zip code</h4>
+                  <Slider
+                    aria-label="Custom marks"
+                    defaultValue={5}
+                    getAriaValueText={valuetext}
+                    step={1}
+                    max={20}
+                    min={1}
+                    value={distance}
+                    onChange={handleDistanceChange}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                  />
+                </Box>
+
+                <CommonButton
+                  style={{ marginBottom: "1em", marginTop: "1em" }}
+                  onClick={() => handleShowAllItems()}
+                >
+                  Show All Items Regardless
+                </CommonButton>
               </>
             )}
-            {group.links.map((link, i) => (
-              <li className="nodots" key={i}>
-                <Link
-                  to={link.to}
-                  className={
-                    activeRoute === link.to ? "active nodots" : "nodots"
-                  }
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <Box
-              sx={{
-                width: 200,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <h5>Distance away from your city</h5>
-              <Slider
-                aria-label="Custom marks"
-                defaultValue={5}
-                getAriaValueText={valuetext}
-                step={5}
-                max={20}
-                min={1}
-                value={distance}
-                onChange={handleDistanceChange}
-                valueLabelDisplay="auto"
-                marks={marks}
-              />
-            </Box>
-
-            <CommonButton style={{ marginBottom: "1em", marginTop: "1em" }}>
-              Show All Items Regardless
-            </CommonButton>
           </ul>
         </div>
       ))}

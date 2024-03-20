@@ -6,17 +6,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchAllItems = createAsyncThunk(
   "items/fetchAllItems",
   async (distance) => {
-    console.log("distance from fetchAllItems", distance)
+    console.log("distance from fetchAllItems", distance);
     try {
-      const response = await fetch(`/items?distance=${distance}`);
+      let response;
+      if (distance) {
+        response = await fetch(`/items?distance=${distance}`);
+      } else {
+        response = await fetch(`/items`);
+      }
+
       const data = await response.json();
-console.log("data from fetchAllItems", data)
+      console.log("data from fetchAllItems", data);
       return data;
     } catch (error) {
       throw error;
     }
   }
 );
+
 
 export const fetchItemById = createAsyncThunk(
   "items/fetchItemById",
@@ -57,14 +64,11 @@ export const fetchSearchedItems = createAsyncThunk(
 export const fetchFilteredItems = createAsyncThunk(
   "items/fetchFilteredItems",
   async ({ category, distance }) => {
-    // Modify the parameter to accept an object
-    console.log("fetchFilteredItems was triggered");
-    console.log("category and distance from FFI", category, distance);
     try {
-const encodedCategory = encodeURIComponent(category);
-console.log("encodedCategory from FFI", encodedCategory)
+      const encodedCategory = encodeURIComponent(category);
+
       const response = await fetch(
-        `/items/filter?category=${encodedCategory}&distance=${distance}` // Include distance in the query string
+        `/items/filter?category=${encodedCategory}&distance=${distance}` //
       );
       if (!response.ok) {
         throw new Error("Failed to fetch filtered items");
