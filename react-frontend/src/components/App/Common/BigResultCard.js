@@ -40,7 +40,7 @@ const BigResultCard = ({ result, index }) => {
               component="img"
               style={{
                 maxHeight: `${260}px`,
-                maxWidth: `345px`,
+                maxWidth: `300px`,
                 // borderRadius: "5px",
                 objectFit: "contain",
                 justifyContent: "center",

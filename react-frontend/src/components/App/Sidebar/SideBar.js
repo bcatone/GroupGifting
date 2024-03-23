@@ -86,29 +86,6 @@ useEffect(() => {
 
   const handleDistanceChange = (event, newValue) => {
     setDistance(newValue);
-    console.log("value after HDC", newValue);
-
-    // If selected !== ("") If a category is selected, filter with that category
-    // if (selected !== "") {
-    //   // Resend filter request
-    //   handleItemFilter(selected, newValue);
-    //   //  handleItemFilter(category.name, newValue);
-
-    //   /// NEED to have something if there are no results - it's a redux state
-    // }
-
-    // // If searchQuery !=("") If there is a searchQuery, search with that query
-    // if (selected === "" && searchQuery !== "") {
-    //   // resend search request
-    //   handleItemSearch(searchQuery, newValue);
-
-    //   /// NEED to have something if there are no results
-    // } else {
-    //   // display all items in search radius
-    //   // display no items
-    //   // handleAllItems(newValue);
-    //   dispatch(resetDisplayedItems());
-    // }
   };
 
   const handleShowAllItems = () => {
@@ -133,6 +110,8 @@ useEffect(() => {
       value: 15,
       label: "15 mi",
     },
+    {value: 20,
+    label: "20 mi"}
   ];
 
   function valuetext(value) {

@@ -164,7 +164,7 @@ console.log("Item from Item.js", item)
               </CategoryButton>
             )}{" "}
           </div>
-          <CommonButton style={{marginTop:"1em"}}>Request Item</CommonButton>
+          <CommonButton style={{ marginTop: "1em" }}>Request Item</CommonButton>
           <Typography
             variant="h5"
             component="h4"
