@@ -11,6 +11,7 @@ const CategoryButton = ({
   style,
   value,
   backgroundColor,
+  className,
   type = "button",
   disableHover = false,
 }) => {
@@ -65,6 +66,7 @@ const CategoryButton = ({
       onClick={onClick}
       type={type}
       value={value}
+      className={className}
     >
       {children}
     </Button>

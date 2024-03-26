@@ -296,3 +296,14 @@ label:hover,
 .upload-image{
   margin-left: em;
 }
+
+.selected-category {
+  border: 3px solid black;
+  font-weight: bold;
+  color: white;
+}
+
+.unselected-category {
+  font-weight: normal;
+  color: black;
+}

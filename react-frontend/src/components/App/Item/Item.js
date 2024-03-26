@@ -6,6 +6,8 @@ import CommonButton from "../Common/CommonButton";
 import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../Common/categories";
 import CategoryButton from "../Common/CategoryButton";
+import Calendar from "react-calendar";
+
 
 const Item = () => {
   const params = useParams();
@@ -233,6 +235,7 @@ console.log("Item from Item.js", item)
             </div>
           ) : null}
         </div>
+
       </div>
     </>
   );
