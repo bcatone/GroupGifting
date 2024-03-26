@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Typography, Slider, Box } from "@mui/material";
-import CommonButton from "../Common/CommonButton";
-import useItemFilter from "../Item/useItemFilter";
-import CategoryButton from "../Common/CategoryButton";
-import { categories } from "../Common/categories";
+import CommonButton from "../../App/Common/CommonButton";
+import useItemFilter from "../../App/useItemFilter";
+import CategoryButton from "../../App/Common/CategoryButton";
+import { categories } from "../../App/Common/categories";
 import { useSelector, useDispatch } from "react-redux";
 import {
   resetDisplayedItems,
   toggleSearched,
   fetchAllItems,
 } from "../../../redux/slices/itemSlice";
-import CommonSquareButton from "../Common/CommonSquareButton";
+import CommonSquareButton from "../../App/Common/CommonSquareButton";
 
 const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
@@ -29,16 +29,15 @@ const SideBar = ({ links, activeRoute }) => {
     handleAllItems,
   } = useItemFilter();
 
-useEffect(() => {
-  if (selected !== "") {
-    handleItemFilter(selected, distance);
-  } else if (searchQuery !== "") {
-    handleItemSearch(searchQuery, distance);
-  } else {
-    handleAllItems(distance);
-  }
-}, [distance]);
-
+  useEffect(() => {
+    if (selected !== "") {
+      handleItemFilter(selected, distance);
+    } else if (searchQuery !== "") {
+      handleItemSearch(searchQuery, distance);
+    } else {
+      handleAllItems(distance);
+    }
+  }, [distance]);
 
   const searched = useSelector((state) => state.item.searched);
   // const selectedCategory = useSelector((state) => state.item.selectedCategory);
@@ -77,7 +76,7 @@ useEffect(() => {
     if (category.name === selected) {
       console.log("category was same as selected");
       setSelected("");
-      handleAllItems(distance)
+      handleAllItems(distance);
     } else {
       setSelected(category.name);
       handleItemFilter(category.name, distance);
@@ -110,8 +109,7 @@ useEffect(() => {
       value: 15,
       label: "15 mi",
     },
-    {value: 20,
-    label: "20 mi"}
+    { value: 20, label: "20 mi" },
   ];
 
   function valuetext(value) {

@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Typography, Dialog, DialogContent } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { fetchItemById } from "../../../redux/slices/itemSlice";
-import CommonButton from "../Common/CommonButton";
+import CommonButton from "../../App/Common/CommonButton";
 import { useDispatch, useSelector } from "react-redux";
-import { categories } from "../Common/categories";
-import CategoryButton from "../Common/CategoryButton";
+import { categories } from "../../App/Common/categories";
+import CategoryButton from "../../App/Common/CategoryButton";
 import Calendar from "react-calendar";
-
 
 const Item = () => {
   const params = useParams();
@@ -58,10 +57,9 @@ const Item = () => {
 
   const auth = useSelector((state) => state.auth);
 
- 
   const userZip = useSelector((state) => state.auth.user.zip);
 
-console.log("Item from Item.js", item)
+  console.log("Item from Item.js", item);
 
   const handleImageChange = (image) => {
     setMainImage(image);
@@ -235,7 +233,6 @@ console.log("Item from Item.js", item)
             </div>
           ) : null}
         </div>
-
       </div>
     </>
   );

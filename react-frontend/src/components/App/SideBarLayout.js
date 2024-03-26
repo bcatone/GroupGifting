@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import SideBar from "./SideBar";
+import SideBar from "../pages/Sidebar/SideBar";
 import { getSidebarLinks } from "./getSidebarLinks";
 
 const SideBarLayout = () => {

@@ -138,7 +138,7 @@ export const addItemToApi = createAsyncThunk(
       }
 
       const data = await response.json();
-
+console.log("data from addItemToApi", data)
       return data;
     } catch (error) {
       throw error;

@@ -11,8 +11,8 @@ import {
   Radio,
 } from "@mui/material";
 import useControlledForm from "../../hooks/useControlledForm";
-import { categories } from "../Common/categories";
-import CategoryButton from "../Common/CategoryButton";
+import { categories } from "../../App/Common/categories";
+import CategoryButton from "../../App/Common/CategoryButton";
 import { useSelector, useDispatch } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -22,7 +22,7 @@ const GiveAwayItem = () => {
   const { formData, errors, isFormValid, handleInputChange, resetForm } =
     useControlledForm();
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -42,8 +42,6 @@ const GiveAwayItem = () => {
     setCity(user.city);
   }, []);
 
-
-
   // useEffect(() => {
   //   console.log("selectedImages", selectedImages);
   // }, [selectedImages]);
@@ -51,7 +49,7 @@ const GiveAwayItem = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-console.log("formdata from handleSubmit", formData)
+    console.log("formdata from handleSubmit", formData);
 
     if (!selectedCategory) {
       alert("Please select a category");
@@ -66,6 +64,7 @@ console.log("formdata from handleSubmit", formData)
     dispatch(addItemToApi(formData))
       .then((action) => {
         if (addItemToApi.fulfilled.match(action)) {
+          console.log("addItemToApi was dispatched!");
           resetForm();
           // eventually navigate to Look for Items Page
         } else if (addItemToApi.rejected.match(action)) {
@@ -175,22 +174,15 @@ console.log("formdata from handleSubmit", formData)
     setDate(date);
   };
 
-  // const boxStyle = {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   alignItems: "flex-start",
-  // };
-
   return (
     <div style={{ marginTop: "2em" }}>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Give away an Item
         </Typography>
-           <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={12} lg={12}>
-         
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12} lg={12}>
               <TextField
                 label="Title"
                 name="title"
@@ -248,191 +240,200 @@ console.log("formdata from handleSubmit", formData)
                   ))}
                 </Grid>
               </div>
-            {/* </form> */}
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <Typography variant="h5" style={{ marginTop: ".75em" }}>
-              Select Pictures (Up to 5):
-            </Typography>
-            <Typography variant="h5" style={{ marginTop: ".75em" }}>
-              The first image will be the main displayed image
-            </Typography>
-            <section className="left">
-              <label className="input-label">
-                + Add Images
+              {/* </form> */}
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Typography variant="h5" style={{ marginTop: ".75em" }}>
+                Select Pictures (Up to 5):
+              </Typography>
+              <Typography variant="h5" style={{ marginTop: ".75em" }}>
+                The first image will be the main displayed image
+              </Typography>
+              <section className="left">
+                <label className="input-label">
+                  + Add Images
+                  <br />
+                  <span>up to 5 images</span>
+                  <input
+                    className="file-input"
+                    type="file"
+                    name="images"
+                    onChange={onSelectFile}
+                    multiple
+                    accept="image/png , image/jpeg, image/webp"
+                  />
+                </label>
                 <br />
-                <span>up to 5 images</span>
+                {selectedImages.length > 0 &&
+                  (selectedImages.length > 5 ? (
+                    <p className="error">
+                      You can't upload more than 5 images! <br />
+                      <span>
+                        please delete <b> {selectedImages.length - 10} </b> of
+                        them{" "}
+                      </span>
+                    </p>
+                  ) : null)}
+              </section>
+              <Grid container spacing={2} className="images">
+                {selectedImages &&
+                  selectedImages.map((image, index) => (
+                    <Grid item xs={12} md={6} lg={4} key={image}>
+                      <div>
+                        <img
+                          src={image}
+                          alt="upload"
+                          style={{ maxWidth: "100%", height: "auto" }}
+                        />
+                        <button
+                          onClick={() => deleteHandler(image, selectedImages)}
+                        >
+                          delete image
+                        </button>
+                        <p>{index + 1}</p>
+                      </div>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
+                <Typography variant="h5" style={{ marginRight: ".5em" }}>
+                  Zip Code:
+                </Typography>
                 <input
-                  className="file-input"
-                  type="file"
-                  name="images"
-                  onChange={onSelectFile}
-                  multiple
-                  accept="image/png , image/jpeg, image/webp"
+                  type="text"
+                  style={{
+                    marginRight: "1em",
+                    fontSize: "20px",
+                    color: "black",
+                    backgroundColor: editZip ? "white" : "gray",
+                  }}
+                  disabled={!editZip} // Disable input when editZip is false
+                  onChange={handleChangeZip}
+                  value={zip}
+                  required
                 />
-              </label>
-              <br />
-              {selectedImages.length > 0 &&
-                (selectedImages.length > 5 ? (
-                  <p className="error">
-                    You can't upload more than 5 images! <br />
-                    <span>
-                      please delete <b> {selectedImages.length - 10} </b> of
-                      them{" "}
-                    </span>
-                  </p>
-                ) : null)}
-            </section>
-            <Grid container spacing={2} className="images">
-              {selectedImages &&
-                selectedImages.map((image, index) => (
-                  <Grid item xs={12} md={6} lg={4} key={image}>
-                    <div>
-                      <img
-                        src={image}
-                        alt="upload"
-                        style={{ maxWidth: "100%", height: "auto" }}
-                      />
-                      <button
-                        onClick={() => deleteHandler(image, selectedImages)}
-                      >
-                        delete image
-                      </button>
-                      <p>{index + 1}</p>
-                    </div>
-                  </Grid>
-                ))}
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-              <Typography variant="h5" style={{ marginRight: ".5em" }}>
-                Zip Code:
-              </Typography>
-              <input
-                type="text"
-                style={{
-                  marginRight: "1em",
-                  fontSize: "20px",
-                  color: "black",
-                  backgroundColor: editZip ? "white" : "gray",
-                }}
-                disabled={!editZip} // Disable input when editZip is false
-                onChange={handleChangeZip}
-                value={zip}
-                required
-              />
 
-              <Button onClick={() => setEditZip(true)}>
-                <Typography
-                  variant="h5"
-                  style={{ marginRight: "1em", transform: "scaleX(-1)" }}
-                >
-                  ✏️
+                <Button onClick={() => setEditZip(true)}>
+                  <Typography
+                    variant="h5"
+                    style={{ marginRight: "1em", transform: "scaleX(-1)" }}
+                  >
+                    ✏️
+                  </Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
+                <Typography variant="h5" style={{ marginRight: ".75em" }}>
+                  City:
                 </Typography>
-              </Button>
+                <input
+                  type="text"
+                  style={{
+                    marginRight: "1em",
+                    fontSize: "20px",
+                    color: "black",
+                    backgroundColor: editCity ? "white" : "gray",
+                  }}
+                  disabled={!editCity} // Disable input when editZip is false
+                  onChange={handleChangeCity}
+                  value={city}
+                  required
+                />
+                <Button onClick={() => setEditCity(true)}>
+                  <Typography
+                    variant="h5"
+                    style={{ marginRight: "1em", transform: "scaleX(-1)" }}
+                  >
+                    ✏️
+                  </Typography>
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-              <Typography variant="h5" style={{ marginRight: ".75em" }}>
-                City:
+            <Grid item xs={12} md={12}>
+              <Typography variant="h5" style={{ marginTop: ".75em" }}>
+                Duration of Listing:
               </Typography>
-              <input
-                type="text"
-                style={{
-                  marginRight: "1em",
-                  fontSize: "20px",
-                  color: "black",
-                  backgroundColor: editCity ? "white" : "gray",
-                }}
-                disabled={!editCity} // Disable input when editZip is false
-                onChange={handleChangeCity}
-                value={city}
+              <RadioGroup
+                aria-label="image"
+                name="image"
+                value={duration}
                 required
-              />
-              <Button onClick={() => setEditCity(true)}>
-                <Typography
-                  variant="h5"
-                  style={{ marginRight: "1em", transform: "scaleX(-1)" }}
-                >
-                  ✏️
-                </Typography>
-              </Button>
+                onChange={(event) => {
+                  const value = event.target.value;
+                  if (value === "custom") {
+                    handleCustomOption();
+                    setDuration("custom"); // Call your custom function here
+                  } else {
+                    const weeks = durationMap[value];
+                    handleDurationChange(weeks);
+                    setDuration(value);
+                  }
+                }}
+              >
+                <FormControlLabel
+                  value="1"
+                  control={<Radio />}
+                  label="1 Week"
+                />
+                <FormControlLabel
+                  value="2"
+                  control={<Radio />}
+                  label="2 Weeks"
+                />
+                <FormControlLabel
+                  value="3"
+                  label="3 Weeks"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  value="custom"
+                  control={<Radio />}
+                  label="Custom"
+                />
+              </RadioGroup>
+              {calendar ? (
+                <div>
+                  <Calendar onChange={handleSetDate} minDate={new Date()} />
+                </div>
+              ) : null}
+              <Typography variant="h5" style={{ marginTop: ".75em" }}>
+                Giving Method:
+              </Typography>
+              <RadioGroup
+                aria-label="image"
+                name="image"
+                value={giveMethod}
+                required
+                onChange={(event) => {
+                  setGiveMethod(event.target.value);
+                }}
+              >
+                <FormControlLabel
+                  value="I Choose"
+                  control={<Radio />}
+                  label="I Choose the Recipent"
+                />
+                <FormControlLabel
+                  value="Dice"
+                  control={<Radio />}
+                  label="Roll the Dice"
+                />
+              </RadioGroup>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={12}>
-            <Typography variant="h5" style={{ marginTop: ".75em" }}>
-              Duration of Listing:
-            </Typography>
-            <RadioGroup
-              aria-label="image"
-              name="image"
-              value={duration}
-              required
-              onChange={(event) => {
-                const value = event.target.value;
-                if (value === "custom") {
-                  handleCustomOption();
-                  setDuration("custom"); // Call your custom function here
-                } else {
-                  const weeks = durationMap[value];
-                  handleDurationChange(weeks);
-                  setDuration(value);
-                }
-              }}
-            >
-              <FormControlLabel value="1" control={<Radio />} label="1 Week" />
-              <FormControlLabel value="2" control={<Radio />} label="2 Weeks" />
-              <FormControlLabel value="3" label="3 Weeks" control={<Radio />} />
-              <FormControlLabel
-                value="custom"
-                control={<Radio />}
-                label="Custom"
-              />
-            </RadioGroup>
-            {calendar ? (
-              <div>
-                <Calendar onChange={handleSetDate} minDate={new Date()} />
-              </div>
-            ) : null}
-            <Typography variant="h5" style={{ marginTop: ".75em" }}>
-              Giving Method:
-            </Typography>
-            <RadioGroup
-              aria-label="image"
-              name="image"
-              value={giveMethod}
-              required
-              onChange={(event) => {
-                setGiveMethod(event.target.value);
-              }}
-            >
-              <FormControlLabel
-                value="I Choose"
-                control={<Radio />}
-                label="I Choose the Recipent"
-              />
-              <FormControlLabel
-                value="Dice"
-                control={<Radio />}
-                label="Roll the Dice"
-              />
-            </RadioGroup>
-           
-          
-          </Grid>
-
-        </Grid>
-         <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              // disabled={!isFormValid}
-              style={{marginTop:"1em"}}
-              className="submit-button"
-            >
-              Submit
-            </Button>
-                  </form>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            // disabled={!isFormValid}
+            style={{ marginTop: "1em" }}
+            className="submit-button"
+          >
+            Submit
+          </Button>
+        </form>
       </Container>
     </div>
   );

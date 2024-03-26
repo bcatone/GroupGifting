@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSearchedItems, fetchFilteredItems, fetchAllItems } from "../../../redux/slices/itemSlice";
+import {
+  fetchSearchedItems,
+  fetchFilteredItems,
+  fetchAllItems,
+} from "../../redux/slices/itemSlice";
 
 const useItemFilter = () => {
   const dispatch = useDispatch();
@@ -9,29 +13,26 @@ const useItemFilter = () => {
   const [noResults, setNoResults] = useState(false);
   const [searched, setSearched] = useState(false);
 
-    const allItems = useSelector((state) => state.item.allItems);
+  const allItems = useSelector((state) => state.item.allItems);
 
-// const handleAllItems = (distance) => {
-//     console.log("distance from handleAllItems", distance)
-//     fetchAllItems(distance)
-// }
+  // const handleAllItems = (distance) => {
+  //     console.log("distance from handleAllItems", distance)
+  //     fetchAllItems(distance)
+  // }
 
-const handleAllItems = (distance) => {
-  console.log("distance from handleAllItems", distance);
-  dispatch(fetchAllItems(distance)).then((action) => {
-    if (fetchAllItems.fulfilled.match(action)) {
-  console.log("fetchAllItems Was successful! 🙏")
-    } else if (fetchAllItems.rejected.match(action)) {
-console.log("fetchAllItems was unsuccessful 🤨")
-    }
-  });
-};
-
-
-
+  const handleAllItems = (distance) => {
+    console.log("distance from handleAllItems", distance);
+    dispatch(fetchAllItems(distance)).then((action) => {
+      if (fetchAllItems.fulfilled.match(action)) {
+        console.log("fetchAllItems Was successful! 🙏");
+      } else if (fetchAllItems.rejected.match(action)) {
+        console.log("fetchAllItems was unsuccessful 🤨");
+      }
+    });
+  };
 
   const handleItemSearch = (searchQuery, distance) => {
-    setItems(allItems)
+    setItems(allItems);
     dispatch(fetchSearchedItems({ searchQuery, distance })).then((action) => {
       if (fetchSearchedItems.fulfilled.match(action)) {
         setSearched(true);
@@ -43,9 +44,9 @@ console.log("fetchAllItems was unsuccessful 🤨")
   };
 
   const handleItemFilter = (category, distance) => {
-    console.log("category from HIF", category)
+    console.log("category from HIF", category);
     setItems(allItems);
-    dispatch(fetchFilteredItems({ category, distance})).then((action) => {
+    dispatch(fetchFilteredItems({ category, distance })).then((action) => {
       if (fetchFilteredItems.fulfilled.match(action)) {
         // setSearched(true);
         setNoResults(false);
@@ -54,7 +55,6 @@ console.log("fetchAllItems was unsuccessful 🤨")
       }
     });
   };
-
 
   return {
     items,
@@ -65,7 +65,7 @@ console.log("fetchAllItems was unsuccessful 🤨")
     handleItemSearch,
     handleItemFilter,
     setItems,
-    handleAllItems
+    handleAllItems,
   };
 };
 
