@@ -36,6 +36,26 @@ class ChatChannel < ApplicationCable::Channel
       end
     end
 
+    def edit_direct_message
+      id = data["id"]
+      content = data["content"]
+
+      message = DirectMessage.find(id)
+      message.update(content: content)
+      formatted_message = format_message(message, message.sender.id, message.receiver.id)
+
+      broadcast_data = { type: "message_updated", message: message}
+
+      if message.valid
+        ActionCable.server.broadcast("messages_#{sender_id}", broadcast_data)
+        ActionCable.server.broadcast("messages_#{receiver_id}", broadcast_data)
+      else
+        ActionCable.server.broadcast("messages_#{sender_id}", { error: "Failed to update message" })
+      end
+
+
+    end
+
     def delete_direct_message(data)
       puts "Deleting #{data}..."
       puts "id: #{data["id"]}"
