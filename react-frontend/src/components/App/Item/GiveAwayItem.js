@@ -22,6 +22,7 @@ const GiveAwayItem = () => {
   const { formData, errors, isFormValid, handleInputChange, resetForm } =
     useControlledForm();
 
+    const dispatch = useDispatch()
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -41,28 +42,33 @@ const GiveAwayItem = () => {
     setCity(user.city);
   }, []);
 
-  useEffect(() => {
-    console.log("formdata", formData);
-  }, [formData]);
 
-  useEffect(() => {
-    console.log("selectedImages", selectedImages);
-  }, [selectedImages]);
+
+  // useEffect(() => {
+  //   console.log("selectedImages", selectedImages);
+  // }, [selectedImages]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+console.log("formdata from handleSubmit", formData)
 
     if (!selectedCategory) {
       alert("Please select a category");
       return;
     }
 
+    if (!selectedImages) {
+      alert("Please add at least 1 picture");
+      return;
+    }
+
     dispatch(addItemToApi(formData))
       .then((action) => {
-        if (addEntryToApi.fulfilled.match(action)) {
+        if (addItemToApi.fulfilled.match(action)) {
           resetForm();
           // eventually navigate to Look for Items Page
-        } else if (addEntryToApi.rejected.match(action)) {
+        } else if (addItemToApi.rejected.match(action)) {
           const error = action.error.message;
           console.error("Error during addEntryToApi:", error);
           const errorObject = JSON.parse(error);
@@ -169,25 +175,22 @@ const GiveAwayItem = () => {
     setDate(date);
   };
 
-  const boxStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-  };
+  // const boxStyle = {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   alignItems: "flex-start",
+  // };
 
   return (
     <div style={{ marginTop: "2em" }}>
       <Container maxWidth="lg">
-        <Typography
-          variant="h4"
-          align="center"
-          style={{ marginTop: "50px", magrinBottom: "2em" }}
-        >
+        <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
           Give away an Item
         </Typography>
+           <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12} lg={12}>
-            <form onSubmit={handleSubmit}>
+         
               <TextField
                 label="Title"
                 name="title"
@@ -197,6 +200,7 @@ const GiveAwayItem = () => {
                 onChange={handleInputChange}
                 value={formData.title || ""}
                 required
+                style={{ marginBottom: "1em", marginTop: "1em" }}
               />
               <TextField
                 label="Description"
@@ -209,9 +213,12 @@ const GiveAwayItem = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 required
+                style={{ marginBottom: "1em" }}
               />
               <div>
-                <Typography variant="h5">Category:</Typography>
+                <Typography variant="h5" style={{ marginBottom: ".5em" }}>
+                  Category:
+                </Typography>
                 <Grid container spacing={1}>
                   {categories.map((category) => (
                     <Grid item key={category.name}>
@@ -241,7 +248,7 @@ const GiveAwayItem = () => {
                   ))}
                 </Grid>
               </div>
-            </form>
+            {/* </form> */}
           </Grid>
           <Grid item xs={12} md={12} lg={12}>
             <Typography variant="h5" style={{ marginTop: ".75em" }}>
@@ -360,6 +367,7 @@ const GiveAwayItem = () => {
               aria-label="image"
               name="image"
               value={duration}
+              required
               onChange={(event) => {
                 const value = event.target.value;
                 if (value === "custom") {
@@ -372,19 +380,9 @@ const GiveAwayItem = () => {
                 }
               }}
             >
-              <FormControlLabel
-                value="1"
-                control={<Radio />}
-                label="1 Week"
-                required
-              />
+              <FormControlLabel value="1" control={<Radio />} label="1 Week" />
               <FormControlLabel value="2" control={<Radio />} label="2 Weeks" />
-              <FormControlLabel
-                value="3"
-                control={<Radio />}
-                label="3 Weeks"
-                required
-              />
+              <FormControlLabel value="3" label="3 Weeks" control={<Radio />} />
               <FormControlLabel
                 value="custom"
                 control={<Radio />}
@@ -403,6 +401,7 @@ const GiveAwayItem = () => {
               aria-label="image"
               name="image"
               value={giveMethod}
+              required
               onChange={(event) => {
                 setGiveMethod(event.target.value);
               }}
@@ -411,7 +410,6 @@ const GiveAwayItem = () => {
                 value="I Choose"
                 control={<Radio />}
                 label="I Choose the Recipent"
-                required
               />
               <FormControlLabel
                 value="Dice"
@@ -419,16 +417,22 @@ const GiveAwayItem = () => {
                 label="Roll the Dice"
               />
             </RadioGroup>
-            <Button
+           
+          
+          </Grid>
+
+        </Grid>
+         <Button
               type="submit"
               variant="contained"
               color="primary"
-              disabled={!isFormValid}
+              // disabled={!isFormValid}
+              style={{marginTop:"1em"}}
+              className="submit-button"
             >
               Submit
             </Button>
-          </Grid>
-        </Grid>
+                  </form>
       </Container>
     </div>
   );

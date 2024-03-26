@@ -39,7 +39,7 @@ body {
   margin-left: 5%; /* Set margin on all sides except right */
   /* margin-right: 3%; */
   width: 350px;
-  background-color:#74a892;
+  background-color: #74a892;
   display: flex;
   height: 90vh;
   justify-content: center;
@@ -57,11 +57,9 @@ body {
   margin-top: 1em;
 }
 
-.below-img-box{
-  flex-direction:row;
+.below-img-box {
+  flex-direction: row;
 }
-
-
 
 .center {
   display: flex;
@@ -80,7 +78,7 @@ body {
 .small-image-box {
   margin-top: 1em;
   justify-content: center;
-  display:flex;
+  display: flex;
 }
 
 /* .SideBar > ul > li {
@@ -113,8 +111,6 @@ background-color: aqua;
   flex-wrap: nowrap;
   padding-left: 270px;
 }
-
-
 
 #yarnpic {
   display: inline-flex;
@@ -220,24 +216,21 @@ img {
 }
 
 .image-container {
-  width: 50%; 
- 
-  margin-left:200px;
-  margin-top: 20px; 
+  width: 50%;
+
+  margin-left: 200px;
+  margin-top: 20px;
 }
 
 .image {
-
-    width: 100%; 
-  height: auto; 
+  width: 100%;
+  height: auto;
   display: block;
 
   margin: 1rem 0.5rem;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-}  
-
-
+}
 
 .image button {
   position: absolute;
@@ -293,7 +286,7 @@ label:hover,
   padding-left: 150px;
 } */
 
-.upload-image{
+.upload-image {
   margin-left: em;
 }
 
@@ -306,4 +299,12 @@ label:hover,
 .unselected-category {
   font-weight: normal;
   color: black;
+}
+
+.marg-b-1 {
+  margin-bottom: 1em;
+}
+
+Grid Button .submit-button {
+  margin-top:1em;
 }
