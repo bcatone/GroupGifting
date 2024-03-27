@@ -45,5 +45,11 @@ group :development do
   # gem "spring"
 end
 
+gem 'faker'
+
+gem 'time_difference'
+
+gem 'geocoder'
 
 gem "active_model_serializers", "~> 0.10.14"
+

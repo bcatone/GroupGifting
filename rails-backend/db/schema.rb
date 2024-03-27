@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema[7.1].define(version: 2024_03_17_233813) do
+=======
 ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
+>>>>>>> dev
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,9 +46,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+<<<<<<< HEAD
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "item_id"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "direct_messages", force: :cascade do |t|
+    t.bigint "receiver_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_direct_messages_on_receiver_id"
+=======
   create_table "direct_messages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+>>>>>>> dev
   end
 
   create_table "friendship_connections", force: :cascade do |t|
@@ -83,6 +103,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
     t.index ["group_host_id"], name: "index_groups_on_group_host_id"
   end
 
+<<<<<<< HEAD
+  create_table "items", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "category"
+    t.integer "zip"
+    t.string "status"
+    t.bigint "recipient_id"
+    t.integer "suggested_donation_amount"
+    t.boolean "is_public"
+    t.datetime "deadline"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "city"
+=======
   create_table "message_views", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "message_id", null: false
@@ -91,6 +129,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
     t.datetime "updated_at", null: false
     t.index ["message_id"], name: "index_message_views_on_message_id"
     t.index ["user_id"], name: "index_message_views_on_user_id"
+>>>>>>> dev
   end
 
   create_table "messages", force: :cascade do |t|
@@ -99,10 +138,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
+=======
     t.string "receiver_type"
     t.bigint "receiver_id"
     t.boolean "is_viewed", default: false
     t.index ["receiver_type", "receiver_id"], name: "index_messages_on_receiver"
+>>>>>>> dev
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
@@ -130,10 +172,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+<<<<<<< HEAD
+  add_foreign_key "direct_messages", "users", column: "receiver_id"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "group_memberships", "users"
+  add_foreign_key "group_messages", "groups"
+=======
   add_foreign_key "group_memberships", "groups"
   add_foreign_key "group_memberships", "users"
   add_foreign_key "group_messages", "groups"
   add_foreign_key "message_views", "messages"
   add_foreign_key "message_views", "users"
+>>>>>>> dev
   add_foreign_key "messages", "users", column: "sender_id"
 end

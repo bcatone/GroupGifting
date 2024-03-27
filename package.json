@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chroma-console": "^1.0.30",
     "npm-run-all": "^4.1.5"
   }
 }

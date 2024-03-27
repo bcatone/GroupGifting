@@ -14,7 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useContext } from "react";
-import themeOptions from "../../utils/themeOptions";
+import themeOptions from "../utils/themeOptions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/actions/authActions";
@@ -107,8 +107,8 @@ const NavBar = () => {
     <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
-        <Box
+          <Toolbar disableGutters sx={{ justifyContent: "flex-end" }}>
+            <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -120,7 +120,7 @@ const NavBar = () => {
                 variant="h5"
                 noWrap
                 component="a"
-                onClick={() => navigate("main/")}
+                onClick={() => navigate("/main/about")}
                 sx={{
                   fontFamily: "arial",
                   fontWeight: 600,
@@ -137,7 +137,7 @@ const NavBar = () => {
                 variant="p"
                 noWrap
                 component="a"
-                onClick={() => navigate("items/")}
+                onClick={() => navigate("items/new")}
                 sx={{
                   fontFamily: "",
                   fontWeight: 500,
@@ -146,56 +146,16 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "15px"
+                  marginLeft: "10px",
                 }}
               >
-                Look for Items
+                Give Away Items
               </Typography>
-              {user ? 
-              <>
-              <Typography
-              variant="p"
-              noWrap
-              component="a"
-              onClick={() => navigate("items/give")}
-              sx={{
-                fontFamily: "",
-                fontWeight: 500,
-                color: "inherit",
-                textDecoration: "none",
-                "&:hover": {
-                  cursor: "pointer",
-                },
-                marginLeft: "15px"
-              }}
-            >
-              Give Items
-            </Typography>
-            <Typography
-            variant="p"
-            noWrap
-            component="a"
-            onClick={() => navigate("connections/")}
-            sx={{
-              fontFamily: "",
-              fontWeight: 500,
-              color: "inherit",
-              textDecoration: "none",
-              "&:hover": {
-                cursor: "pointer",
-              },
-              marginLeft: "15px"
-            }}
-          >
-            Connections
-          </Typography>
-          </>
-           : null }
               <Typography
                 variant="p"
                 noWrap
                 component="a"
-                onClick={() => navigate("donate/")}
+                onClick={() => navigate("/items/all")}
                 sx={{
                   fontFamily: "",
                   fontWeight: 500,
@@ -204,16 +164,51 @@ const NavBar = () => {
                   "&:hover": {
                     cursor: "pointer",
                   },
-                  marginLeft: "15px"
+                  marginLeft: "10px",
+                }}
+              >
+                Look for Items
+              </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/main/about")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px",
                 }}
               >
                 Donation Info
               </Typography>
+              <Typography
+                variant="p"
+                noWrap
+                component="a"
+                onClick={() => navigate("/main/about")}
+                sx={{
+                  fontFamily: "",
+                  fontWeight: 500,
+                  color: "inherit",
+                  textDecoration: "none",
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                  marginLeft: "10px",
+                }}
+              >
+                Connections
+              </Typography>
+              {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
-          
-            
             {/* USER MENU AND ITEMS */}
-            <Box sx={{ display: "flex", alignItems:"center" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt={"user here"} src={"user image"} />

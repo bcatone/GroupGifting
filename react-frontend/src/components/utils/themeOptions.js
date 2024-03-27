@@ -1,17 +1,18 @@
 import { ThemeOptions } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#C56824",
+      main: "#5C96E2",
       contrastText: "#ffffff",
     },
     secondary: {
       main: "#c93860",
     },
     background: {
-      default: "#e4ecff",
+      default: "#EADEB8",
       paper: "#ffffff",
     },
     error: {
@@ -36,5 +37,7 @@ const themeOptions = {
     },
   },
 };
+
+export const theme = createTheme(themeOptions);
 
 export default themeOptions;

@@ -13,8 +13,7 @@
 .html {
   width: 100vh;
   height: 100vh;
-} 
-
+}
 
 .App {
   width: 100vw;
@@ -29,7 +28,7 @@
 /* 
 #E9D197 */
 body {
-  background-color: #EADEB8;
+  background-color: FFFFFF;
   margin: 0;
   padding: 0;
 }
@@ -38,54 +37,62 @@ body {
   margin-top: 5%;
   margin-bottom: 5%;
   margin-left: 5%; /* Set margin on all sides except right */
-  margin-right: 5%;
-  width: 250px;
-  background-color: #A09F57;
+  /* margin-right: 3%; */
+  width: 350px;
+  background-color: #74a892;
   display: flex;
-  height: 80vh; 
+  height: 90vh;
   justify-content: center;
-  flex-wrap:nowrap;
-  padding: 20px; /* Adjust padding as needed */
+  flex-wrap: nowrap;
+  padding: 20px;
+  /* position: fixed; */
 }
 
+.item-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  margin-top: 1em;
+}
 
+.below-img-box {
+  flex-direction: row;
+}
 
-
-
-
-
-.center{
-  display:flex;
-  flex-direction:column;
+.center {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.smallpic{
+.smallpic {
   width: 100px;
-  height:100px;
-  margin-right:.75em;
-  margin-bottom:.75em;
+  height: 100px;
+  margin-right: 0.75em;
+  margin-bottom: 0.75em;
 }
 
-.small-image-box{
+.small-image-box {
   margin-top: 1em;
+  justify-content: center;
+  display: flex;
 }
-
 
 /* .SideBar > ul > li {
 
 background-color: aqua;
 } */
 
-.nodots{
+.nodots {
   list-style-type: none;
   text-decoration: none;
 }
 
-
-.img_deg{
-justify-content: center;
+.img_deg {
+  justify-content: center;
   width: auto;
   max-height: 400px;
   max-width: 300px;
@@ -101,7 +108,8 @@ justify-content: center;
   flex-direction: row;
   align-content: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  padding-left: 270px;
 }
 
 #yarnpic {
@@ -129,7 +137,6 @@ justify-content: center;
   font-size: large;
 }
 
-
 /* .btn {
   display: flex;
   justify-content: center;
@@ -155,4 +162,149 @@ justify-content: center;
   align-items: center;
   justify-content: center;
   gap: 2%;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.results-container {
+  width: 100%;
+}
+
+section {
+  padding: 2rem 0;
+}
+
+.input-label {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px dotted black;
+  border-radius: 20px;
+  width: 10rem;
+  height: 10rem;
+  cursor: pointer;
+  font-size: large;
+}
+
+label span {
+  font-weight: lighter;
+  font-size: small;
+  padding-top: 0.5rem;
+}
+
+.file-input {
+  display: none;
+}
+
+img {
+  padding: 0;
+  margin: 0;
+}
+
+.images {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* flex-wrap: nowrap; */
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.image-container {
+  width: 50%;
+
+  margin-left: 200px;
+  margin-top: 20px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  margin: 1rem 0.5rem;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+
+.image button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: lightcoral;
+}
+
+.image button:hover {
+  background-color: red;
+}
+
+.image p {
+  padding: 0 0.5rem;
+  margin: 0;
+}
+
+.upload-btn {
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  border-radius: 20px;
+  width: 10rem;
+  height: 3rem;
+  color: white;
+  background-color: green;
+}
+
+label:hover,
+.upload-btn:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+.error {
+  text-align: center;
+}
+
+.error span {
+  color: red;
+}
+
+.left {
+  float: left;
+  width: 25%; /* Adjust this value as needed */
+}
+
+/* .image-container img {
+  padding-left: 150px;
+} */
+
+.upload-image {
+  margin-left: em;
+}
+
+.selected-category {
+  border: 3px solid black;
+  font-weight: bold;
+  color: white;
+}
+
+.unselected-category {
+  font-weight: normal;
+  color: black;
+}
+
+.marg-b-1 {
+  margin-bottom: 1em;
+}
+
+Grid Button .submit-button {
+  margin-top:1em;
 }
