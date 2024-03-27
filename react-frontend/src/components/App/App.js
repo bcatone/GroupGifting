@@ -1,21 +1,23 @@
 import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import axios from "axios";
+import { setUser } from "../../redux/actions/authActions";
 import NavBar from "./NavBar";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import About from "./About";
+import Give from "./Give";
+import Connections from "./Connections";
 import ItemLookup from "../pages/Item/ItemLookup";
 import Donation from "../pages/Donation";
 import SideBar from "../pages/Sidebar/SideBar";
 import Restricted from "../pages/Restricted";
 import SideBarLayout from "./SideBarLayout";
 import Item from "../pages/Item/Item";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../redux/actions/authActions";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Hero from "../Hero/Hero";
 import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
-import Auth from "./Auth";
 import Main from "../pages/Main";
 import GiveAwayItem from "../pages/Item/GiveAwayItem";
 
@@ -49,7 +51,6 @@ function App() {
             index
             element={isLoggedIn ? <Navigate to="main/" /> : <Hero />}
           />
-
           <Route path="main/" element={<Main />} />
           <Route path="login/" element={<Login />} />
           <Route path="signup/" element={<Signup />} />

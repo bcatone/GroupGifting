@@ -15,14 +15,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useContext } from "react";
 import themeOptions from "../utils/themeOptions";
-import UserContext from "../utils/userContext";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/actions/authActions";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  //const user = true
+  const user = useSelector((state) => state.auth.user)
   const settings = [
     "My Account",
     "My Saved Items",
@@ -36,8 +38,6 @@ const NavBar = () => {
     "Donation Information",
     "Connections",
   ];
-
-  //const { user, setUser } = useContext(UserContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -207,7 +207,6 @@ const NavBar = () => {
               </Typography>
               {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
-
             {/* USER MENU AND ITEMS */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Open settings">

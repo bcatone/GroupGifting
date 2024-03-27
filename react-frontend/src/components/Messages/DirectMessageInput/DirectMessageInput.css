@@ -1,0 +1,58 @@
+/* Move toolbar buttons back to top-left */
+
+
+
+
+.quill {
+  background: white;
+  width: 100%;
+  /* min-width: 65vw; */
+  display: flex;
+  padding: 0;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Custom styles for the toolbar */
+.ql-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px; /* Adjust the gap between icons as needed */
+}
+
+/* Custom styles for the toolbar icons */
+.ql-toolbar .ql-formats {
+  display: flex;
+  align-items: center;
+}
+
+/* Custom styles for the toolbar button */
+.ql-toolbar .ql-formats button {
+  margin: 0; /* Remove default button margin */
+}
+
+.ql-container .ql-snow {
+    min-width: 40vw;
+}
+
+.ql-editor p {
+  min-width: 40vw;
+  height: 2em;
+  /* background: #EEE; */
+  padding: 0;
+}
+
+.textarea-emoji-control {
+  visibility: hidden;
+  width: 0;
+}
+
+#emoji-pallete {
+  bottom: auto;
+  top: 40px;
+}
+
+

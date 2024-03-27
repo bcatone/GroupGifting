@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
+  resources :message_views
   resources :comments
-  # resources :items
 resources :items do
   get :search, on: :collection
   get :filter, on: :collection
@@ -22,6 +22,9 @@ end
   delete "/cancel", to: "users#destroy"
 
     get "up" => "rails/health#show", as: :rails_health_check
+  get '/inbox/direct_messages', to: 'inbox#direct_messages'
+  patch '/update_is_message_viewed', to: 'messages#update_is_viewed'
+
 end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
