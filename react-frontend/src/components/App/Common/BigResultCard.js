@@ -21,7 +21,7 @@ const BigResultCard = ({ result, index }) => {
 
   return (
     <Grid item xs={12} sm={6} md={4} key={index}>
-      <Link to={`/items/${result.id}`}>
+      <Link to={`/items/${result.id}`} style={{ textDecoration: "none" }}>
         <Card
           sx={{
             maxWidth: "300px",

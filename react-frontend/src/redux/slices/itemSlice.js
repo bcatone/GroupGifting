@@ -114,6 +114,7 @@ export const addItemToApi = createAsyncThunk(
   async (newItem) => {
     try {
       let requestBody;
+      console.log("newItem from addItemToApi", newItem)
 
       if (newItem instanceof FormData) {
         requestBody = {

@@ -1,30 +1,38 @@
 import { ThemeOptions } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#D2691E",
+      main: "#5C96E2",
       contrastText: "#ffffff",
     },
     secondary: {
       main: "#c93860",
     },
     background: {
-      default: "#e4ecff",
+      default: "#EADEB8",
       paper: "#ffffff",
     },
     error: {
       main: "#fb0743",
     },
     text: {
-      primary: "rgba(20,33,70,0.87)",
+      primary: "#C56824",
       secondary: "rgba(20,33,70,0.62)",
       disabled: "rgba(20,33,70,0.33)",
     },
   },
   typography: {
     fontFamily: "PT serif",
+    h4: {
+      marginBottom: "20 px",
+    },
+    h5: {
+      color: "#373737", 
+     textDecoration: 'none'
+    }
   },
   breakpoints: {
     values: {
@@ -36,5 +44,7 @@ const themeOptions = {
     },
   },
 };
+
+export const theme = createTheme(themeOptions);
 
 export default themeOptions;

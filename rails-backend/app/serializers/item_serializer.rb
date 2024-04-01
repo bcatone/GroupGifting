@@ -1,6 +1,6 @@
 class ItemSerializer < ActiveModel::Serializer
    include Rails.application.routes.url_helpers
-  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city
+  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city, :deadline, :give_method
 
   def images
     if object.images.attached?
@@ -8,9 +8,15 @@ class ItemSerializer < ActiveModel::Serializer
         rails_blob_path(image, only_path: true)
       end
     else
+      puts "no images attached"
       []
     end
   end
+
+
+
+
+
 
     def short_description
     object.description.nil? ? "" : object.description.length < 100 ? object.description : "#{object.description[0..100]}..."

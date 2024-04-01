@@ -2,33 +2,13 @@ class ItemsController < ApplicationController
       before_action :force_json, only: :search
 #   before_action :authorize
 
-#   def index
-#     items = Item.all.with_attached_picture.includes(:user)
-#     render json: items, include: { user: { only: [:id, :username] } }
-#   end
-
-# def index
-#   @q = Person.ransack(params[:q])
-#   @people = @q.result(distinct: true)
-# end
-
-
-
-# either how can I make this dynamic with distance or how can I make another method that will return all items?
-# def index
-#   @current_user = User.find_by(id: session[:user_id])
-#   nearby_items = Item.near("#{@current_user.zip}", 6, order: :distance)
-#   Rails.logger.debug nearby_items
-
-#   render json: nearby_items
-# end
 
 # eventually get the zip from fetching it for users not logged in
 def index
   if params[:distance].present? && params[:distance].to_i > 0
-    @items = Item.near(current_user.zip, params[:distance].to_i)
+    @items = Item.near(current_user.zip, params[:distance].to_i).with_attached_images
   else
-    @items = Item.all
+    @items = Item.all.with_attached_images
   end
   render json: @items
 end
@@ -39,21 +19,28 @@ end
     render json: item
   end
 
-  def create
-    @current_user = User.find_by(id: session[:user_id])
+def create
+  @current_user = User.find_by(id: session[:user_id])
 
-    if @current_user
-      new_item = @current_user.items.build(item_params)
+  if @current_user
+    new_item = @current_user.items.build(item_params)
 
-      if new_item.save
-        render json: new_item
-      else
-        render json: { errors: new_item.errors.full_messages }, status: :unprocessable_entity
-      end
+    new_item.images.attach(params[:images])
+
+
+    if new_item.save
+      # Create a new Setting associated with the item and use the giving_method value from params
+      new_item.settings.create(name: 'give_method', value: params[:give_method])
+      
+      render json: new_item
     else
-      render json: { error: "User not found" }, status: :unprocessable_entity
+      render json: { errors: new_item.errors.full_messages }, status: :unprocessable_entity
     end
+  else
+    render json: { error: "User not found" }, status: :unprocessable_entity
   end
+end
+
 
   def update
     item = find_item
@@ -126,19 +113,9 @@ end
   end
 
   def item_params
-    params.require(:item).permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :category, :city, :is_public, :deadline, images: [])
+    params.require(:item).permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :category, :city, :give_method, :is_public, :deadline, images: [])
   end
 
-#   took out images: []
 
 end
 
-# def search
-#         @query = params[:q]&.downcase
-#     if @query.present?
-#       @items = Item.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{@query}%", "%#{@query}%")
-#       render json: @items
-#     else
-#       render json: [], status: :ok
-#     end
-#   end

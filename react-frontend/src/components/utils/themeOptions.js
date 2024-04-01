@@ -1,4 +1,5 @@
 import { ThemeOptions } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
@@ -25,6 +26,9 @@ const themeOptions = {
   },
   typography: {
     fontFamily: "PT serif",
+    h4: {
+      marginBottom: "20 px",
+    },
   },
   breakpoints: {
     values: {
@@ -36,5 +40,7 @@ const themeOptions = {
     },
   },
 };
+
+export const theme = createTheme(themeOptions);
 
 export default themeOptions;
