@@ -19,6 +19,8 @@ const BigResultCard = ({ result, index }) => {
   //   console.log("result from BRC", result);
   // }, [result]);
 
+  console.log("result", result)
+
   return (
     <Grid item xs={12} sm={6} md={4} key={index}>
       <Link to={`/items/${result.id}`} style={{ textDecoration: "none" }}>
@@ -66,7 +68,7 @@ const BigResultCard = ({ result, index }) => {
                 </CategoryButton>
               )}
               <h5>City:{result.city}</h5>
-              <h5>Zip:{result.zip}</h5>
+              <h4 className="center">{result.username}</h4>
               <Typography variant="body2" color="text.secondary" align="center">
                 {result.short_description}
               </Typography>
