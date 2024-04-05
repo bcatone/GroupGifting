@@ -9,7 +9,7 @@ import {
   useTheme,
   Button
 } from "@mui/material";
-import { fetchAllItems } from "../../redux/slices/itemSlice";
+import { fetchAllItems } from "../redux/slices/itemSlice";
 
 const Main = () => {
   const theme = useTheme();
