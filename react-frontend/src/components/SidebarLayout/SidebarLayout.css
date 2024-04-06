@@ -1,0 +1,9 @@
+.sidebar-layout {
+    display: flex;
+    margin-top: 5%;
+}
+
+.sidebar-layout__main {
+    width: 100%;
+    margin: 0 5%;
+}
