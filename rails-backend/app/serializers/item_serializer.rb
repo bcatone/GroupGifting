@@ -29,12 +29,15 @@ class ItemSerializer < ActiveModel::Serializer
     object.deadline.strftime("%A, %I:%M %p, %B %e, %Y") if object.deadline.present?
   end
 
-  def time_until_deadline
-start_time = Time.now
-  end_time = object.deadline
-
-  TimeDifference.between(start_time, end_time).in_general
+def time_until_deadline
+  if object.deadline.present?
+    start_time = Time.now
+    end_time = object.deadline
+    TimeDifference.between(start_time, end_time).in_general
+  else
+    nil
   end
+end
 
 
 end
