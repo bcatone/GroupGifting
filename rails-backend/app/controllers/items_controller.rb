@@ -117,10 +117,5 @@ end
   params.permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :category, :city, :is_public, :deadline, images: [])
 end
 
-  # def item_params
-  #   params.require(:item).permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :category, :city, :give_method, :is_public, :deadline, images: [])
-  # end
-
-
 end
 

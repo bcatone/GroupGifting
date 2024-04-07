@@ -116,10 +116,10 @@ const EditItem = () => {
       if (key === "images") {
         // Handle images as an array
         const images = inputData[key];
-        images.forEach((image) => {
-          updatedItem.append(key, image);
+        images.forEach((image, index) => {
+          updatedItem.append(`images[]`, image);
         });
-      } else if (key !== "give_method") {
+      } else {
         // Skip appending the 'give_method' key
         updatedItem.append(key, inputData[key]);
       }

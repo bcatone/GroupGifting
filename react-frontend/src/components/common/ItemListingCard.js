@@ -35,7 +35,13 @@ const ItemListingCard = ({ item }) => {
 
 return (
   <Grid container spacing={2} justifyContent="center">
-    <Grid item xs={12} sm={10} md={8} style={{ marginTop: "1em", position: "relative" }}>
+    <Grid
+      item
+      xs={12}
+      sm={10}
+      md={8}
+      style={{ marginTop: "1em", position: "relative" }}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -70,7 +76,12 @@ return (
           paddingLeft={2}
           paddingRight={2}
         >
-          <Typography variant="h4" gutterBottom align="center" style={{ marginBottom: "8px" }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            align="center"
+            style={{ marginBottom: "8px" }}
+          >
             {item.title}
           </Typography>
           <TimeDisplay timeObject={item.time_until_deadline} />
@@ -79,11 +90,16 @@ return (
           </Typography>
         </Box>
         <Box position="absolute" top={30} right={15}>
-          <Button onClick={() => setEditZip(true)}>
-            <Typography variant="h5" style={{ marginRight: "1em", transform: "scaleX(-1)" }}>
-              ✏️
-            </Typography>
-          </Button>
+          <Link to={`/items/${item.id}/edit`}>
+            <Button>
+              <Typography
+                variant="h5"
+                style={{ marginRight: "1em", transform: "scaleX(-1)" }}
+              >
+                ✏️
+              </Typography>
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Grid>
