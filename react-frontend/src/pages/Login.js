@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import useAuth from "./useAuth";
+import themeOptions from "../components/utils/themeOptions";
+import useAuth from "../components/AuthHeader/useAuth";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import AuthHeader from "./AuthHeader";
+import AuthHeader from "../components/AuthHeader/AuthHeader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -14,9 +15,9 @@ import Checkbox from "@mui/material/Checkbox";
 import { Switch } from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import Copyright from "./Copyright";
+// import Copyright from "./Copyright";
 
-// const theme = createTheme(themeOptions);
+const theme = createTheme(themeOptions);
 
 function Login() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Login() {
   } = useAuth();
 
   return (
-    // <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -130,9 +131,9 @@ function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 3 }} />
+        {/* <Copyright sx={{ mt: 3 }} /> */}
       </Container>
-    // </ThemeProvider>
+    </ThemeProvider>
   );
 }
 

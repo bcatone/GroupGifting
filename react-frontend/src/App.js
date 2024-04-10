@@ -1,25 +1,26 @@
 import "./App.css";
+import axios from 'axios'
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { PersistGate } from "redux-persist/integration/react";
-import axios from "axios";
-import { setUser } from "../../redux/actions/authActions";
-import NavBar from "./NavBar";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import About from "./About";
-import Give from "./Give";
-import Connections from "./Connections";
-import ItemLookup from "../pages/Item/ItemLookup";
-import Donation from "../pages/Donation";
-import SideBar from "../pages/Sidebar/SideBar";
-import Restricted from "../pages/Restricted";
-import SideBarLayout from "./SideBarLayout";
-import Item from "../pages/Item/Item";
-import Hero from "../Hero/Hero";
-import Login from "../Auth/Login";
-import Signup from "../Auth/Signup";
-import Main from "../pages/Main";
-import GiveAwayItem from "../pages/Item/GiveAwayItem";
+// import { fetchMe } from "./redux/slices/authSlice"
+import NavBar from "./components/NavBar/NavBar"
+import SideBarLayout from "./layouts/SideBarLayout/SideBarLayout";
+// import LandingPage from "./pages/LandingPage"
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import Main from "./pages/Main";
+// import MessageBar from "./components/MessageBar/MessageBar";
+import ItemLookup from "./pages/Items/ItemLookup";
+import Item from "./pages/Items/Item";
+import EditItem from "./pages/Items/EditItem";
+import GiveAwayItem from "./pages/Items/GiveAwayItem";
+import MyListedItems from "./pages/Items/MyListedItems";
+import Restricted from "./pages/Restricted";
+// import Donation from "../pages/Donation";
+import { setUser } from "./redux/actions/authActions";
+import UserAccount from "./pages/Users/UserAccount";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -49,9 +50,13 @@ function App() {
         <Route path={"/"} element={<Outlet />}>
           <Route
             index
-            element={isLoggedIn ? <Navigate to="main/" /> : <Hero />}
+            element={isLoggedIn ? <Navigate to="main/" /> : 
+            // <LandingPage /> 
+            './'
+          }
           />
-          <Route path="main/" element={<Main />} />
+
+          {/* <Route path="main/" element={<Main />} /> */}
           <Route path="login/" element={<Login />} />
           <Route path="signup/" element={<Signup />} />
           {/* <Route path="/not-found" element={<NotFound />} /> */}
@@ -59,14 +64,17 @@ function App() {
           <Route path="items/" element={<SideBarLayout />}>
             <Route path={"all/"} element={<ItemLookup />} />
             <Route path={"new/"} element={<GiveAwayItem />} />
-            <Route path={":id/"} element={<Item />}>
-              {/* <Route path={"edit/"} element={<EditItem />} /> */}
-            </Route>
+            <Route path={":id/edit/"} element={<EditItem />} />
+            <Route path={":id/"} element={<Item />} />
           </Route>
           <Route path="users/" element={<SideBarLayout />}>
-            {/* <Route path=":username/" element={<UserAccount />} />  */}
+            <Route path=":username/" element={<UserAccount />} />
+            <Route
+              path=":username/my-listed-items"
+              element={<MyListedItems />}
+            />
             {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
-            {/* <Route path="connections/" element={<Connections />} /> */}
+
             {/* <Route path="all/" element={<AllUsers />} /> */}
           </Route>
         </Route>

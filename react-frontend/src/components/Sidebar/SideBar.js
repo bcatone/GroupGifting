@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Typography, Slider, Box } from "@mui/material";
-import CommonButton from "../../App/Common/CommonButton";
-import useItemFilter from "../../App/useItemFilter";
-import CategoryButton from "../../App/Common/CategoryButton";
-import { categories } from "../../App/Common/categories";
+import CommonButton from "../common/CommonButton";
+import useItemFilter from "../hooks/useItemFilter";
+import CategoryButton from "../common/CategoryButton";
+import { categories } from "../common/categories";
+import { statuses } from "../common/satuses";
 import { useSelector, useDispatch } from "react-redux";
 import {
   resetDisplayedItems,
   toggleSearched,
   fetchAllItems,
-} from "../../../redux/slices/itemSlice";
-import CommonSquareButton from "../../App/Common/CommonSquareButton";
+} from "../../redux/slices/itemSlice";
+import CommonSquareButton from "../common/CommonSquareButton";
+import { setSelectedStatus } from "../../redux/slices/itemSlice";
 
 const SideBar = ({ links, activeRoute }) => {
   const dispatch = useDispatch();
@@ -19,7 +21,8 @@ const SideBar = ({ links, activeRoute }) => {
   const [selected, setSelected] = useState("");
   const [distance, setDistance] = useState(5);
 
-  /// only button knows it's selected
+    const selectedStatus = useSelector((state) => state.item.selectedStatus);
+
 
   const {
     searchQuery,
@@ -28,6 +31,20 @@ const SideBar = ({ links, activeRoute }) => {
     handleItemFilter,
     handleAllItems,
   } = useItemFilter();
+
+  const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+   setSelectedStatus("Available")
+  }, []);
+
+  useEffect(() => {
+console.log("selectedStatus", selectedStatus)
+  }, [selectedStatus])
+
+  console.log("activeRoute", activeRoute);
+
+  console.log("user", user, "user.username", user.username);
 
   useEffect(() => {
     if (selected !== "") {
@@ -83,6 +100,20 @@ const SideBar = ({ links, activeRoute }) => {
     }
   };
 
+
+  const handleStatusSelect = (status) => {
+    if (status.name === selectedStatus) {
+        
+  dispatch(setSelectedStatus('Available'));
+      // handleAllItems(distance);
+      /// need to clear the selection back to original ("Available")
+    } else {
+        dispatch(setSelectedStatus(status.name));
+      // handleItemFilter(category.name, distance);
+      /// filtered the items to the category and distance
+    }
+  };
+
   const handleDistanceChange = (event, newValue) => {
     setDistance(newValue);
   };
@@ -123,12 +154,63 @@ const SideBar = ({ links, activeRoute }) => {
         <div key={index}>
           <h2 className="center">{group.label}</h2>
           <ul>
+            {user.username &&
+              activeRoute === `/users/${user.username}/my-listed-items` && (
+                <div>
+                  <h2>Select your items with a status of:</h2>
+                  <ul>
+                    {statuses &&
+                      statuses.map((status) =>
+                        status.name === selectedStatus ? (
+                          <CategoryButton
+                            key={status.name}
+                            backgroundColor={status.color}
+                            value={status.name}
+                            onClick={() => handleStatusSelect(status)}
+                            style={{
+                              border: "3px solid black",
+                              fontWeight: "bold",
+                              color: "white",
+                              fontSize: "1.3em", // Increase font size by 50%
+                              padding: "0.5em 1.0em", // Increase padding by 50%
+                            }}
+                          >
+                            {status.name}
+                          </CategoryButton>
+                        ) : (
+                          <CategoryButton
+                            key={status.name}
+                            backgroundColor={status.color}
+                            value={status.name}
+                            onClick={() => handleStatusSelect(status)}
+                            style={{
+                              fontSize: "1.3em", // Increase font size by 50%
+                              padding: "0.5em 1.0em", // Increase padding by 50%
+                            }}
+                          >
+                            {status.name}
+                          </CategoryButton>
+                        )
+                      )}
+                  </ul>
+                </div>
+              )}
+            {user.username && activeRoute === `/users/${user.username}` && (
+              <div>
+                <Link to={`/users/${user.username}/my-listed-items`}>
+                  <Typography style={{ fontSize: "20px", color: "white" }}>
+                    My Listed Items
+                  </Typography>
+                </Link>
+              </div>
+            )}
+
             {activeRoute === `/items/all` && (
               <>
                 <div
                   style={{
                     display: "flex",
-                    marginBottom: "1em",
+                    // marginBottom: "1em",
                     height: "35px",
                   }}
                 >
@@ -148,8 +230,8 @@ const SideBar = ({ links, activeRoute }) => {
                     Submit
                   </CommonButton>
                 </div>
-                <div></div>
-                <div>
+
+                <div style={{ marginTop: "1em" }}>
                   {categories &&
                     categories.map((category) =>
                       category.name === selected ? (

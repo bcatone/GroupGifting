@@ -15,10 +15,6 @@ const useItemFilter = () => {
 
   const allItems = useSelector((state) => state.item.allItems);
 
-  // const handleAllItems = (distance) => {
-  //     console.log("distance from handleAllItems", distance)
-  //     fetchAllItems(distance)
-  // }
 
   const handleAllItems = (distance) => {
     console.log("distance from handleAllItems", distance);
@@ -48,7 +44,6 @@ const useItemFilter = () => {
     setItems(allItems);
     dispatch(fetchFilteredItems({ category, distance })).then((action) => {
       if (fetchFilteredItems.fulfilled.match(action)) {
-        // setSearched(true);
         setNoResults(false);
       } else if (fetchSearchedItems.rejected.match(action)) {
         setNoResults(true);

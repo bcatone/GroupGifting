@@ -1,9 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import themeOptions from "../components/utils/themeOptions";
+import useAuth from "../components/AuthHeader/useAuth";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import AuthHeader from "../Auth/AuthHeader";
+import AuthHeader from "../components/AuthHeader/AuthHeader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -12,27 +15,21 @@ import Checkbox from "@mui/material/Checkbox";
 import { Switch } from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import Copyright from "../Auth/Copyright";
-import { useDispatch } from "react-redux";
-import { addUserToApi } from "../../redux/slices/authSlice";
-import useControlledForm from "../../hooks/useControlledForm";
-import useVisibilityToggle from "../../hooks/useVisibilityToggle";
+import Copyright from "../components/Copyright/Copyright";
 
-// const theme = createTheme(themeOptions);
+const theme = createTheme(themeOptions);
 
 function Signup() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { formData, handleInputChange } = useControlledForm();
-  const { isVisible: isPasswordVisable, toggleVisibility: toggleIsPasswordVisible} = useVisibilityToggle();
-
-  const handleSignupSubmit = (e) => {
-    e.preventDefault();
-    dispatch(addUserToApi(formData));
-  };
+  const {
+    errors,
+    isPasswordVisable,
+    toggleIsPasswordVisible,
+    handleSignupSubmit,
+  } = useAuth();
 
   return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -62,7 +59,6 @@ function Signup() {
                   label="Full Name"
                   name="fullName"
                   autoComplete="family-name"
-                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -73,7 +69,6 @@ function Signup() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={handleInputChange}
                 />
               </Grid>
               {/* {isHealer ? (
@@ -97,10 +92,9 @@ function Signup() {
                   type={isPasswordVisable ? "text" : "password"}
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleInputChange}
                 />
               </Grid>
-              {/* {errors
+              {errors
                 ? errors.map((error) => (
                     <Typography
                       key={error}
@@ -111,7 +105,7 @@ function Signup() {
                       Error: {error}
                     </Typography>
                   ))
-                : null} */}
+                : null}
               <Grid item xs={12}>
                 <FormControlLabel
                   name="pass"
@@ -170,6 +164,7 @@ function Signup() {
         </Box>
         <Copyright sx={{ mt: 3 }} />
       </Container>
+    </ThemeProvider>
   );
 };
 

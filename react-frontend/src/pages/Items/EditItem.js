@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -10,21 +11,22 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import useControlledForm from "../../../hooks/useControlledForm";
-import { categories } from "../../App/Common/categories";
-import CategoryButton from "../../App/Common/CategoryButton";
+import useControlledForm from "../../components/hooks/useControlledForm";
+import { categories } from "../../components/common/categories";
+import CategoryButton from "../../components/common/CategoryButton";
 import { useSelector, useDispatch } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { addItemToApi } from "../../../redux/slices/itemSlice";
+import { updateItemInApi } from "../../redux/slices/itemSlice";
 
-const GiveAwayItem = () => {
-  const { formData, errors, isFormValid, handleInputChange, resetForm } =
+const EditItem = () => {
+  const { inputData, errors, isFormValid, handleInputChange, resetForm } =
     useControlledForm();
 
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [date, setDate] = useState(new Date());
   const [editZip, setEditZip] = useState(false);
   const [editCity, setEditCity] = useState(false);
@@ -34,22 +36,98 @@ const GiveAwayItem = () => {
   const [zip, setZip] = useState("");
   const [city, setCity] = useState("");
   const [formErrors, setFormErrors] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
+
+  // maybe there's a better way to do that with the hook code?
 
   const user = useSelector((state) => state.auth.user);
+  const apiItem = useSelector((state) => state.item.individualItem);
+
+  console.log("apiItem", apiItem);
+
+  const itemId = Number(params.id);
+
+  console.log("itemId", itemId);
+
+  //// To Do
+
+  /// change dealine stuff to be adding to the deadline
+  /// show new deadline
 
   useEffect(() => {
-    setZip(user.zip);
+    setSelectedCategory(apiItem.category);
+
+    // selectedImages
+    setSelectedImages(apiItem.images);
+    // zip
+    setZip(apiItem.zip);
+    // city
+    setCity(apiItem.city);
+    // --- should I have the calendar displayed with the current deadline?
+    setGiveMethod(apiItem.giveMethod);
+    // giveMethod
+    handleInputChange({
+      target: { name: "title", value: apiItem.title },
+    });
+    handleInputChange({
+      target: { name: "description", value: apiItem.description },
+    });
+
+    setGiveMethod(apiItem.give_method);
+  }, [apiItem]);
+
+  /// will need useParams here to get the id of the item
+
+  /// when page renders, set the options to the current options of the item
+
+  useEffect(() => {
+    const userZip = user.zip;
+
     setCity(user.city);
+    setZip(userZip);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("selectedImages", selectedImages);
-  // }, [selectedImages]);
+  useEffect(() => {
+    handleInputChange({
+      target: { name: "zip", value: zip * 1 },
+    });
+  }, [zip, handleInputChange]);
+
+  useEffect(() => {
+    handleInputChange({
+      target: { name: "city", value: city },
+    });
+  }, [city]);
+
+  useEffect(() => {
+    // Add further logic dependent on inputData here
+  }, [inputData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log("formdata from handleSubmit", formData);
+    const updatedItem = new FormData();
+
+    // taking out give_method
+    for (const key in inputData) {
+      if (key === "images") {
+        // Handle images as an array
+        const images = inputData[key];
+        images.forEach((image, index) => {
+          updatedItem.append(`images[]`, image);
+        });
+      } else {
+        // Skip appending the 'give_method' key
+        updatedItem.append(key, inputData[key]);
+      }
+    }
+
+    for (const [key, value] of updatedItem.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
     if (!selectedCategory) {
       alert("Please select a category");
@@ -61,13 +139,16 @@ const GiveAwayItem = () => {
       return;
     }
 
-    dispatch(addItemToApi(formData))
+    // const sendingItem =  item: newItem ;
+
+    dispatch(updateItemInApi({ itemId, updatedItem }))
       .then((action) => {
-        if (addItemToApi.fulfilled.match(action)) {
+        if (updateItemInApi.fulfilled.match(action)) {
           console.log("addItemToApi was dispatched!");
           resetForm();
+          navigate(`/items/${itemId}`);
           // eventually navigate to Look for Items Page
-        } else if (addItemToApi.rejected.match(action)) {
+        } else if (updateItemInApi.rejected.match(action)) {
           const error = action.error.message;
           console.error("Error during addEntryToApi:", error);
           const errorObject = JSON.parse(error);
@@ -79,9 +160,6 @@ const GiveAwayItem = () => {
       .catch((error) => {
         console.error("Error during dispatches:", error);
       });
-
-    console.log("Form data:", formData);
-    console.log("Form errors:", formErrors);
   };
 
   const handleCategoryChange = (category) => {
@@ -98,17 +176,20 @@ const GiveAwayItem = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
 
+    // Not sure if this will work, temprorally changed to selectedFiles
+    /// maybe need to put square brackets around this
+    handleInputChange({
+      target: { name: "images", value: selectedFilesArray },
+    });
+
     const imagesArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
 
     setSelectedImages((previousImages) => previousImages.concat(imagesArray));
 
-    handleInputChange({
-      target: { name: "images", value: imagesArray },
-    });
-
-    event.target.value = "";
+    // cleanup funciton
+    // event.target.value = "";
   };
 
   function deleteHandler(image, selectedImages) {
@@ -157,28 +238,44 @@ const GiveAwayItem = () => {
   };
 
   const handleChangeZip = (e) => {
-    setZip(e.target.value);
+    const newZip = e.target.value;
+    setZip(newZip);
+    // Update form data with the new zip value
     handleInputChange({
-      target: { name: "zip", value: e.target.value },
+      target: { name: "zip", value: newZip },
     });
   };
 
   const handleChangeCity = (e) => {
-    setCity(e.target.value);
+    const newCity = e.target.value;
+    setCity(newCity);
+    // Update form data with the new city value
     handleInputChange({
-      target: { name: "city", value: e.target.value },
+      target: { name: "city", value: newCity },
     });
   };
 
   const handleSetDate = (date) => {
+    handleInputChange({
+      target: { name: "deadline", value: date.toISOString() },
+    });
     setDate(date);
+  };
+
+  const handleGiveMethodChange = (event) => {
+    const newGiveMethod = event.target.value;
+    setGiveMethod(newGiveMethod);
+
+    handleInputChange({
+      target: { name: "give_method", value: newGiveMethod },
+    });
   };
 
   return (
     <div style={{ marginTop: "2em" }}>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
-          Give away an Item
+          Edit your {apiItem.title}
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -190,7 +287,7 @@ const GiveAwayItem = () => {
                 color="secondary"
                 fullWidth
                 onChange={handleInputChange}
-                value={formData.title || ""}
+                value={inputData.title || ""}
                 required
                 style={{ marginBottom: "1em", marginTop: "1em" }}
               />
@@ -202,7 +299,7 @@ const GiveAwayItem = () => {
                 fullWidth
                 multiline
                 rows={10}
-                value={formData.description}
+                value={inputData.description}
                 onChange={handleInputChange}
                 required
                 style={{ marginBottom: "1em" }}
@@ -298,9 +395,8 @@ const GiveAwayItem = () => {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-                <Typography variant="h5" style={{ marginRight: ".5em" }}>
-                  Zip Code:
-                </Typography>
+                <Typography variant="h5">Zip Code:</Typography>
+
                 <input
                   type="text"
                   style={{
@@ -309,7 +405,7 @@ const GiveAwayItem = () => {
                     color: "black",
                     backgroundColor: editZip ? "white" : "gray",
                   }}
-                  disabled={!editZip} // Disable input when editZip is false
+                  disabled={!editZip}
                   onChange={handleChangeZip}
                   value={zip}
                   required
@@ -325,9 +421,7 @@ const GiveAwayItem = () => {
                 </Button>
               </Grid>
               <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-                <Typography variant="h5" style={{ marginRight: ".75em" }}>
-                  City:
-                </Typography>
+                <Typography variant="h5">City:</Typography>
                 <input
                   type="text"
                   style={{
@@ -352,52 +446,20 @@ const GiveAwayItem = () => {
               </Grid>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Typography variant="h5" style={{ marginTop: ".75em" }}>
-                Duration of Listing:
+              <Typography variant="h5" style={{ marginTop: ".5em" }}>
+                Listing will end on:
               </Typography>
-              <RadioGroup
-                aria-label="image"
-                name="image"
-                value={duration}
-                required
-                onChange={(event) => {
-                  const value = event.target.value;
-                  if (value === "custom") {
-                    handleCustomOption();
-                    setDuration("custom"); // Call your custom function here
-                  } else {
-                    const weeks = durationMap[value];
-                    handleDurationChange(weeks);
-                    setDuration(value);
-                  }
-                }}
-              >
-                <FormControlLabel
-                  value="1"
-                  control={<Radio />}
-                  label="1 Week"
-                />
-                <FormControlLabel
-                  value="2"
-                  control={<Radio />}
-                  label="2 Weeks"
-                />
-                <FormControlLabel
-                  value="3"
-                  label="3 Weeks"
-                  control={<Radio />}
-                />
-                <FormControlLabel
-                  value="custom"
-                  control={<Radio />}
-                  label="Custom"
-                />
-              </RadioGroup>
-              {calendar ? (
-                <div>
-                  <Calendar onChange={handleSetDate} minDate={new Date()} />
-                </div>
-              ) : null}
+              <Typography variant="h5" style={{ marginTop: ".5em" }}>
+                {apiItem.formatted_deadline}
+              </Typography>
+              <Typography variant="h5" style={{ marginTop: ".5em" }}>
+                Change end date:
+              </Typography>
+
+              <div>
+                <Calendar onChange={handleSetDate} minDate={new Date()} />
+              </div>
+
               <Typography variant="h5" style={{ marginTop: ".75em" }}>
                 Giving Method:
               </Typography>
@@ -407,7 +469,7 @@ const GiveAwayItem = () => {
                 value={giveMethod}
                 required
                 onChange={(event) => {
-                  setGiveMethod(event.target.value);
+                  handleGiveMethodChange(event);
                 }}
               >
                 <FormControlLabel
@@ -439,4 +501,4 @@ const GiveAwayItem = () => {
   );
 };
 
-export default GiveAwayItem;
+export default EditItem;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Container } from "@mui/material";
-import CommonButton from "../../App/Common/CommonButton";
-import BigResultCard from "../../App/Common/BigResultCard";
+// import CommonButton from "../../components/App/Common/CommonButton";
+import BigResultCard from "../../components/common/BigResultCard";
 
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllItems } from "../../../redux/slices/itemSlice";
+import { fetchAllItems } from "../../redux/slices/itemSlice";
 
 const ItemLookup = () => {
   const dispatch = useDispatch();
@@ -16,15 +16,11 @@ const ItemLookup = () => {
 
   ////
 
-    const displayedItems = useSelector((state) => state.item.displayedItems);
-
-
+  const displayedItems = useSelector((state) => state.item.displayedItems);
 
   useEffect(() => {
     dispatch(fetchAllItems(5));
   }, [dispatch]);
-
-
 
   return (
     <>

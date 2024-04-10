@@ -7,10 +7,10 @@ import {
   CardActionArea,
   CardMedia,
 } from "@mui/material";
-import { Link } from "react-router-dom"; // Import Link component
+import { Link } from "react-router-dom"; 
 import CategoryButton from "./CategoryButton";
 import { categories } from "./categories";
-import placeholder from "../images/placeholder.png";
+import placeholder from "../../assets/images/placeholder.png"
 
 const BigResultCard = ({ result, index }) => {
   const category = categories.find((cat) => cat.name === result.category);
@@ -19,9 +19,11 @@ const BigResultCard = ({ result, index }) => {
   //   console.log("result from BRC", result);
   // }, [result]);
 
+  console.log("result", result)
+
   return (
     <Grid item xs={12} sm={6} md={4} key={index}>
-      <Link to={`/items/${result.id}`}>
+      <Link to={`/items/${result.id}`} style={{ textDecoration: "none" }}>
         <Card
           sx={{
             maxWidth: "300px",
@@ -66,7 +68,7 @@ const BigResultCard = ({ result, index }) => {
                 </CategoryButton>
               )}
               <h5>City:{result.city}</h5>
-              <h5>Zip:{result.zip}</h5>
+              <h4 className="center">{result.username}</h4>
               <Typography variant="body2" color="text.secondary" align="center">
                 {result.short_description}
               </Typography>

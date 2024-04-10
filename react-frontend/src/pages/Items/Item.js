@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Typography, Dialog, DialogContent } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { fetchItemById } from "../../../redux/slices/itemSlice";
-import CommonButton from "../../App/Common/CommonButton";
+import { fetchItemById } from "../../redux/slices/itemSlice";
+import CommonButton from "../../components/common/CommonButton";
 import { useDispatch, useSelector } from "react-redux";
-import { categories } from "../../App/Common/categories";
-import CategoryButton from "../../App/Common/CategoryButton";
+import { categories } from "../../components/common/categories";
+import CategoryButton from "../../components/common/CategoryButton";
 import Calendar from "react-calendar";
+import { Link } from "react-router-dom";
 
 const Item = () => {
   const params = useParams();
@@ -14,6 +15,7 @@ const Item = () => {
   const dispatch = useDispatch();
   const commentBox = useRef(null);
   const [open, setOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(false);
   const [item, setItem] = useState({
     title: "",
     category: "",
@@ -113,6 +115,18 @@ const Item = () => {
     ) : null;
   };
 
+  const user = useSelector((state) => state.auth.user);
+
+  console.log("user", user);
+
+  useEffect(() => {
+    if (item.user_id === user.id) {
+      setCurrentUser(true);
+    } else {
+      setCurrentUser(false);
+    }
+  }, [item.user_id]);
+
   return (
     <>
       <div>
@@ -158,18 +172,23 @@ const Item = () => {
               <CategoryButton
                 backgroundColor={category.color}
                 disableHover="true"
-                style={{ marginRight: "1em" }}
+                style={{ marginRight: "2em" }}
               >
                 {item.category}
               </CategoryButton>
             )}{" "}
           </div>
-          <CommonButton style={{ marginTop: "1em" }}>Request Item</CommonButton>
-          <Typography
-            variant="h5"
-            component="h4"
-            sx={{ marginY: 0, marginBottom: "1em", marginTop: "1em" }}
-          >
+          <Typography variant="h6" component="h6" sx={{ margin: "1em" }}>
+            <span>
+              <Link to={`/users/${item.username}`}>{item.username}</Link>
+            </span>
+            {" in "}
+            <span>{item.city}</span>
+          </Typography>
+          <CommonButton style={{ marginTop: ".5em" }}>
+            Request Item
+          </CommonButton>
+          <Typography variant="h5" component="h4" sx={{ margin: "1em" }}>
             {item.description}
           </Typography>
           <Typography variant="body1" component="p" sx={{ marginY: 0 }}>
@@ -188,6 +207,22 @@ const Item = () => {
             <TimeDisplay timeObject={item.time_until_deadline} />
           </Typography>
         </div>
+        {currentUser ? (
+          <div className="margB1">
+            <Link to={`edit`}>
+              <CommonButton style={{ marginLeft: "10px" }}>
+                Edit Item
+              </CommonButton>
+            </Link>
+
+            <CommonButton
+              style={{ marginLeft: "10px" }}
+              onClick={() => handleDeleteEntry(entryId)}
+            >
+              Delete Item
+            </CommonButton>
+          </div>
+        ) : null}
       </div>
 
       <div

@@ -15,16 +15,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useContext } from "react";
 import themeOptions from "../utils/themeOptions";
+import UserContext from "../utils/userContext";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/actions/authActions";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-  //const user = true
-  const user = useSelector((state) => state.auth.user)
   const settings = [
     "My Account",
     "My Saved Items",
@@ -38,6 +37,10 @@ const NavBar = () => {
     "Donation Information",
     "Connections",
   ];
+
+  //const { user, setUser } = useContext(UserContext);
+
+  const user = useSelector((state) => state.auth.user);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -72,13 +75,13 @@ const NavBar = () => {
 
   const handleUserMenuClick = (setting) => {
     switch (setting) {
-      case "My Profile":
-        navigate("/main/myprofile");
+      case "My Account":
+        navigate(`/users/${user.username}`);
         break;
-      case "My Saved Services":
+      case "My Saved Items":
         navigate("/main/mysaved");
         break;
-      case "About Healio":
+      case "About Group Gifting":
         navigate("/main/about");
         break;
       case "Log out":
@@ -207,6 +210,7 @@ const NavBar = () => {
               </Typography>
               {/* Add more links with conditional formatting for signed-in feature */}
             </Box>
+
             {/* USER MENU AND ITEMS */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Open settings">

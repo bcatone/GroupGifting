@@ -26,6 +26,9 @@ const themeOptions = {
   },
   typography: {
     fontFamily: "PT serif",
+    h4: {
+      marginBottom: "20 px",
+    },
   },
   breakpoints: {
     values: {

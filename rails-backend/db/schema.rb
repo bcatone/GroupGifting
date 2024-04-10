@@ -148,6 +148,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_095605) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
+
+
   create_table "settings", force: :cascade do |t|
     t.string "name"
     t.text "value"

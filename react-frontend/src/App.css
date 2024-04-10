@@ -34,10 +34,6 @@ body {
 }
 
 .SideBar {
-  margin-top: 5%;
-  margin-bottom: 5%;
-  margin-left: 5%; /* Set margin on all sides except right */
-  /* margin-right: 3%; */
   width: 350px;
   background-color: #74a892;
   display: flex;
@@ -45,7 +41,7 @@ body {
   justify-content: center;
   flex-wrap: nowrap;
   padding: 20px;
-  /* position: fixed; */
+  border-radius: 25px;
 }
 
 .item-body {
@@ -307,4 +303,19 @@ label:hover,
 
 Grid Button .submit-button {
   margin-top:1em;
+}
+
+ul {
+  margin:0;
+  padding:20px;
+}
+
+
+.avatarBig{
+  display: block;
+  margin: 1.75em auto;
+  align-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
 }
