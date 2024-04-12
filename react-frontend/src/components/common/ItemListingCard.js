@@ -76,19 +76,26 @@ return (
           paddingLeft={2}
           paddingRight={2}
         >
-          <Typography
-            variant="h4"
-            gutterBottom
-            align="center"
-            style={{ marginBottom: "8px" }}
-          >
-            {item.title}
-          </Typography>
-          <TimeDisplay timeObject={item.time_until_deadline} />
-          <Typography variant="h5" align="center" style={{ marginTop: "8px" }}>
-            # People Requested
-          </Typography>
+          <Link to={`/items/${item.id}`} style={{textDecoration:"none", color:"black"}}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              align="center"
+              style={{ marginBottom: "8px" }}
+            >
+              {item.title}
+            </Typography>
+            <TimeDisplay timeObject={item.time_until_deadline} />
+            <Typography
+              variant="h5"
+              align="center"
+              style={{ marginTop: "8px" }}
+            >
+              # People Requested
+            </Typography>
+          </Link>
         </Box>
+
         <Box position="absolute" top={30} right={15}>
           <Link to={`/items/${item.id}/edit`}>
             <Button>

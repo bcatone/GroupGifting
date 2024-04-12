@@ -15,11 +15,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useContext } from "react";
 import themeOptions from "../utils/themeOptions";
-import UserContext from "../utils/userContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/actions/authActions";
 import { useSelector } from "react-redux";
+import default_avatar from "../../assets/images/defaultavatar.jpg";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -38,9 +38,11 @@ const NavBar = () => {
     "Connections",
   ];
 
-  //const { user, setUser } = useContext(UserContext);
+
 
   const user = useSelector((state) => state.auth.user);
+
+  console.log("user from navbar", user)
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -105,6 +107,11 @@ const NavBar = () => {
   }
 
   const theme = createTheme(themeOptions);
+
+    const avatarStyle = {
+      width: "50px",
+      height: "50px",
+    };
 
   return (
     <ThemeProvider theme={theme}>
@@ -215,7 +222,11 @@ const NavBar = () => {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={"user here"} src={"user image"} />
+                  <Avatar
+                    alt={"user here"}
+                    src={user.avatar_thumbnail || default_avatar}
+                    style={avatarStyle}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

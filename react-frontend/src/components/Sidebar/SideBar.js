@@ -5,7 +5,7 @@ import CommonButton from "../common/CommonButton";
 import useItemFilter from "../hooks/useItemFilter";
 import CategoryButton from "../common/CategoryButton";
 import { categories } from "../common/categories";
-import { statuses } from "../common/satuses";
+import { statuses } from "../common/statuses";
 import { useSelector, useDispatch } from "react-redux";
 import {
   resetDisplayedItems,

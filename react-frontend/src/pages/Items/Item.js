@@ -89,6 +89,16 @@ const Item = () => {
     // Handle comment submit
   };
 
+  const handleDeleteItem = async (item) => {
+    try {
+      await dispatch(deleteItemFromApi(item.id));
+
+      // navigate(`/users/${user.username}/my-listed-items`)
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -217,7 +227,7 @@ const Item = () => {
 
             <CommonButton
               style={{ marginLeft: "10px" }}
-              onClick={() => handleDeleteEntry(entryId)}
+              onClick={() => handleDeleteItem(item)}
             >
               Delete Item
             </CommonButton>
