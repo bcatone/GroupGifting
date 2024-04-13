@@ -114,6 +114,7 @@ export const addItemToApi = createAsyncThunk(
   async (newItem) => {
     try {
       let requestBody;
+      console.log("newItem from addItemToApi", newItem)
 
       if (newItem instanceof FormData) {
         requestBody = {
@@ -175,6 +176,7 @@ const itemSlice = createSlice({
     individualItem: null,
     searched: false,
     filtered: false,
+    selectedStatus: "Available",
     loadingAllItems: false,
     loadingIndividualItem: false,
     loadingSearchedItems: false,
@@ -186,6 +188,7 @@ const itemSlice = createSlice({
   },
   reducers: {
     clearItems: (state) => {
+      state.selectedStatus = "Available";
       state.allItems = [];
       state.individualItem = null;
       state.searchedItems = null;
@@ -206,6 +209,9 @@ const itemSlice = createSlice({
       state.allItems = state.allItems.filter(
         (item) => item.id !== action.payload
       );
+    },
+    setSelectedStatus: (state, action) => {
+      state.selectedStatus = action.payload;
     },
     addCommentToItem: (state, action) => {
       state.individualItem.comments.push(action.payload);
@@ -356,6 +362,7 @@ export const {
   resetDisplayedItems,
   toggleSearched,
   toggleFiltered,
+  setSelectedStatus
 } = itemSlice.actions;
 
 export const itemReducer = itemSlice.reducer;

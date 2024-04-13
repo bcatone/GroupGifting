@@ -322,3 +322,18 @@ label:hover,
 Grid Button .submit-button {
   margin-top:1em;
 }
+
+ul {
+  margin:0;
+  padding:20px;
+}
+
+
+.avatarBig{
+  display: block;
+  margin: 1.75em auto;
+  align-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+}

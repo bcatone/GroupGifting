@@ -16,15 +16,11 @@ const ItemLookup = () => {
 
   ////
 
-    const displayedItems = useSelector((state) => state.item.displayedItems);
-
-
+  const displayedItems = useSelector((state) => state.item.displayedItems);
 
   useEffect(() => {
     dispatch(fetchAllItems(5));
   }, [dispatch]);
-
-
 
   return (
     <>

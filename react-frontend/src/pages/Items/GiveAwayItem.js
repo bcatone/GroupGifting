@@ -19,12 +19,13 @@ import "react-calendar/dist/Calendar.css";
 import { addItemToApi } from "../../redux/slices/itemSlice";
 
 const GiveAwayItem = () => {
-  const { formData, errors, isFormValid, handleInputChange, resetForm } =
+  const { inputData, errors, isFormValid, handleInputChange, resetForm } =
     useControlledForm();
 
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [date, setDate] = useState(new Date());
   const [editZip, setEditZip] = useState(false);
   const [editCity, setEditCity] = useState(false);
@@ -38,18 +39,53 @@ const GiveAwayItem = () => {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    setZip(user.zip);
+    const userZip = user.zip;
+    console.log(userZip);
     setCity(user.city);
+    setZip(userZip);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("selectedImages", selectedImages);
-  // }, [selectedImages]);
+  useEffect(() => {
+    console.log("zip changed", zip);
+    handleInputChange({
+      target: { name: "zip", value: zip * 1 },
+    });
+  }, [zip, handleInputChange]);
+
+  useEffect(() => {
+    handleInputChange({
+      target: { name: "city", value: city },
+    });
+  }, [city]);
+
+  useEffect(() => {
+    console.log("Form data after update:", inputData);
+    // Add further logic dependent on inputData here
+  }, [inputData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log("formdata from handleSubmit", formData);
+    const newItem = new FormData();
+
+    // Iterate through the existing formData object and append its key-value pairs to the new FormData object
+
+    for (const key in inputData) {
+      if (key === "images") {
+        // Handle images as an array
+        const images = inputData[key];
+        images.forEach((image) => {
+          newItem.append(key, image);
+        });
+      } else {
+        // For other attributes, append them normally
+        newItem.append(key, inputData[key]);
+      }
+    }
+
+    for (const [key, value] of newItem.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
     if (!selectedCategory) {
       alert("Please select a category");
@@ -61,7 +97,9 @@ const GiveAwayItem = () => {
       return;
     }
 
-    dispatch(addItemToApi(formData))
+    const sendingItem = { item: newItem };
+
+    dispatch(addItemToApi(newItem))
       .then((action) => {
         if (addItemToApi.fulfilled.match(action)) {
           console.log("addItemToApi was dispatched!");
@@ -79,9 +117,6 @@ const GiveAwayItem = () => {
       .catch((error) => {
         console.error("Error during dispatches:", error);
       });
-
-    console.log("Form data:", formData);
-    console.log("Form errors:", formErrors);
   };
 
   const handleCategoryChange = (category) => {
@@ -98,17 +133,20 @@ const GiveAwayItem = () => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
 
+    // Not sure if this will work, temprorally changed to selectedFiles
+    /// maybe need to put square brackets around this
+    handleInputChange({
+      target: { name: "images", value: selectedFilesArray },
+    });
+
     const imagesArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
 
     setSelectedImages((previousImages) => previousImages.concat(imagesArray));
 
-    handleInputChange({
-      target: { name: "images", value: imagesArray },
-    });
-
-    event.target.value = "";
+    // cleanup funciton
+    // event.target.value = "";
   };
 
   function deleteHandler(image, selectedImages) {
@@ -157,21 +195,37 @@ const GiveAwayItem = () => {
   };
 
   const handleChangeZip = (e) => {
-    setZip(e.target.value);
+    const newZip = e.target.value;
+    setZip(newZip);
+    // Update form data with the new zip value
     handleInputChange({
-      target: { name: "zip", value: e.target.value },
+      target: { name: "zip", value: newZip },
     });
   };
 
   const handleChangeCity = (e) => {
-    setCity(e.target.value);
+    const newCity = e.target.value;
+    setCity(newCity);
+    // Update form data with the new city value
     handleInputChange({
-      target: { name: "city", value: e.target.value },
+      target: { name: "city", value: newCity },
     });
   };
 
   const handleSetDate = (date) => {
+    handleInputChange({
+      target: { name: "deadline", value: date.toISOString() },
+    });
     setDate(date);
+  };
+
+  const handleGiveMethodChange = (event) => {
+    const newGiveMethod = event.target.value;
+    setGiveMethod(newGiveMethod);
+
+    handleInputChange({
+      target: { name: "give_method", value: newGiveMethod },
+    });
   };
 
   return (
@@ -190,7 +244,7 @@ const GiveAwayItem = () => {
                 color="secondary"
                 fullWidth
                 onChange={handleInputChange}
-                value={formData.title || ""}
+                value={inputData.title || ""}
                 required
                 style={{ marginBottom: "1em", marginTop: "1em" }}
               />
@@ -202,7 +256,7 @@ const GiveAwayItem = () => {
                 fullWidth
                 multiline
                 rows={10}
-                value={formData.description}
+                value={inputData.description}
                 onChange={handleInputChange}
                 required
                 style={{ marginBottom: "1em" }}
@@ -298,9 +352,8 @@ const GiveAwayItem = () => {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-                <Typography variant="h5" style={{ marginRight: ".5em" }}>
-                  Zip Code:
-                </Typography>
+                <Typography variant="h5">Zip Code:</Typography>
+
                 <input
                   type="text"
                   style={{
@@ -309,7 +362,7 @@ const GiveAwayItem = () => {
                     color: "black",
                     backgroundColor: editZip ? "white" : "gray",
                   }}
-                  disabled={!editZip} // Disable input when editZip is false
+                  disabled={!editZip}
                   onChange={handleChangeZip}
                   value={zip}
                   required
@@ -325,9 +378,7 @@ const GiveAwayItem = () => {
                 </Button>
               </Grid>
               <Grid item xs={12} md={6} lg={6} style={{ display: "flex" }}>
-                <Typography variant="h5" style={{ marginRight: ".75em" }}>
-                  City:
-                </Typography>
+                <Typography variant="h5">City:</Typography>
                 <input
                   type="text"
                   style={{
@@ -407,7 +458,7 @@ const GiveAwayItem = () => {
                 value={giveMethod}
                 required
                 onChange={(event) => {
-                  setGiveMethod(event.target.value);
+                  handleGiveMethodChange(event);
                 }}
               >
                 <FormControlLabel

@@ -15,9 +15,11 @@ import MessageBar from "./components/MessageBar/MessageBar";
 import ItemLookup from "./pages/Items/ItemLookup";
 import Item from "./pages/Items/Item";
 import GiveAwayItem from "./pages/Items/GiveAwayItem";
+import EditItem from "./pages/Items/EditItem";
+import UserAccount from "./pages/Users/UserAccount";
+import MyListedItems from "./pages/Items/MyListedItems";
 import MessagingPage from "./pages/MessagingPage";
 import Restricted from "./pages/Restricted";
-// end updated imports
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +44,8 @@ function App() {
             index
             element={isLoggedIn ? <Navigate to="main/" /> : <LandingPage />}
           />
-          <Route path="main/" element={<Main />} />
+
+          {/* <Route path="main/" element={<Main />} /> */}
           <Route path="login/" element={<Login />} />
           <Route path="signup/" element={<Signup />} />
           {/* <Route path="/not-found" element={<NotFound />} /> */}
@@ -50,14 +53,17 @@ function App() {
           <Route path="items/" element={<SidebarLayout />}>
             <Route path={"all/"} element={<ItemLookup />} />
             <Route path={"new/"} element={<GiveAwayItem />} />
-            <Route path={":id/"} element={<Item />}>
-              {/* <Route path={"edit/"} element={<EditItem />} /> */}
-            </Route>
+            <Route path={":id/edit/"} element={<EditItem />} />
+            <Route path={":id/"} element={<Item />} />
           </Route>
           <Route path="users/" element={<SidebarLayout />}>
-            {/* <Route path=":username/" element={<UserAccount />} />  */}
+            <Route path=":username/" element={<UserAccount />} />
+            <Route
+              path=":username/my-listed-items"
+              element={<MyListedItems />}
+            />
             {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
-            {/* <Route path="connections/" element={<Connections />} /> */}
+
             {/* <Route path="all/" element={<AllUsers />} /> */}
           </Route>
         </Route>
