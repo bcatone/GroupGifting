@@ -6,7 +6,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchAllItems = createAsyncThunk(
   "items/fetchAllItems",
   async (distance) => {
-    console.log("distance from fetchAllItems", distance);
+    // console.log("distance from fetchAllItems", distance);
     try {
       let response;
       if (distance) {
@@ -16,7 +16,7 @@ export const fetchAllItems = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log("data from fetchAllItems", data);
+      // console.log("data from fetchAllItems", data);
       return data;
     } catch (error) {
       throw error;

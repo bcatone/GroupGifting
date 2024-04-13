@@ -1,0 +1,53 @@
+.message-bar {
+    display: flex;
+    flex-direction: column;
+    min-width: 20rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    background: #85B1EA;
+}
+
+.message-bar__filter {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.message-bar__list, .message-bar__editable-list {
+    max-height: 50vh;
+    width: 25rem;
+    max-width: 25rem;
+    overflow-y: scroll;
+}
+
+.message-bar__editable-list {
+    margin-bottom: 14vh;
+}
+
+.message-bar__input-form {
+    position: absolute;
+    bottom: 0;
+    background: var(--white);
+    width: 100%;
+}
+
+/* tablets */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* desktops */
+@media only screen and (min-width: 768px) {
+    .message-bar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: flex-end;
+        position: "fixed";
+        bottom: 0;
+        padding: 10px; 
+    }
+}

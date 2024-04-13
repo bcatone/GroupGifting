@@ -179,7 +179,6 @@ item.save!
 
 
 
-=======
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -191,56 +190,6 @@ item.save!
 #   end
 
 # puts "Seeding data..."
-
-# puts "Seeding users..."
-
-# user_data = [
-#     {
-#         email: "example@example.com",
-#         password: "password",
-#         username: "TestUser1",
-#         first_name: "Tessie",
-#         last_name: "Uzer",
-#         zip: "10036"
-#     },
-#     {
-#         email: "ayeayecaptain@example.com",
-#         password: "password",
-#         username: "PatchyThePirate",
-#         first_name: "Patchy",
-#         last_name: "DePirate",
-#         zip: "91505"
-#     },
-#     {
-#         email: "rainbowsandunicorns@example.com",
-#         password: "password",
-#         username: "Mr. Sparkles",
-#         first_name: "Frank",
-#         last_name: "Sparkles",
-#         zip: "34470"
-#     },
-#     {
-#         email: "fuzzywuzzypuppyface@example.com",
-#         password: "password",
-#         username: "Fido J. McFuzzypants",
-#         first_name: "Fido",
-#         last_name: "McFuzzypants",
-#         zip: "33328"
-#     }
-# ]
-
-# user_data.each do |user_datum|
-#     user = User.find_by(email: user_datum[:email])
-
-#     if user
-#         puts "User #{user.email} already exists with id: #{user.id}"
-#     else
-#         user = User.create!(user_datum)
-#         puts "Created new user with id: #{user.id}"
-#     end
-# end
-
-# puts "Finished seeding users!"
 
 # puts "Forming test friendships and messages..."
 
@@ -271,4 +220,3 @@ item.save!
 # DirectMessage.all.each do |message|
 #     MessageView.find_or_create_by!(user: message.receiver, message: message)
 # end
->>>>>>> dev

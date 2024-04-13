@@ -2,15 +2,17 @@ class DirectMessagesController < ApplicationController
 
     def index
 
-        user = User.find_by(id: params[:user_id])
+        puts "Current user: #{current_user}"
 
-        if !user
+        other_user = User.find_by(id: params[:user_id])
+
+        if !other_user
             render json: { error: "Invalid user ID" }, status: :unprocessable_entity
         end
 
-        direct_messages = DirectMessage.between_users(current_user.id, params[:user_id])
+        direct_messages = DirectMessage.between_users(current_user.id, params[:user_id]).order(:created_at)
 
-        render json: direct_messages.order(:created_at), status: :ok
+        render json: direct_messages, status: :ok
     end
 
     def update

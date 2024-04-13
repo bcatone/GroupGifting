@@ -1,14 +1,17 @@
 class DirectMessage < Message
     belongs_to :receiver, class_name: 'User'
 
+    # Gets all direct messages between two users
     def self.between_users(user1_id, user2_id)
         self.where("(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)", user1_id, user2_id, user2_id, user1_id)
     end
 
+    # Gets the user involved in the direct message that is not the current user
     def other_user(current_user)
         sender_id == current_user.id ? receiver : sender
     end
 
+    # Gets the direct message data to be rendered in the inbox
     def self.fetch_inbox_data(user)
         conversation_data = []
         total_num_unread = 0
@@ -25,6 +28,7 @@ class DirectMessage < Message
           total_num_unread: total_num_unread,
           conversation_data: conversation_data
         }
+        
       inbox_data
       end
   
@@ -40,14 +44,19 @@ class DirectMessage < Message
         last_updated: last_message&.format_date(last_message.created_at),
         last_message_id: last_message&.id,
         content_preview: last_message&.content_preview,
-        is_viewed: last_message&.is_viewed(user),
+        is_viewed: last_message&.is_viewed(user) || false,
         num_unread: num_unread
       }
     end
 
     def is_viewed(user)
-      is_viewed = MessageView.find_or_create_by(user: user, message: self).is_viewed
-      is_viewed
+      puts ("User who viewed message: #{user}")
+      if user == self.sender
+        return true
+      else
+        is_viewed = MessageView.find_or_create_by(user: user, message: self).is_viewed
+        is_viewed
+      end
     end
 
 end

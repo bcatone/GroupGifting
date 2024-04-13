@@ -22,6 +22,7 @@ export const fetchMe = createAsyncThunk(
 export const setUser = createAsyncThunk(
     'auth/setUser',
     async (payload) => {
+      console.log(payload)
         try {
             const response = await axios.post("/login", payload);
             return response.data;

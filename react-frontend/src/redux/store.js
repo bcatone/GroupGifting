@@ -11,6 +11,18 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import { createConsumer } from "@rails/actioncable";
+import { initializeConsumer } from "./slices/cableSlice";
+
+
+const initializeConsumerMiddleware = (store) => (next) => (action) => {
+    if (action.type === initializeConsumer.type) {
+      const { consumerId } = action.payload;
+      const consumer = createConsumer("ws://localhost:3000/cable");
+      store.dispatch(initializeConsumer(consumerId));
+    }
+    return next(action);
+  };
 
 const persistConfig = {
   timeout: 100,
@@ -30,8 +42,13 @@ export const store = configureStore({
       },
       devTools: true,
     }),
+    initializeConsumerMiddleware,
 });
 
 export const persistor = persistStore(store);
+
+const consumerId = "some_unique_identifier";
+const consumer = createConsumer("ws://localhost:3000/cable");
+store.dispatch(initializeConsumer({ consumerId }));
 
 export default store;

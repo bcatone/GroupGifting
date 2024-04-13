@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  consumer: null,
+  consumerId: null,
   subscriptions: [],
 };
 
@@ -10,7 +10,7 @@ const cableSlice = createSlice({
   initialState,
   reducers: {
     initializeConsumer(state, action) {
-      state.consumer = action.payload;
+      state.consumerId = action.payload;
     },
     addSubscription(state, action) {
       state.subscriptions.push(action.payload);
@@ -23,4 +23,4 @@ const cableSlice = createSlice({
 
 export const { initializeConsumer, addSubscription, removeSubscription } = cableSlice.actions;
 
-export default cableSlice.reducer;
+export const cableReducer = cableSlice.reducer;

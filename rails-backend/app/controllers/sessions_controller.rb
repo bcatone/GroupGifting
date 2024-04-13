@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-    skip_before_action :authorized_user, only: [:create]
+    skip_before_action :authorized_user, only: [:create, :destroy]
 
     def show
         render json: current_user, status: :ok
