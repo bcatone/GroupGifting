@@ -3,7 +3,7 @@ import { createConsumer } from "@rails/actioncable";
 import { useDispatch, useSelector } from "react-redux";
 import { addDirectMessageToApi, deleteDirectMessageFromApi, editDirectMessageInApi } from "../redux/slices/directMessageSlice";
 
-const useMessageBar = () => {
+const useMessaging = () => {
     const dispatch = useDispatch();
     const cable = useRef(null);
     const user = useSelector((state) => state.auth.user);
@@ -109,4 +109,4 @@ const useMessageBar = () => {
     };
 };
 
-export default useMessageBar;
+export default useMessaging;

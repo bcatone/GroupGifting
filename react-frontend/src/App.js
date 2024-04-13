@@ -15,6 +15,7 @@ import MessageBar from "./components/MessageBar/MessageBar";
 import ItemLookup from "./pages/Items/ItemLookup";
 import Item from "./pages/Items/Item";
 import GiveAwayItem from "./pages/Items/GiveAwayItem";
+import MessagingPage from "./pages/MessagingPage";
 import Restricted from "./pages/Restricted";
 // end updated imports
 
@@ -62,6 +63,10 @@ function App() {
         </Route>
         <Route path="connections/" element={<SidebarLayout />}>
           {/* <Route index element={<Connections />} /> */}
+        </Route>
+        {/* <Route path="messages/" element={<MessagingPage />} /> */}
+        <Route path="messages/" element={<SidebarLayout />}>
+          <Route index element={<MessagingPage />} />
         </Route>
       </Routes>
       { isLoggedIn ? <MessageBar /> : null}
