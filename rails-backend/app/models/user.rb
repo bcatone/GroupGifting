@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
     has_many :items
 
+    has_many :requested_items
+
     has_many :sent_friendship_connections, class_name: 'FriendshipConnection', foreign_key: 'sender_id', dependent: :destroy
     has_many :received_friendship_connections, class_name: 'FriendshipConnection', foreign_key: 'receiver_id', dependent: :destroy
     scope :with_friendship_connections, -> { joins(:sent_friendship_connections).or(joins(:received_friendship_connections)).distinct }

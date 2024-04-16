@@ -10,11 +10,10 @@ export const fetchAllItems = createAsyncThunk(
     try {
       let response;
       if (distance) {
-        response = await fetch(`/items?distance=${distance}`);
+        response = await fetch(`/items?distance=${distance}&status=Available`);
       } else {
-        response = await fetch(`/items`);
+        response = await fetch(`/items?status=Available`);
       }
-
       const data = await response.json();
       console.log("data from fetchAllItems", data);
       return data;
@@ -82,13 +81,62 @@ export const fetchFilteredItems = createAsyncThunk(
   }
 );
 
+// export const updateItemInApi = createAsyncThunk(
+//   "item/updateItemInApi",
+//   async ({ itemId, updatedItem }, thunkAPI) => {
+//     try {
+//       const response = await fetch(`/items/${itemId}`, {
+//         method: "PATCH",
+//         body: updatedItem,
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(JSON.stringify(errorData));
+//       }
+
+//       const updatedItemData = {};
+//       updatedItem.forEach((value, key) => {
+//         updatedItemData[key] = value;
+//       });
+
+//       //   thunkAPI.dispatch(updateItemInPlant(updatedItemData));
+//       return updatedItemData;
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
+
 export const updateItemInApi = createAsyncThunk(
   "item/updateItemInApi",
-  async ({ itemId, updatedItem }, thunkAPI) => {
+  async ({ itemId, newItem, isFormData = false }, thunkAPI) => {
     try {
+      let requestBody;
+      let requestHeaders;
+
+      if (isFormData) {
+        requestBody = new FormData();
+        for (let key in newItem) {
+          if (Array.isArray(newItem[key])) {
+            newItem[key].forEach((value) =>
+              requestBody.append(`${key}[]`, value)
+            );
+          } else {
+            requestBody.append(key, newItem[key]);
+          }
+        }
+      } else {
+        requestBody = JSON.stringify(newItem);
+        requestHeaders = {
+          "Content-Type": "application/json",
+        };
+      }
+
       const response = await fetch(`/items/${itemId}`, {
         method: "PATCH",
-        body: updatedItem,
+        headers: requestHeaders,
+        body: requestBody,
       });
 
       if (!response.ok) {
@@ -96,12 +144,7 @@ export const updateItemInApi = createAsyncThunk(
         throw new Error(JSON.stringify(errorData));
       }
 
-      const updatedItemData = {};
-      updatedItem.forEach((value, key) => {
-        updatedItemData[key] = value;
-      });
-
-      //   thunkAPI.dispatch(updateItemInPlant(updatedItemData));
+      const updatedItemData = await response.json();
       return updatedItemData;
     } catch (error) {
       throw error;

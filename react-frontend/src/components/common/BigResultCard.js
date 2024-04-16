@@ -78,7 +78,7 @@ const BigResultCard = ({ result, index }) => {
                 style={{ marginTop: "15px" }}
                 align="center"
               >
-                {result.deadline}
+                {result.formatted_deadline}
               </Typography>
             </CardContent>
           </CardActionArea>

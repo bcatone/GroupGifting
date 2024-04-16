@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Typography, Dialog, DialogContent } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { fetchItemById } from "../../redux/slices/itemSlice";
+import { fetchItemById, updateItemInApi } from "../../redux/slices/itemSlice";
 import CommonButton from "../../components/common/CommonButton";
 import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../../components/common/categories";
 import CategoryButton from "../../components/common/CategoryButton";
 import Calendar from "react-calendar";
 import { Link } from "react-router-dom";
+import { addRequestedItem, removeRequestedItem } from "../../redux/slices/requestedItemsSlice";
 
 const Item = () => {
   const params = useParams();
@@ -16,6 +17,7 @@ const Item = () => {
   const commentBox = useRef(null);
   const [open, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
+  const [requestItem, setRequestItem] = useState(false);
   const [item, setItem] = useState({
     title: "",
     category: "",
@@ -30,21 +32,32 @@ const Item = () => {
     images: [],
   });
 
-  const category = categories.find((cat) => cat.name === item.category);
+  const category = categories.find((cat) => cat.name === item?.category);
+
+  console.log("params", params)
 
   ////// To Do
-  // get comment data
-  /// add post request etc. for comment from here
   /// add functionality to make user be able to request item and reflect on backend and on here
+  /// have request item button send a patch request to the backend adding the user's id to the requested_users array, changing the button appearance to "Requested"
+  /// make pressing that same button again send a patch request to take that user off of the requested_users array 
 
   useEffect(() => {
-    const fetchEntry = async () => {
+    const fetchItem = async () => {
       const result = await dispatch(fetchItemById(id));
       setItem(result.payload);
     };
 
-    fetchEntry();
+    fetchItem();
+       window.scrollTo(0, 0);
   }, [id, dispatch]);
+
+ 
+useEffect(() => {
+  const isItemRequested = user.requested_items?.some(
+    (requestedItemId) => requestedItemId === item.id
+  );
+  setRequestItem(isItemRequested);
+}, [item, currentUser]);
 
   const [mainImage, setMainImage] = useState(
     "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
@@ -88,6 +101,22 @@ const Item = () => {
   const handleCommentSubmit = () => {
     // Handle comment submit
   };
+
+const handleRequestItem = () => {
+  const userId = user.id;
+  const itemId = item.id
+
+  if (!requestItem) {
+    setRequestItem(true);
+    // send request to backend to add the user.id to the requested_users array
+    dispatch(addRequestedItem({ userId, itemId}));
+  } else {
+    setRequestItem(false);
+    // send request to the backend to remove the user.id from the requested_users array
+
+    dispatch(removeRequestedItem({ userId, itemId }));
+  }
+};
 
   const handleDeleteItem = async (item) => {
     try {
@@ -187,17 +216,30 @@ const Item = () => {
                 {item.category}
               </CategoryButton>
             )}{" "}
-          </div>
+          </div> {!currentUser ? (
           <Typography variant="h6" component="h6" sx={{ margin: "1em" }}>
             <span>
               <Link to={`/users/${item.username}`}>{item.username}</Link>
             </span>
             {" in "}
             <span>{item.city}</span>
-          </Typography>
-          <CommonButton style={{ marginTop: ".5em" }}>
-            Request Item
-          </CommonButton>
+          </Typography> ) : <Typography variant='h6'>Your item</Typography>}
+          {currentUser ? null : requestItem ? (
+            <CommonButton
+              style={{ marginTop: ".5em", backgroundColor: "green" }}
+              onClick={handleRequestItem}
+            >
+              Item Requested
+            </CommonButton>
+          ) : (
+            <CommonButton
+              style={{ marginTop: ".5em" }}
+              onClick={handleRequestItem}
+            >
+              Request Item
+            </CommonButton>
+          )}
+
           <Typography variant="h5" component="h4" sx={{ margin: "1em" }}>
             {item.description}
           </Typography>

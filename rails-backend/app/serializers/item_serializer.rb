@@ -1,8 +1,13 @@
 class ItemSerializer < ActiveModel::Serializer
    include Rails.application.routes.url_helpers
-  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city, :deadline, :give_method, :username
+  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city, :deadline, :give_method, :username, :created_at
   belongs_to :user
   has_many :comments
+
+  has_many :requested_items
+  # has_many :requested_users
+
+  # took out :requested_users
 
   def images
     if object.images.attached?

@@ -4,11 +4,17 @@ Rails.application.routes.draw do
 resources :items do
   get :search, on: :collection
   get :filter, on: :collection
-   get :index, constraints: { distance: /\d+/ }
+   get :index, constraints: { distance: /\d+/ }, on: :collection
+     get :index, constraints: { status: /[^\/]+/ }, on: :collection
 end
-  resources :direct_messages
+  
+resources :direct_messages
   resources :friendship_connections
-  resources :users
+
+  resources :users do
+    get '/users/:username', to: 'users#show_by_username', on: :collection
+    # resources :requested_items, only: [:index, :create, :destroy]
+  end
 
 
 

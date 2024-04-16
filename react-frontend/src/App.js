@@ -50,9 +50,7 @@ function App() {
         <Route path={"/"} element={<Outlet />}>
           <Route
             index
-            element={isLoggedIn ? <Navigate to="main/" /> : 
-            <Login/>
-          }
+            element={isLoggedIn ? <Navigate to="main/" /> : <Login />}
           />
 
           <Route path="main/" element={<Main />} />
@@ -72,6 +70,10 @@ function App() {
               path=":username/my-listed-items"
               element={<MyListedItems />}
             />
+            {/* <Route
+              path=":username/listed-items"
+              element={<ListedItems />}
+            /> */}
             {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
 
             {/* <Route path="all/" element={<AllUsers />} /> */}

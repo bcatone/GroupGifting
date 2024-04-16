@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 // import { fetchUserById } from "../redux/slices/userSlice";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import default_avatar from "../../assets/images/defaultavatar.jpg"
-import { Grid, Typography, Container } from "@mui/material";
+import { Grid, Typography, Container, Box } from "@mui/material";
 import CommonButton from "../../components/common/CommonButton";
+import { fetchUserByUsername } from "../../redux/slices/userSlice";
+import BigResultCard from "../../components/common/BigResultCard";
 
 const UserAccount = () => {
   const params = useParams();
@@ -18,6 +20,21 @@ const UserAccount = () => {
 
   console.log("params", params);
 
+
+const itemsWithSoonestDeadlines = (items) => {
+  return items
+    ? items
+        .filter((item) => item.status === "Available")
+        .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+        .slice(0, 3)
+    : null;
+};
+
+const soonestDeadlineItems = itemsWithSoonestDeadlines(user.items);
+console.log("Items with soonest deadlines:", soonestDeadlineItems);
+
+
+
   useEffect(() => {
     // if user in params same as loggedInUser
     if (params.username === loggedInUser.username.toLowerCase()) {
@@ -25,10 +42,10 @@ const UserAccount = () => {
       setCurrentUser(true);
       setUser(loggedInUser);
     } else {
-      //   dispatch(fetchUserById(userId)).then((response) => {
-      //     setUser(response.payload);
-      //     setCurrentUser(false);
-      //   });
+        dispatch(fetchUserByUsername(params.username)).then((response) => {
+          setUser(response.payload);
+          setCurrentUser(false);
+        });
     }
   }, [loggedInUser, dispatch]);
 
@@ -57,10 +74,20 @@ const UserAccount = () => {
             </Typography>
           </>
         ) : (
-          <Typography variant="h3">{user.username}</Typography>
-        )}{" "}
+          <>
+            <Typography variant="h4" style={{ marginTop: "1em" }}>
+              {params.username}
+            </Typography>
+            <Typography variant="h5" style={{ marginTop: "1em" }}>
+              {user.first_name}
+            </Typography>
+            <Typography variant="h5" style={{ marginTop: "1em" }}>
+              {user.city}, {user.state}
+            </Typography>
+          </>
+        )}
       </Grid>
-      <Grid item xs={12} md={6} lg={4} style={{ marginTop: "1em" }}>
+      <Grid item xs={12} md={12} lg={12} style={{ marginTop: "1em" }}>
         {currentUser ? (
           <>
             {" "}
@@ -73,7 +100,36 @@ const UserAccount = () => {
               </CommonButton>{" "}
             </Link>
           </>
-        ) : null}
+        ) : (
+          <>
+            {soonestDeadlineItems?.length > 1 ? (
+              <>
+                <h2 className="center">Items with Soonest Deadlines:</h2>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    paddingRight: "40px",
+                  }}
+                >
+                  <Link>
+                    <CommonButton>Show All</CommonButton>
+                  </Link>
+                </div>
+                <Box
+                  width="100%"
+                  padding={2}
+                  margin={2}
+                  style={{ display: "flex" }}
+                >
+                  {soonestDeadlineItems?.map((item) => (
+                    <BigResultCard result={item} />
+                  ))}
+                </Box>
+              </>
+            ) : null}
+          </>
+        )}
       </Grid>{" "}
     </Grid>
   );

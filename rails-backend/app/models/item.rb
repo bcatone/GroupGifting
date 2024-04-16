@@ -3,6 +3,8 @@ class Item < ApplicationRecord
     has_many :comments, dependent: :destroy
     has_many_attached :images, dependent: :destroy
     has_many :settings, as: :configurable
+    
+    has_many :requested_items
 
     scope :by_category, ->(category) { where(category: category) if category.present? }
 
