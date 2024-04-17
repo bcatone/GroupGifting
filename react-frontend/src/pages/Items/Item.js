@@ -8,7 +8,7 @@ import { categories } from "../../components/common/categories";
 import CategoryButton from "../../components/common/CategoryButton";
 import Calendar from "react-calendar";
 import { Link } from "react-router-dom";
-import { addRequestedItem, removeRequestedItem } from "../../redux/slices/requestedItemsSlice";
+import { removeItemRequest, addItemRequest } from "../../redux/slices/ItemRequestsSlice";
 
 const Item = () => {
   const params = useParams();
@@ -17,7 +17,7 @@ const Item = () => {
   const commentBox = useRef(null);
   const [open, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
-  const [requestItem, setRequestItem] = useState(false);
+  const [itemRequest, setItemRequest] = useState(false);
   const [item, setItem] = useState({
     title: "",
     category: "",
@@ -53,10 +53,10 @@ const Item = () => {
 
  
 useEffect(() => {
-  const isItemRequested = user.requested_items?.some(
-    (requestedItemId) => requestedItemId === item.id
+  const isItemRequested = user.item_requests?.some(
+    (itemRequestId) => itemRequestId === item.id
   );
-  setRequestItem(isItemRequested);
+  setItemREquest(isItemRequested);
 }, [item, currentUser]);
 
   const [mainImage, setMainImage] = useState(
@@ -107,14 +107,14 @@ const handleRequestItem = () => {
   const itemId = item.id
 
   if (!requestItem) {
-    setRequestItem(true);
+    setItemRequest(true);
     // send request to backend to add the user.id to the requested_users array
-    dispatch(addRequestedItem({ userId, itemId}));
+    dispatch(addItemRequest({ userId, itemId}));
   } else {
-    setRequestItem(false);
+    setItemRequest(false);
     // send request to the backend to remove the user.id from the requested_users array
 
-    dispatch(removeRequestedItem({ userId, itemId }));
+    dispatch(removeItemRequest({ userId, itemId }));
   }
 };
 

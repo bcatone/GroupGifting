@@ -4,7 +4,7 @@ class ItemSerializer < ActiveModel::Serializer
   belongs_to :user
   has_many :comments
 
-  has_many :requested_items
+  has_many :item_requests
   # has_many :requested_users
 
   # took out :requested_users

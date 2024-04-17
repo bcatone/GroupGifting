@@ -4,7 +4,7 @@ class Item < ApplicationRecord
     has_many_attached :images, dependent: :destroy
     has_many :settings, as: :configurable
     
-    has_many :requested_items
+    has_many :item_requests
 
     scope :by_category, ->(category) { where(category: category) if category.present? }
 

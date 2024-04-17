@@ -2,7 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :username, :first_name, :last_name, :city, :state, :zip, :avatar, :avatar_thumbnail
   has_many :items
 
-   has_many :requested_items
+   has_many :item_requests
   # has_many :requested_items, through: :requested_items, source: :item
 
     def avatar
