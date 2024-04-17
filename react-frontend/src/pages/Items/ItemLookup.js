@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Container } from "@mui/material";
-// import CommonButton from "../../components/App/Common/CommonButton";
+import CommonButton from "../../components/common/CommonButton";
 import BigResultCard from "../../components/common/BigResultCard";
 
 import { useSelector, useDispatch } from "react-redux";

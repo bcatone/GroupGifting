@@ -23,11 +23,6 @@ root.render(
             <App />
           </BrowserRouter>
         </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ThemeProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

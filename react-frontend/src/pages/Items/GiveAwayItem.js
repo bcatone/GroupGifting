@@ -10,7 +10,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import useControlledForm from "../../components/hooks/useControlledForm";
+import useControlledForm from "../../hooks/useControlledForm";
 import { categories } from "../../components/common/categories";
 import CategoryButton from "../../components/common/CategoryButton";
 import { useSelector, useDispatch } from "react-redux";

@@ -19,24 +19,27 @@ class Message < ApplicationRecord
     
       if user_time.to_date == today
         formatted_datetime = "Today at #{user_time.strftime('%I:%M %p')}"
+        formatted_datetime = "Today at #{user_time.strftime('%l:%M %p')}"
       elsif user_time.to_date == yesterday
-        formatted_datetime = "Yesterday at #{user_time.strftime('%I:%M %p')}"
+        # formatted_datetime = "Yesterday at #{user_time.strftime('%I:%M %p')}"
+        formatted_datetime = "Yesterday at #{user_time.strftime('%l:%M %p')}"
       else
-        formatted_datetime = user_time.strftime('%m/%d/%Y %I:%M %p')
+        # formatted_datetime = user_time.strftime('%m/%d/%Y %I:%M %p')
+        formatted_datetime = user_time.strftime('%b %e %l:%M %p')
       end
     
       formatted_datetime
     end
 
-    def content_preview(num_chars = 50)
+    def content_preview(num_chars = 25)
         content_preview = self.content
         content_preview = "#{content_preview.slice(0, num_chars)}..." if content_preview.length > num_chars
         content_preview
     end
 
-    def is_viewed(user)
-      is_viewed = MessageView.find_by(user: user, message: self).is_viewed
-      is_viewed
-    end
+    # def is_viewed(user)
+    #   is_viewed = MessageView.find_or_create_by(user: user, message: self).is_viewed
+    #   is_viewed
+    # end
 
 end

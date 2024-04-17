@@ -1,20 +1,20 @@
 class DirectMessageSerializer < ActiveModel::Serializer
-  attributes :id, :sender, :content, :direction, :created_at, :is_viewed
+  attributes :id, :other_user_id, :sender_id, :receiver_id, :avatar_url, :username, :content, :direction, :is_viewed
 
-  def sender
+  def other_user_id
+    self.object.other_user(current_user).id
+  end
+
+  def avatar_url
+    avatar_url = self.object.sender.avatar_url
+  end
+
+  def username
     sender = self.object.sender
-
-    sender_data = {
-      id: sender.id,
-      username: sender == current_user ? "You" : sender.username,
-      avatar: sender.avatar_url
-    }
-  end
-
-  def created_at
-    self.object.format_date(self.object.created_at)
-  end
-
+    username = sender == current_user ? "You" : sender.username
+    username
+  end  
+  
   def direction
     if self.object.sender == current_user
       'sent'
@@ -25,8 +25,17 @@ class DirectMessageSerializer < ActiveModel::Serializer
     end
   end
 
+  def created_at
+    self.object.format_date(self.object.created_at)
+  end
+
   def is_viewed
-    self.object.is_viewed(current_user)
+    if current_user
+      self.object.is_viewed(current_user)
+    else
+      puts "There is an issue with current_user"
+      return true
+    end
   end
 
 end

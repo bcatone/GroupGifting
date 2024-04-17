@@ -1,0 +1,7 @@
+.message-inbox__item {
+    border: 1px solid var(--gray);
+}
+
+.message-inbox__item:hover {
+    background: var(--light-gray);
+}

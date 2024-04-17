@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
 
 const Restricted = () => {
+
   return (
-    <div>Restricted</div>
-  )
+    <div>
+      Restricted
+    </div>
+  );
 }
 
-export default Restricted
+export default Restricted;

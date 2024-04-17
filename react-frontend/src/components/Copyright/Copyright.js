@@ -13,7 +13,7 @@ function Copyright(props) {
       >
         {"Copyright © "}
         <Link color="inherit" href="https://github.com/jaredsurya/healio">
-          Healio
+          Gift Giving
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}

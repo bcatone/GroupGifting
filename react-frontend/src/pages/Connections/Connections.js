@@ -5,7 +5,7 @@ function Connections() {
     <div>
       Connections
     </div>
-  )
+  );
 }
 
-export default Connections
+export default Connections;

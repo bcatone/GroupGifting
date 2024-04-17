@@ -1,13 +1,16 @@
 import { combineReducers } from "redux";
-import authReducer from "./reducers/authReducer";
-import settingsReducer from "./reducers/settingsReducer";
+import { authReducer } from "./slices/authSlice";
+import { cableReducer } from "./slices/cableSlice";
 import { itemReducer } from "./slices/itemSlice";
+import { directMessageReducer } from "./slices/directMessageSlice";
 import { commentReducer } from "./slices/commentSlice";
+
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  settings: settingsReducer,
+  cable: cableReducer,
   item: itemReducer,
+  directMessages: directMessageReducer,
   comment: commentReducer,
 });
 

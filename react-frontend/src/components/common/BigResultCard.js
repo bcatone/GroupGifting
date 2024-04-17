@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom"; 
 import CategoryButton from "./CategoryButton";
 import { categories } from "./categories";
-import placeholder from "../../assets/images/placeholder.png"
+import placeholder from "../../assets/images/placeholder.png";
 
 const BigResultCard = ({ result, index }) => {
   const category = categories.find((cat) => cat.name === result.category);

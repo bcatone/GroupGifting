@@ -14,6 +14,7 @@ Burnt Orange: #D16918 */
   justify-content: center;
   flex-wrap: nowrap;
   padding: 20px; /* Adjust padding as needed */
+  border-radius: 25px;
 }
 
 .sidebar h2 {

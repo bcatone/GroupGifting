@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 // Import in the component that is using the ConversationDialog
 const useConfirmationDialog = () => {
     const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);

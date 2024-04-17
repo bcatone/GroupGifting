@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import themeOptions from "../components/utils/themeOptions";
-import useAuth from "../components/AuthHeader/useAuth";
+// import useAuth from "./useAuth";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -15,21 +13,32 @@ import Checkbox from "@mui/material/Checkbox";
 import { Switch } from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-// import Copyright from "./Copyright";
-
-const theme = createTheme(themeOptions);
+import Copyright from "../components/Copyright/Copyright";
+import useControlledForm from "../hooks/useControlledForm";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/slices/authSlice";
+import useToggle from "../hooks/useToggle";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    errors,
-    isPasswordVisable,
-    toggleIsPasswordVisible,
-    handleLoginSubmit,
-  } = useAuth();
+  const isLoggedIn = useSelector((state) => !!state.auth.user);
+
+  const { inputData: loginData, handleInputChange } = useControlledForm();
+  const { isSelected: isPasswordVisable, toggleIsSelected: toggleIsPasswordVisible} = useToggle();
+
+  // Temporary fix for redirecting logged-in user
+  useEffect(() => {
+    if (isLoggedIn) navigate("/");
+  },[]);
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    console.log("Logging in user: ", loginData);
+    dispatch(setUser(loginData));
+  };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -52,20 +61,24 @@ function Login() {
               id="email"
               label="Email Address"
               name="email"
+              value={loginData.email}
               autoComplete="email"
               autoFocus
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
+              value={loginData.password}
               label="Password"
               type={isPasswordVisable ? "text" : "password"}
               id="password"
               autoComplete="current-password"
+              onChange={handleInputChange}
             />
-            {errors
+            {/* {errors
               ? errors.map((err) => (
                   <Typography
                     fontWeight="bold"
@@ -75,13 +88,13 @@ function Login() {
                     {err}
                   </Typography>
                 ))
-              : null}
+              : null} */}
             <Grid item xs={12}>
               <FormControlLabel
                 name="pass"
                 control={
                   <Switch
-                    value="true"
+                    value={isPasswordVisable}
                     onChange={toggleIsPasswordVisible}
                     color="secondary"
                   />
@@ -131,9 +144,8 @@ function Login() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 3 }} /> */}
+        <Copyright sx={{ mt: 3 }} />
       </Container>
-    </ThemeProvider>
   );
 }
 

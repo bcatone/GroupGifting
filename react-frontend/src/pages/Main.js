@@ -26,13 +26,13 @@ const Main = () => {
     const auth = useSelector((state) => state.auth)
     
 
-    console.log("auth", auth)
+    // console.log("auth", auth)
 
     useEffect(()=> {
  dispatch(fetchAllItems())
 
     }, [])
-    console.log("items", items)
+    // console.log("items", items)
 
   return (
     <div

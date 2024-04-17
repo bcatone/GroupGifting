@@ -1,40 +1,40 @@
-import { useState, useCallback } from "react"
-
+import { useState, useCallback } from "react";
 const useControlledForm = () => {
-  const [formData, setFormData] = useState({})
-  const [errors, setErrors] = useState({})
-  const [isFormValid, setIsFormValid] = useState(false)
+  const [inputData, setInputData] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleInputChange = (event) => {
+
+const handleInputChange = useCallback(
+  (event) => {
     const { name, value } = event.target;
-
-    setFormData({
-      ...formData,
+    setInputData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    })
-
-    setErrors({
-      ...errors,
+    }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
       [name]: event.target.validationMessage,
-    })
-    // setIsFormValid(event.target.closest("#form").checkValidity())
-  }
+    }));
+  },
+  [setInputData, setErrors]
+);
 
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsFormValid = false) => {
-      setFormData(newValues)
-      setErrors(newErrors)
-      setIsFormValid(newIsFormValid)
+      setInputData(newValues);
+      setErrors(newErrors);
+      setIsFormValid(newIsFormValid);
     },
-    [setFormData, setErrors, setIsFormValid]
-  )
+    [setInputData, setErrors, setIsFormValid]
+  );
 
   return {
-    formData,
+    inputData,
     errors,
     isFormValid,
     handleInputChange,
-    resetForm
+    resetForm,
   };
 };
 

@@ -1,0 +1,12 @@
+.message-item {
+    word-wrap: break-word;
+    border-bottom: 1px solid var(--gray);
+}
+
+.message-item:hover {
+    background: var(--light-gray);
+}
+
+.message-item__unread {
+  background: var(--light-green);
+}

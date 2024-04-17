@@ -10,6 +10,19 @@
   color: white;
 } */
 
+:root {
+  --black: #202020;
+  --blue: #5C96E2;
+  --gray: #C1C1C1;
+  --green: #6BBE84;
+  --light-blue: #85B1EA;
+  --light-gray: #F2F2F2;
+  --light-green: #F6FbF8;
+  --orange: #E2A85C;
+  --red: #9D2735;
+  --white: #FDFDFD;
+}
+
 .html {
   width: 100vh;
   height: 100vh;
@@ -34,6 +47,10 @@ body {
 }
 
 .SideBar {
+  /* margin-top: 5%; */
+  margin-bottom: 5%;
+  margin-left: 5%; /* Set margin on all sides except right */
+  /* margin-right: 3%; */
   width: 350px;
   background-color: #74a892;
   display: flex;
@@ -42,6 +59,7 @@ body {
   flex-wrap: nowrap;
   padding: 20px;
   border-radius: 25px;
+  /* position: fixed; */
 }
 
 .item-body {

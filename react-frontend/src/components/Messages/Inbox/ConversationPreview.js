@@ -37,8 +37,8 @@ function ConversationPreview({ onClick, avatar, username, datetime, content, num
                     <Avatar
                       src={avatar || ""}
                       style={{
-                        width: "62px",
-                        height: "62px"
+                        width: "2rem",
+                        height: "2rem"
                       }}
                     />
                     </Badge>
@@ -62,7 +62,7 @@ function ConversationPreview({ onClick, avatar, username, datetime, content, num
                       </Typography>
                       <Typography 
                         variant="body2"
-                        style={{marginTop: "0.5em", fontSize: "1.5em", fontFamily: "Roboto"}}
+                        // style={{marginTop: "0.5em", fontSize: "1.5em", fontFamily: "Roboto"}}
                       >
                         {content}
                       </Typography>

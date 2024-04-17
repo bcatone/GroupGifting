@@ -3,6 +3,33 @@ import { createTheme } from "@mui/material/styles";
 
 const themeOptions = {
   palette: {
+    black: {
+      main: "#202020"
+    },
+    blue: {
+      main: "#5C96E2"
+    },
+    gray: {
+      main: "#C1C1C1"
+    },
+    green: {
+      main: "#6BBE84"
+    },
+    light_blue: {
+      main: "#85B1EA"
+    },
+    light_gray: {
+      main: "#F2F2F2"
+    },
+    orange: {
+      main: "#E2A85C"
+    },
+    red: {
+      main: "#9D2735"
+    },
+    white: {
+      main: "#FDFDFD"
+    },
     mode: "light",
     primary: {
       main: "#5C96E2",
@@ -12,27 +39,20 @@ const themeOptions = {
       main: "#c93860",
     },
     background: {
-      default: "#EADEB8",
+      // default: "#EADEB8",
       paper: "#ffffff",
     },
     error: {
       main: "#fb0743",
     },
     text: {
-      primary: "#C56824",
+      // primary: "#C56824",
       secondary: "rgba(20,33,70,0.62)",
       disabled: "rgba(20,33,70,0.33)",
     },
   },
   typography: {
-    fontFamily: "PT serif",
-    h4: {
-      marginBottom: "20 px",
-    },
-    h5: {
-      color: "#373737", 
-     textDecoration: 'none'
-    }
+    // fontFamily: "PT serif",
   },
   breakpoints: {
     values: {

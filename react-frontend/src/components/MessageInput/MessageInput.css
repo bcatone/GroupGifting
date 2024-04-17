@@ -1,0 +1,24 @@
+.message-input {
+    width: 100%;
+    display: grid;
+    grid-template-areas: "emoji cancel send";
+    grid-template-columns: 1fr 25px 25px;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.message-input__emoji-button {
+    grid-area: emoji;
+    /* border: 1px solid red; */
+}
+
+.message-input__cancel-button {
+    grid-area: cancel;
+    /* border: 1px solid red; */
+}
+
+.message-input__send-button {
+    grid-area: send;
+    padding-left: 0.25rem;
+    /* border: 1px solid red; */
+}

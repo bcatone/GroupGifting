@@ -4,7 +4,7 @@ import {
   fetchSearchedItems,
   fetchFilteredItems,
   fetchAllItems,
-} from "../../redux/slices/itemSlice";
+} from "../redux/slices/itemSlice";
 
 const useItemFilter = () => {
   const dispatch = useDispatch();

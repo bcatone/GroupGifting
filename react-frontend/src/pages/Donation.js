@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "../App/SideBar";
+import SideBar from "../components/Sidebar/Sidebar";
 
 const DonationBarData = [
   {

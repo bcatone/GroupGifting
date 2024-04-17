@@ -217,7 +217,7 @@ const Item = () => {
 
             <CommonButton
               style={{ marginLeft: "10px" }}
-              onClick={() => handleDeleteEntry(entryId)}
+              // onClick={() => handleDeleteEntry(entryId)}
             >
               Delete Item
             </CommonButton>
