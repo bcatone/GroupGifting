@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Box,
-  Button,
-} from "@mui/material";
-import { Link } from "react-router-dom"; 
+import { Grid, Typography, Box, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const ItemListingCard = ({ item }) => {
   console.log("item from user.item", item);
-
   console.log("item.images[0]", item.images[0]);
 
   const TimeDisplay = ({ timeObject }) => {
@@ -33,84 +27,90 @@ const ItemListingCard = ({ item }) => {
     ) : null;
   };
 
-return (
-  <Grid container spacing={2} justifyContent="center">
-    <Grid
-      item
-      xs={12}
-      sm={10}
-      md={8}
-      style={{ marginTop: "1em", position: "relative" }}
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection={{ xs: "column", sm: "row" }}
-        style={{
-          backgroundColor: "#FFFFFF",
-          borderRadius: "30px",
-          margin: "10px",
-          overflow: "hidden",
-        }}
+  return (
+    <Grid container spacing={2} justifyContent="center">
+      <Grid
+        item
+        xs={12}
+        sm={10}
+        md={8}
+        style={{ marginTop: "1em", position: "relative" }}
       >
         <Box
-          component="img"
-          src={item.images[0]}
-          sx={{
-            maxWidth: { xs: "100%", sm: "200px" },
-            maxHeight: { xs: "auto", sm: "200px" },
-            objectFit: "cover",
-            borderTopLeftRadius: { sm: "30px" },
-            borderBottomLeftRadius: { sm: "30px" },
-            marginRight: { xs: 0, sm: "16px" },
-            marginBottom: { xs: "16px", sm: 0 },
-          }}
-        />
-        <Box
-          flexGrow={1}
           display="flex"
-          flexDirection="column"
-          justifyContent="center"
           alignItems="center"
-          paddingLeft={2}
-          paddingRight={2}
+          justifyContent="center"
+          flexDirection={{ xs: "column", sm: "row" }}
+          style={{
+            backgroundColor: "#FFFFFF",
+            borderRadius: "30px",
+            margin: "10px",
+            overflow: "hidden",
+          }}
         >
-          <Link to={`/items/${item.id}`} style={{textDecoration:"none", color:"black"}}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              align="center"
-              style={{ marginBottom: "8px" }}
+          {item.images && item.images.length > 0 && (
+            <Box
+              component="img"
+              src={item.images[0]}
+              alt={item.title}
+              sx={{
+                maxWidth: { xs: "100%", sm: "200px" },
+                maxHeight: { xs: "auto", sm: "200px" },
+                objectFit: "cover",
+                borderTopLeftRadius: { sm: "30px" },
+                borderBottomLeftRadius: { sm: "30px" },
+                marginRight: { xs: 0, sm: "16px" },
+                marginBottom: { xs: "16px", sm: 0 },
+              }}
+            />
+          )}
+          <Box
+            flexGrow={1}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            paddingLeft={2}
+            paddingRight={2}
+          >
+            <Link
+              to={`/items/${item.id}`}
+              style={{ textDecoration: "none", color: "black" }}
             >
-              {item.title}
-            </Typography>
-            <TimeDisplay timeObject={item.time_until_deadline} />
-            <Typography
-              variant="h5"
-              align="center"
-              style={{ marginTop: "8px" }}
-            >
-              # People Requested
-            </Typography>
-          </Link>
-        </Box>
-
-        <Box position="absolute" top={30} right={15}>
-          <Link to={`/items/${item.id}/edit`}>
-            <Button>
+              <Typography
+                variant="h4"
+                gutterBottom
+                align="center"
+                style={{ marginBottom: "8px" }}
+              >
+                {item.title}
+              </Typography>
+              <TimeDisplay timeObject={item.time_until_deadline} />
               <Typography
                 variant="h5"
-                style={{ marginRight: "1em", transform: "scaleX(-1)" }}
+                align="center"
+                style={{ marginTop: "8px" }}
               >
-                ✏️
+                # People Requested
               </Typography>
-            </Button>
-          </Link>
+            </Link>
+          </Box>
+          <Box position="absolute" top={30} right={15}>
+            <Link to={`/items/${item.id}/edit`}>
+              <Button>
+                <Typography
+                  variant="h5"
+                  style={{ marginRight: "1em", transform: "scaleX(-1)" }}
+                >
+                  ✏️
+                </Typography>
+              </Button>
+            </Link>
+          </Box>
         </Box>
-      </Box>
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
 };
+
 export default ItemListingCard;

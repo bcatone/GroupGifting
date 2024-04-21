@@ -35,7 +35,7 @@ const MyListedItems = () => {
 
 
       <Grid container>
-        {filteredItems.map((item) => <ItemListingCard item={item}/>)}
+        {filteredItems.map((item) => <ItemListingCard key={item} item={item}/>)}
       </Grid>
     </div>
   );
