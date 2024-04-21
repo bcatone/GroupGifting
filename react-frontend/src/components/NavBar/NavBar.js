@@ -26,7 +26,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const settings = [
     "My Account",
-    "My Saved Items",
+    "My Requested Items",
     "About Group Gifting",
     "Log out",
   ];
@@ -80,8 +80,8 @@ const NavBar = () => {
       case "My Account":
         navigate(`/users/${user.username}`);
         break;
-      case "My Saved Items":
-        navigate("/main/mysaved");
+      case "My Requested Items":
+        navigate("/items/myrequests");
         break;
       case "About Group Gifting":
         navigate("/main/about");
@@ -224,7 +224,7 @@ const NavBar = () => {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt={"user here"}
-                    src={user.avatar_thumbnail || default_avatar}
+                    src={user?.avatar_thumbnail || default_avatar}
                     style={avatarStyle}
                   />
                 </IconButton>

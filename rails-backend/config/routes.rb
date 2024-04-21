@@ -13,7 +13,7 @@ resources :direct_messages
 
   resources :users do
     get '/users/:username', to: 'users#show_by_username', on: :collection
-    # resources :requested_items, only: [:index, :create, :destroy]
+    resources :item_requests, only: [:index, :create, :destroy]
   end
 
 

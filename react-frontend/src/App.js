@@ -20,6 +20,7 @@ import Restricted from "./pages/Restricted";
 // import Donation from "../pages/Donation";
 import { setUser } from "./redux/actions/authActions";
 import UserAccount from "./pages/Users/UserAccount";
+import MyRequestedItems from "./pages/Items/MyRequestedItems";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             <Route path={"new/"} element={<GiveAwayItem />} />
             <Route path={":id/edit/"} element={<EditItem />} />
             <Route path={":id/"} element={<Item />} />
+            <Route path={"myrequests"} element={<MyRequestedItems/>}/>
           </Route>
           <Route path="users/" element={<SideBarLayout />}>
             <Route path=":username/" element={<UserAccount />} />
@@ -70,10 +72,7 @@ function App() {
               path=":username/my-listed-items"
               element={<MyListedItems />}
             />
-            {/* <Route
-              path=":username/listed-items"
-              element={<ListedItems />}
-            /> */}
+
             {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
 
             {/* <Route path="all/" element={<AllUsers />} /> */}

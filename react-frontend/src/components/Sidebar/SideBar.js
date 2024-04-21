@@ -44,7 +44,6 @@ console.log("selectedStatus", selectedStatus)
 
   console.log("activeRoute", activeRoute);
 
-  console.log("user", user, "user.username", user.username);
 
   useEffect(() => {
     if (selected !== "") {
@@ -154,8 +153,8 @@ console.log("selectedStatus", selectedStatus)
         <div key={index}>
           <h2 className="center">{group.label}</h2>
           <ul>
-            {user.username &&
-              activeRoute === `/users/${user.username}/my-listed-items` && (
+            {user?.username &&
+              activeRoute === `/users/${user?.username}/my-listed-items` && (
                 <div>
                   <h2>Select your items with a status of:</h2>
                   <ul>

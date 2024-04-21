@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -30,14 +30,11 @@ const EditItem = () => {
   const [date, setDate] = useState(new Date());
   const [editZip, setEditZip] = useState(false);
   const [editCity, setEditCity] = useState(false);
-  const [duration, setDuration] = useState("");
   const [calendar, setCalendar] = useState(false);
   const [giveMethod, setGiveMethod] = useState("");
   const [zip, setZip] = useState("");
   const [city, setCity] = useState("");
   const [formErrors, setFormErrors] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const params = useParams();
   const navigate = useNavigate();
 
@@ -51,6 +48,10 @@ const EditItem = () => {
   const itemId = Number(params.id);
 
   console.log("itemId", itemId);
+
+  useEffect(() => {
+    console.log("selectedImages", selectedImages);
+  }, [selectedImages]);
 
   //// To Do
 
@@ -111,16 +112,13 @@ const EditItem = () => {
 
     const updatedItem = new FormData();
 
-    // taking out give_method
     for (const key in inputData) {
       if (key === "images") {
-        // Handle images as an array
         const images = inputData[key];
         images.forEach((image, index) => {
           updatedItem.append(`images[]`, image);
         });
       } else {
-        // Skip appending the 'give_method' key
         updatedItem.append(key, inputData[key]);
       }
     }
@@ -139,6 +137,7 @@ const EditItem = () => {
       return;
     }
 
+    console.log("updatedItem from handleSubmit", updatedItem);
     // const sendingItem =  item: newItem ;
 
     dispatch(updateItemInApi({ itemId, updatedItem }))

@@ -72,13 +72,11 @@ const GiveAwayItem = () => {
 
     for (const key in inputData) {
       if (key === "images") {
-        // Handle images as an array
         const images = inputData[key];
-        images.forEach((image) => {
-          newItem.append(key, image);
+        images.forEach((image, index) => {
+          newItem.append(`images[]`, image);
         });
       } else {
-        // For other attributes, append them normally
         newItem.append(key, inputData[key]);
       }
     }
@@ -97,7 +95,7 @@ const GiveAwayItem = () => {
       return;
     }
 
-    const sendingItem = { item: newItem };
+  
 
     dispatch(addItemToApi(newItem))
       .then((action) => {

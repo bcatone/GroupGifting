@@ -17,7 +17,7 @@ const Item = () => {
   const commentBox = useRef(null);
   const [open, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
-  const [itemRequest, setItemRequest] = useState(false);
+  const [itemRequest, setItemRequest] = useState(null);
   const [item, setItem] = useState({
     title: "",
     category: "",
@@ -33,6 +33,22 @@ const Item = () => {
   });
 
   const category = categories.find((cat) => cat.name === item?.category);
+
+   const user = useSelector((state) => state.auth.user);
+
+   const itemRequests = useSelector(
+     (state) => state.itemRequests
+   );
+
+   console.log("itemRequests", itemRequests)
+
+   // Filter the item requests related to the current user
+   const userItemRequests = itemRequests.filter(
+     (itemRequest) => itemRequest.user_id === user.id
+   );
+
+   console.log("userItemRequests", userItemRequests)
+
 
   console.log("params", params)
 
@@ -51,13 +67,16 @@ const Item = () => {
        window.scrollTo(0, 0);
   }, [id, dispatch]);
 
- 
 useEffect(() => {
-  const isItemRequested = user.item_requests?.some(
-    (itemRequestId) => itemRequestId === item.id
-  );
-  setItemREquest(isItemRequested);
-}, [item, currentUser]);
+  if (user && user.item_requests && item.id) {
+    const isItemRequested = user.item_requests.some(
+      (itemRequest) => itemRequest.item_id === item.id
+    );
+    setItemRequest(isItemRequested);
+  }
+}, [user, user.item_requests, item.id]);
+
+
 
   const [mainImage, setMainImage] = useState(
     "https://www.traceyroad.com/wp-content/plugins/elementor/assets/images/placeholder.png"
@@ -102,21 +121,28 @@ useEffect(() => {
     // Handle comment submit
   };
 
-const handleRequestItem = () => {
+const handleItemRequest = () => {
   const userId = user.id;
   const itemId = item.id
 
-  if (!requestItem) {
+  if (!itemRequest) {
     setItemRequest(true);
     // send request to backend to add the user.id to the requested_users array
     dispatch(addItemRequest({ userId, itemId}));
+ } else {
+  setItemRequest(false);
+  // send request to the backend to remove the user.id from the requested_users array
+  // need to get the item_request id for this
+  const itemRequest = user.item_requests?.find(
+    (item_request) => item_request.item_id === itemId
+  );
+  if (itemRequest) {
+    const itemRequestId = itemRequest.id;
+    dispatch(removeItemRequest({ userId, itemRequestId }));
   } else {
-    setItemRequest(false);
-    // send request to the backend to remove the user.id from the requested_users array
-
-    dispatch(removeItemRequest({ userId, itemId }));
+    console.error("No item request found for the current user and item.");
   }
-};
+} }
 
   const handleDeleteItem = async (item) => {
     try {
@@ -154,7 +180,7 @@ const handleRequestItem = () => {
     ) : null;
   };
 
-  const user = useSelector((state) => state.auth.user);
+ 
 
   console.log("user", user);
 
@@ -216,30 +242,41 @@ const handleRequestItem = () => {
                 {item.category}
               </CategoryButton>
             )}{" "}
-          </div> {!currentUser ? (
-          <Typography variant="h6" component="h6" sx={{ margin: "1em" }}>
-            <span>
-              <Link to={`/users/${item.username}`}>{item.username}</Link>
-            </span>
-            {" in "}
-            <span>{item.city}</span>
-          </Typography> ) : <Typography variant='h6'>Your item</Typography>}
-          {currentUser ? null : requestItem ? (
+          </div>{" "}
+          {!currentUser ? (
+            <Typography variant="h6" component="h6" sx={{ margin: "1em" }}>
+              <span>
+                <Link to={`/users/${item.username}`}>{item.username}</Link>
+              </span>
+              {" in "}
+              <span>{item.city}</span>
+            </Typography>
+          ) : (
+            <Typography variant="h6">Your item</Typography>
+          )}
+
+          {currentUser ? null : itemRequest === null ? (
+            <CommonButton
+              style={{ marginTop: ".5em" }}
+              onClick={handleItemRequest}
+            >
+              Request Item
+            </CommonButton>
+          ) : itemRequest ? (
             <CommonButton
               style={{ marginTop: ".5em", backgroundColor: "green" }}
-              onClick={handleRequestItem}
+              onClick={handleItemRequest}
             >
               Item Requested
             </CommonButton>
           ) : (
             <CommonButton
               style={{ marginTop: ".5em" }}
-              onClick={handleRequestItem}
+              onClick={handleItemRequest}
             >
               Request Item
             </CommonButton>
           )}
-
           <Typography variant="h5" component="h4" sx={{ margin: "1em" }}>
             {item.description}
           </Typography>
