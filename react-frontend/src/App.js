@@ -21,6 +21,7 @@ import Restricted from "./pages/Restricted";
 import { setUser } from "./redux/actions/authActions";
 import UserAccount from "./pages/Users/UserAccount";
 import MyRequestedItems from "./pages/Items/MyRequestedItems";
+import EditUser from "./pages/Users/EditUser";
 
 
 function App() {
@@ -73,7 +74,7 @@ function App() {
               element={<MyListedItems />}
             />
 
-            {/* <Route path=":username/edit" element={<EditAccount/>} /> */}
+            <Route path=":username/edit" element={<EditUser/>} />
 
             {/* <Route path="all/" element={<AllUsers />} /> */}
           </Route>

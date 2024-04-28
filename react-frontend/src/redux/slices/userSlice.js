@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-
 export const fetchAllUsers = createAsyncThunk(
   "users/fetchAllUsers",
   async () => {
@@ -15,13 +14,13 @@ export const fetchAllUsers = createAsyncThunk(
   }
 );
 
-export const fetchUserByUsername= createAsyncThunk(
+export const fetchUserByUsername = createAsyncThunk(
   "users/fetchUserById",
   async (username) => {
     try {
       const response = await fetch(`/users/${username}`);
       const data = await response.json();
-      console.log("data from fetchUserbyUsername", data)
+      console.log("data from fetchUserbyUsername", data);
       return data;
     } catch (error) {
       throw error;
@@ -29,12 +28,30 @@ export const fetchUserByUsername= createAsyncThunk(
   }
 );
 
+// export const updateUserInApi = createAsyncThunk(
+//   "user/updateUserInApi",
+//   async ({ userId, updatedUser }) => {
+//     const response = await fetch(`/users/${userId}`, {
+//       method: "PATCH",
+//       body: updatedUser,
+//     });
+
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//       throw new Error(errorText || "Update user failed");
+//     }
+
+//     const updatedUserData = await response.json();
+//     return updatedUserData;
+//   }
+// );
+
 export const updateUserInApi = createAsyncThunk(
   "user/updateUserInApi",
-  async ({ userId, updatedUser }) => {
+  async ({ userId, updatedUserData }) => {
     const response = await fetch(`/users/${userId}`, {
       method: "PATCH",
-      body: updatedUser,
+      body: updatedUserData,
     });
 
     if (!response.ok) {
@@ -42,8 +59,8 @@ export const updateUserInApi = createAsyncThunk(
       throw new Error(errorText || "Update user failed");
     }
 
-    const updatedUserData = await response.json();
-    return updatedUserData;
+    const updatedUserDataResponse = await response.json();
+    return updatedUserDataResponse;
   }
 );
 
@@ -162,12 +179,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-
-  resetUser,
-  addUser,
-  updateUser,
-  deleteUser,
-} = userSlice.actions;
+export const { resetUser, addUser, updateUser, deleteUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

@@ -5,19 +5,17 @@ class SessionsController < ApplicationController
         render json: current_user, status: :ok
     end
 
-    def create
-        
-        user = User.find_by(email: params[:email])
-        user = User.find_by(username: params[:username]) unless user
+def create
+  user = User.find_by(email: params[:email]) || User.find_by(username: params[:username])
 
-        if user&.authenticate(params[:password])
-            session[:user_id] = user.id
-            render json: current_user, status: :created
-        else 
-            puts "Invalid username or password entered"
-            render json:{ error: "Invalid username or password"}, status: :unauthorized
-        end
-    end
+  if user&.authenticate(params[:password])
+    session[:user_id] = user.id
+    render json: user, serializer: UserSerializer, status: :created
+  else
+    puts "Invalid username or password entered"
+    render json: { error: "Invalid username or password" }, status: :unauthorized
+  end
+end
 
     def destroy
         session.delete :user_id

@@ -313,9 +313,17 @@ ul {
 
 .avatarBig{
   display: block;
-  margin: 1.75em auto;
+  margin: 1.5em auto;
   align-content: center;
   width: 200px;
   height: 200px;
   border-radius: 100%;
+}
+
+.marg-u-1 {
+  margin-top: 1em;
+}
+
+.state_select{
+  margin-top:1em;
 }

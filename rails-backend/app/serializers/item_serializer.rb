@@ -1,6 +1,6 @@
 class ItemSerializer < ActiveModel::Serializer
    include Rails.application.routes.url_helpers
-  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city, :deadline, :give_method, :username, :created_at
+  attributes :id, :title, :description, :status, :zip, :user_id, :recipient_id, :suggested_donation_amount, :is_public, :formatted_deadline, :images, :time_until_deadline, :category, :short_description, :city, :deadline, :give_method, :username, :created_at, :request_count
   belongs_to :user
   has_many :comments
 
@@ -21,7 +21,9 @@ class ItemSerializer < ActiveModel::Serializer
   end
 
 
-
+  def request_count
+    object.item_requests.count
+  end
 
 
 

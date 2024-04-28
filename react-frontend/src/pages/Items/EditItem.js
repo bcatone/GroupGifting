@@ -38,7 +38,7 @@ const EditItem = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  // maybe there's a better way to do that with the hook code?
+
 
   const user = useSelector((state) => state.auth.user);
   const apiItem = useSelector((state) => state.item.individualItem);

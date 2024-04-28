@@ -71,18 +71,6 @@ function Signup() {
                   autoComplete="email"
                 />
               </Grid>
-              {/* {isHealer ? (
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="phone_number"
-                    label="Phone Number (10 digits only please)"
-                    name="phone_number"
-                    autoComplete="phone_number"
-                  />
-                </Grid>
-              ) : null} */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -120,12 +108,6 @@ function Signup() {
                 />
               </Grid>
               <Grid item xs={12}>
-                {/* <FormControlLabel
-                  name="type"
-                  onChange={() => setIsHealer(!isHealer)}
-                  control={<Checkbox value="true" color="primary" />}
-                  label="I am signing up to serve as a HEALER on this website."
-                /> */}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

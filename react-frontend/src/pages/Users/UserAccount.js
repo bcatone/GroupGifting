@@ -91,9 +91,11 @@ console.log("Items with soonest deadlines:", soonestDeadlineItems);
         {currentUser ? (
           <>
             {" "}
+            <Link to={`/users/${user.username}/edit`}>
             <CommonButton style={{ marginLeft: "5em" }}>
               Edit Info
             </CommonButton>{" "}
+            </Link>
             <Link to={`/users/${user.username}/my-listed-items`}>
               <CommonButton style={{ marginLeft: "2em" }}>
                 My Listed Items

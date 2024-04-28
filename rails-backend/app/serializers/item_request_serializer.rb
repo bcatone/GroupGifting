@@ -1,7 +1,7 @@
 class ItemRequestSerializer < ActiveModel::Serializer
      include Rails.application.routes.url_helpers
   belongs_to :user
-  belongs_to :item
+ belongs_to :item, serializer: ItemSerializer
   attributes :user_id, :item_id, :created_at, :id, :item_images
 
     def item_images

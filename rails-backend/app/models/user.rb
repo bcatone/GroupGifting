@@ -36,13 +36,13 @@ class User < ApplicationRecord
         )
     end
 
-    def avatar_url
-        if self.avatar.attached?
-            Rails.application.routes.url_helpers.url_for(user.avatar)
-        else
-            ""
-        end
+ def avatar_url
+    if avatar.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true)
+    else
+      ActionController::Base.helpers.asset_path('defaultavatar.jpg')
     end
+  end
 
     def friendship_connections
         friendship_connections = FriendshipConnection.where(sender_id: id).or(FriendshipConnection.where(receiver_id: id))

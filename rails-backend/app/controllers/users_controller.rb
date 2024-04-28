@@ -39,21 +39,43 @@ def show
         render json: user, serializer: CurrentUserSerializer, status: :created
     end
 
-    def update
+# def update
+#     if params[:user][:avatar].present?
+#       current_user.avatar.attach(params[:user][:avatar])
+#     end
 
-        # Delete existing avatar if changed
-        if params[:avatar]
-            current_user.avatar.purge
-        end
+#     if current_user.update(user_params)
+#       render json: current_user, serializer: CurrentUserSerializer, status: :accepted
+#     else
+#       render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+#     end
+#   end
 
-        current_user.update!(user_params)
+# def update
+#   if params[:user][:avatar].present?
+#     current_user.avatar.attach(params[:user][:avatar])
+#   end
 
-        if !current_user.avatar.attached?
-            current_user.attach_default_avatar
-        end
+#   if current_user.update(user_params)
+#     render json: current_user, serializer: CurrentUserSerializer, status: :accepted
+#   else
+#     render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+#   end
+# end
 
-        render json: user, serializer: CurrentUserSerializer, status: :accepted
-    end
+def update
+  if params[:avatar].present?
+    current_user.avatar.attach(params[:avatar])
+  end
+
+  if current_user.update(user_params)
+    render json: current_user, serializer: CurrentUserSerializer, status: :accepted
+  else
+    render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+  end
+end
+
+
 
     def destroy
         user = User.find_by(id: params[:id])
@@ -67,9 +89,14 @@ def show
 
     private
 
+
     def user_params
-        params.require(:user).permit(:email, :username, :password, :password_confirmation, :email, :first_name, :last_name, :city, :state, :zip, :avatar)
-    end
+  params.permit(:email, :username, :first_name, :last_name, :city, :state, :zip, :id, :avatar)
+end
+
+    #     def user_params
+    #     params.require(:user).permit(:email, :username, :password, :password_confirmation, :email, :first_name, :last_name, :city, :state, :zip, :avatar, :id)
+    # end
 end
 
 # class UsersController < ApplicationController

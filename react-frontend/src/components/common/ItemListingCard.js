@@ -42,7 +42,8 @@ const ItemListingCard = ({ item }) => {
           justifyContent="center"
           flexDirection={{ xs: "column", sm: "row" }}
           style={{
-            backgroundColor: "#FFFFFF",
+            backgroundColor:
+              item.request_count > 0 ? "rgba(0, 255, 0, 0.1)" : "#FFFFFF",
             borderRadius: "30px",
             margin: "10px",
             overflow: "hidden",
@@ -86,13 +87,17 @@ const ItemListingCard = ({ item }) => {
                 {item.title}
               </Typography>
               <TimeDisplay timeObject={item.time_until_deadline} />
-              <Typography
-                variant="h5"
-                align="center"
-                style={{ marginTop: "8px" }}
-              >
-                # People Requested
-              </Typography>
+              {item.request_count > 0 && (
+                <Typography
+                  variant="h5"
+                  align="center"
+                  style={{ marginTop: "8px" }}
+                >
+                  {item.request_count === 1
+                    ? "1 Person Requested"
+                    : `${item.request_count} People Requested`}
+                </Typography>
+              )}
             </Link>
           </Box>
           <Box position="absolute" top={30} right={15}>

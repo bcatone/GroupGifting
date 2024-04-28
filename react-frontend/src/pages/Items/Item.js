@@ -40,7 +40,6 @@ const Item = () => {
      (state) => state.itemRequests
    );
 
-   console.log("itemRequests", itemRequests)
 
    // Filter the item requests related to the current user
    const userItemRequests = itemRequests.filter(
