@@ -108,49 +108,7 @@ export const updateItemInApi = createAsyncThunk(
   }
 );
 
-// export const updateItemInApi = createAsyncThunk(
-//   "item/updateItemInApi",
-//   async ({ itemId, newItem, isFormData = false }, thunkAPI) => {
-//     try {
-//       let requestBody;
-//       let requestHeaders;
 
-//       if (isFormData) {
-//         requestBody = new FormData();
-//         for (let key in newItem) {
-//           if (Array.isArray(newItem[key])) {
-//             newItem[key].forEach((value) =>
-//               requestBody.append(`${key}[]`, value)
-//             );
-//           } else {
-//             requestBody.append(key, newItem[key]);
-//           }
-//         }
-//       } else {
-//         requestBody = JSON.stringify(newItem);
-//         requestHeaders = {
-//           "Content-Type": "application/json",
-//         };
-//       }
-
-//       const response = await fetch(`/items/${itemId}`, {
-//         method: "PATCH",
-//         headers: requestHeaders,
-//         body: requestBody,
-//       });
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         throw new Error(JSON.stringify(errorData));
-//       }
-
-//       const updatedItemData = await response.json();
-//       return updatedItemData;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
 
 export const addItemToApi = createAsyncThunk(
   "items/addItemToApi",

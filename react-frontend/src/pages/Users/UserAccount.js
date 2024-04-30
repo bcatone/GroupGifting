@@ -6,7 +6,7 @@ import default_avatar from "../../assets/images/defaultavatar.jpg"
 import { Grid, Typography, Container, Box } from "@mui/material";
 import CommonButton from "../../components/common/CommonButton";
 import { fetchUserByUsername } from "../../redux/slices/userSlice";
-import BigResultCard from "../../components/common/BigResultCard";
+import BigResultCard from "../../components/common/BigResultCard/BigResultCard";
 
 const UserAccount = () => {
   const params = useParams();

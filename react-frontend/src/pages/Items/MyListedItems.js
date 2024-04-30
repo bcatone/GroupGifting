@@ -18,10 +18,14 @@ const MyListedItems = () => {
 
   const selectedStatus = useSelector((state) => state.item.selectedStatus);
 
+  console.log("selectedStatus", selectedStatus)
+
   // Use the selectedStatus to filter the user's items
-  const filteredItems = items.filter(
-    (item) => item.status === selectedStatus
-  );
+const filteredItems = items.filter((item) =>
+  item.status.includes(selectedStatus)
+);
+
+
 
 
 

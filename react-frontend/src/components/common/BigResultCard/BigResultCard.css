@@ -1,0 +1,36 @@
+
+.cardLink {
+  text-decoration: none;
+}
+
+.card {
+  max-width: 300px;
+  height: 570px;
+  margin: 10px;
+}
+
+.cardActionArea {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cardMedia {
+  max-height: 260px;
+  max-width: 300px;
+  /* borderRadius: 5px; */
+  object-fit: contain;
+  justify-content: center;
+}
+
+.cardContent {
+  text-align: center;
+}
+
+.cardTitle {
+  margin-top: 15px;
+}
+
+.cardDeadline {
+  margin-top: 15px;
+}

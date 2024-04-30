@@ -42,15 +42,31 @@ def create
 end
 
 
-  def update
-    item = find_item
+# Eventually have if current_user.admin
 
-    if item.update(item_params)
-      render json: item
+
+def update
+  item = find_item
+  if item
+    if item.user_id == current_user.id
+      # Allow admins or item owners to update all attributes
+      if item.update(item_params)
+        render json: item
+      else
+        render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+      # Allow non-current users to update only the status attribute
+      updated_status = params[:status]
+      updated_status = updated_status.split(",") if updated_status.is_a?(String)
+      if item.update(status: updated_status)
+        render json: item
+      else
+        render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+      end
     end
   end
+end
 
   def destroy
     item = find_item
@@ -107,11 +123,21 @@ end
 
 
 
-  def find_item
-    @current_user = User.find_by(id: session[:user_id])
-    item = @current_user.items.find_by(id: params[:id])
-  end
+  # def find_item
+  #   @current_user = User.find_by(id: session[:user_id])
+  #   item = @current_user.items.find_by(id: params[:id])
+  # end
 
+def find_item
+  item = Item.find_by(id: params[:id])
+  
+  if item.nil?
+    render json: { error: "Item not found" }, status: :not_found
+    nil
+  else
+    item
+  end
+end
 
   def item_params
   params.permit(:title, :description, :status, :zip, :recipient_id, :suggested_donation_amount, :category, :city, :id, :is_public, :deadline, images: [])

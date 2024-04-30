@@ -46,6 +46,7 @@ const itemRequestsSlice = createSlice({
       })
       .addCase(removeItemRequest.fulfilled, (state, action) => {
         const itemRequestId = action.payload;
+        console.log("removeItemRequest ran")
         return state.filter((itemRequest) => itemRequest.id !== itemRequestId);
       });
   },

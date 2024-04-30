@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_17_182732) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_29_001913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,7 +105,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_182732) do
     t.text "description"
     t.string "category"
     t.integer "zip"
-    t.string "status"
     t.bigint "recipient_id"
     t.integer "suggested_donation_amount"
     t.boolean "is_public"
@@ -116,6 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_182732) do
     t.float "latitude"
     t.float "longitude"
     t.string "city"
+    t.text "status", default: [], array: true
   end
 
   create_table "message_views", force: :cascade do |t|

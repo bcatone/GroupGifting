@@ -10,6 +10,7 @@ import Calendar from "react-calendar";
 import { Link } from "react-router-dom";
 import { removeItemRequest, addItemRequest } from "../../redux/slices/ItemRequestsSlice";
 
+
 const Item = () => {
   const params = useParams();
   const id = Number(params.id);
@@ -40,16 +41,19 @@ const Item = () => {
      (state) => state.itemRequests
    );
 
+   useEffect(() => {
+      console.log("item.item_requests.length", item.item_requests?.length);
+      console.log("item", item)
+      console.log("userItemRequests", userItemRequests)
+      console.log("user.item_requests", user.item_requests)
+   }, [item.item_requests])
 
    // Filter the item requests related to the current user
    const userItemRequests = itemRequests.filter(
      (itemRequest) => itemRequest.user_id === user.id
    );
 
-   console.log("userItemRequests", userItemRequests)
 
-
-  console.log("params", params)
 
   ////// To Do
   /// add functionality to make user be able to request item and reflect on backend and on here
@@ -59,6 +63,7 @@ const Item = () => {
   useEffect(() => {
     const fetchItem = async () => {
       const result = await dispatch(fetchItemById(id));
+      console.log("result from fetchItem", result)
       setItem(result.payload);
     };
 
@@ -68,12 +73,13 @@ const Item = () => {
 
 useEffect(() => {
   if (user && user.item_requests && item.id) {
-    const isItemRequested = user.item_requests.some(
+    const isItemRequested = userItemRequests.some(
       (itemRequest) => itemRequest.item_id === item.id
     );
+    console.log("isItemRequested", isItemRequested)
     setItemRequest(isItemRequested);
   }
-}, [user, user.item_requests, item.id]);
+}, [user, user.item_requests, item.id, userItemRequests]);
 
 
 
@@ -92,7 +98,7 @@ useEffect(() => {
 
   const userZip = useSelector((state) => state.auth.user.zip);
 
-  console.log("Item from Item.js", item);
+
 
   const handleImageChange = (image) => {
     setMainImage(image);
@@ -122,26 +128,78 @@ useEffect(() => {
 
 const handleItemRequest = () => {
   const userId = user.id;
-  const itemId = item.id
+  const itemId = item.id;
+
+  console.log('item from handleItemRequest', item)
+
+  console.log("itemId", itemId)
 
   if (!itemRequest) {
     setItemRequest(true);
-    // send request to backend to add the user.id to the requested_users array
-    dispatch(addItemRequest({ userId, itemId}));
- } else {
-  setItemRequest(false);
-  // send request to the backend to remove the user.id from the requested_users array
-  // need to get the item_request id for this
-  const itemRequest = user.item_requests?.find(
-    (item_request) => item_request.item_id === itemId
-  );
-  if (itemRequest) {
-    const itemRequestId = itemRequest.id;
-    dispatch(removeItemRequest({ userId, itemRequestId }));
-  } else {
-    console.error("No item request found for the current user and item.");
-  }
-} }
+    dispatch(addItemRequest({ userId, itemId }));
+
+
+
+    if (!item.status.includes("Recipient Pending")) {
+      const updatedStatus = [...item.status, "Recipient Pending"];
+      const itemWithUpdatedStatus = {
+        ...item,
+        status: updatedStatus,
+      };
+
+      const formData = new FormData();
+      Object.entries(itemWithUpdatedStatus).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      dispatch(updateItemInApi({ itemId, updatedItem: formData }));
+    } else {
+      const itemRequest = user.item_requests?.find(
+        (item_request) => item_request.item_id === itemId
+      );
+      console.log("itemRequest", itemRequest);
+
+      if (itemRequest) {
+        console.log("There was an item request");
+        const itemRequestId = itemRequest.id;
+        dispatch(removeItemRequest({ userId, itemRequestId }));
+
+        let updatedStatus = item.status;
+
+        if (
+          item.hasOwnProperty("item_requests") &&
+          item.item_requests.length === 0
+        ) {
+          if (Array.isArray(item.status)) {
+            updatedStatus = item.status.filter(
+              (status) => status !== "Recipient Pending"
+            );
+          } else {
+            console.warn("item.status is not an array:", item.status);
+            updatedStatus = item.status;
+          }
+
+          const itemWithUpdatedStatus = {
+            ...item,
+            status: updatedStatus,
+          };
+
+          const formData = new FormData();
+          Object.entries(itemWithUpdatedStatus).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+
+          dispatch(updateItemInApi({ itemId, updatedItem: formData }));
+        }
+      } else {
+        console.error("No item request found for the current user and item.");
+      }
+    }
+}
+
+
+   
+};
 
   const handleDeleteItem = async (item) => {
     try {
@@ -181,7 +239,6 @@ const handleItemRequest = () => {
 
  
 
-  console.log("user", user);
 
   useEffect(() => {
     if (item.user_id === user.id) {
